@@ -46,6 +46,9 @@
             justify-content: center;
             margin-bottom: 20px;
         }
+        .bold-text {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -133,11 +136,15 @@
                         rows.forEach(row => {
                             tableHTML += '<tr>';
                             row.forEach(cell => {
-                                if (flags[cell.trim()]) {
-                                    tableHTML += `<td><img src="${flags[cell.trim()]}" class="flag"> ${cell}</td>`;
-                                } else {
-                                    tableHTML += `<td>${cell}</td>`;
-                                }
+                                const cellContent = cell.trim();
+                                const flagImg = flags[cellContent] ? `<img src="${flags[cellContent]}" class="flag"> ` : '';
+                                const boldText = [
+                                    'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 
+                                    'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final', 
+                                    'Top Goalscorer', 'Best Goalkeeper', 'Player of Tournament'
+                                ];
+                                const cellClass = boldText.includes(cellContent) ? 'bold-text' : '';
+                                tableHTML += `<td class="${cellClass}">${flagImg}${cellContent}</td>`;
                             });
                             tableHTML += '</tr>';
                         });
