@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download CSVs as PDF</title>
+    <title>Download All Participants Predictions</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <style>
         body {
@@ -40,7 +40,7 @@
         <img src="./logo.png" alt="Euro 2024 Logo" style="width:200px;">
     </div>
     <div class="button-container">
-        <button onclick="downloadPDF()">Download CSVs as PDF</button>
+        <button onclick="downloadPDF()">Download All Participants Predictions</button>
     </div>
 
     <script>
@@ -75,6 +75,12 @@
                 const response = await fetch('participants.json');
                 const participants = await response.json();
 
+                const boldText = [
+                    'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 
+                    'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final', 
+                    'Top Goalscorer', 'Best Goalkeeper', 'Player of Tournament'
+                ];
+
                 for (let i = 0; i < participants.participants.length; i++) {
                     const participant = participants.participants[i];
                     const csvResponse = await fetch(participant.file);
@@ -89,6 +95,7 @@
                     pdf.setFontSize(8);
 
                     const rows = csvData.split('\n').map(row => row.split(','));
+                    rows.pop(); // Remove the last row
                     let y = 15;
                     const lineHeight = 4;  // Reduce line height further
                     const margin = 5;
@@ -102,6 +109,11 @@
                                 if (y + lineHeight > pageHeight - margin) {
                                     pdf.addPage();
                                     y = margin;
+                                }
+                                if (boldText.includes(textLine.trim())) {
+                                    pdf.setFont(undefined, 'bold');
+                                } else {
+                                    pdf.setFont(undefined, 'normal');
                                 }
                                 pdf.text(textLine, margin, y);
                                 y += lineHeight;
