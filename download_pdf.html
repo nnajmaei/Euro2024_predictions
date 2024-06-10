@@ -49,7 +49,7 @@
             const pdf = new jsPDF();
 
             // Load the logo image
-            const logoResponse = await fetch('logo.png');
+            const logoResponse = await fetch('./logo.png');
             const logoBlob = await logoResponse.blob();
             const reader = new FileReader();
             
