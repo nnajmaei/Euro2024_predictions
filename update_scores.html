@@ -65,13 +65,13 @@
                         let score = 0;
                         if (predictedScore1 === actualScore1 && predictedScore2 === actualScore2) {
                             score = 10;
-                        } else if (actualScore1 - actualScore2 === predictedScore1 - predictedScore2) {
-                            if ((actualScore1 > actualScore2 && predictedScore1 > predictedScore2) || (actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
-                                score = 8;
-                            } else {
-                                score = 5;
-                            }
-                        } else if ((actualScore1 > actualScore2 && predictedScore1 > predictedScore2) || (actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
+                        } else if ((actualScore1 > actualScore2 && predictedScore1 > predictedScore2 && actualScore1 - actualScore2 === predictedScore1 - predictedScore2) ||
+                                   (actualScore1 < actualScore2 && predictedScore1 < predictedScore2 && actualScore2 - actualScore1 === predictedScore2 - predictedScore1)) {
+                            score = 8;
+                        } else if (actualScore1 === actualScore2 && predictedScore1 === predictedScore2) {
+                            score = 5;
+                        } else if ((actualScore1 > actualScore2 && predictedScore1 > predictedScore2) ||
+                                   (actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
                             score = 5;
                         }
 
