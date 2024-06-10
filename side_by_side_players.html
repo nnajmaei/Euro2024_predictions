@@ -81,8 +81,6 @@
     </div>
 
     <script>
-        const files = ['./data/Nima_N.csv', './data/Ramin_R.csv', './data/Shahriar_N.csv'];
-
         const flags = {
             'Germany': 'https://flagcdn.com/w20/de.png',
             'Scotland': 'https://flagcdn.com/w20/gb-sct.png',
@@ -110,7 +108,7 @@
             'Czechia': 'https://flagcdn.com/w20/cz.png'
         };
 
-        function populateDropdowns() {
+        function populateDropdowns(files) {
             const dropdowns = [document.getElementById('participant1'), document.getElementById('participant2'), document.getElementById('participant3')];
             files.forEach(file => {
                 fetch(file)
@@ -177,8 +175,13 @@
             }
         }
 
-        // Populate dropdowns on page load
-        window.onload = populateDropdowns;
+        // Fetch the JSON file and populate dropdowns on page load
+        window.onload = function() {
+            fetch('files.json')
+                .then(response => response.json())
+                .then(data => populateDropdowns(data.files))
+                .catch(error => console.error('Error loading files list:', error));
+        };
     </script>
 </body>
 </html>
