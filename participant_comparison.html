@@ -53,7 +53,7 @@
 </head>
 <body>
     <div class="logo-container">
-        <img src="./logo.png" alt="Euro 2024 Logo" style="width:200px;">
+        <img src="./logos/logo.png" alt="Euro 2024 Logo" style="width:200px;">
     </div>
     <h1>Compare Participants Predictions</h1>
     <div class="comparison-container">
@@ -165,7 +165,7 @@
 
         // Fetch the JSON file and populate dropdowns on page load
         window.onload = function() {
-            fetch('participants.json')
+            fetch('./jsons/participants.json')
                 .then(response => response.json())
                 .then(data => populateDropdowns(data.participants))
                 .catch(error => console.error('Error loading participants list:', error));

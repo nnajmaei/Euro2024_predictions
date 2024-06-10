@@ -37,7 +37,7 @@
 </head>
 <body>
     <div class="logo-container">
-        <img src="./logo.png" alt="Euro 2024 Logo" style="width:200px;">
+        <img src="./logos/logo.png" alt="Euro 2024 Logo" style="width:200px;">
     </div>
     <div class="button-container">
         <button onclick="downloadPDF()">Download All Participants Predictions</button>
@@ -49,7 +49,7 @@
             const pdf = new jsPDF();
 
             // Load the logo image
-            const logoResponse = await fetch('./logo.png');
+            const logoResponse = await fetch('./logos/logo.png');
             const logoBlob = await logoResponse.blob();
             const reader = new FileReader();
             
@@ -72,13 +72,13 @@
                 // Start a new page for the participant CSV data
                 pdf.addPage();
 
-                const response = await fetch('participants.json');
+                const response = await fetch('./jsons/participants.json');
                 const participants = await response.json();
 
                 const boldText = [
                     'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 
                     'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final', 
-                    'Top Goalscorer', 'Best Goalkeeper', 'Player of Tournament'
+                    'Top Goalscorer', 'Best Goalkeeper', 'Player of Tournament', 'Additional Predictions'
                 ];
 
                 for (let i = 0; i < participants.participants.length; i++) {
