@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compare Predictions</title>
+    <title>Participant Results vs. Euro2024 Results</title>
     <style>
         body {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -41,13 +41,21 @@
         .table-container {
             width: 45%;
         }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
         .bold-text {
             font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <h1>Compare Predictions</h1>
+    <div class="logo-container">
+        <img src="https://seeklogo.com/images/U/uefa-euro-2024-logo-124EEA67D8-seeklogo.com.png" alt="Euro 2024 Logo" style="width:200px;">
+    </div>
+    <h1>Participant Results vs. Euro2024 Results</h1>
     <div class="comparison-container">
         <div class="table-container">
             <h2>Actual Results</h2>
@@ -112,13 +120,20 @@
         }
 
         function displayTable(containerId, rows) {
+            const boldText = [
+                'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 
+                'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final', 
+                'Top Goalscorer', 'Best Goalkeeper', 'Player of Tournament'
+            ];
+
             let tableHTML = '<table>';
             rows.forEach(row => {
                 tableHTML += '<tr>';
                 row.forEach(cell => {
                     const cellContent = cell.trim();
                     const flagImg = flags[cellContent] ? `<img src="${flags[cellContent]}" class="flag"> ` : '';
-                    tableHTML += `<td>${flagImg}${cellContent}</td>`;
+                    const cellClass = boldText.includes(cellContent) ? 'bold-text' : '';
+                    tableHTML += `<td class="${cellClass}">${flagImg}${cellContent}</td>`;
                 });
                 tableHTML += '</tr>';
             });
@@ -138,7 +153,7 @@
 
         // Load actual results on page load
         window.onload = function() {
-            loadCSV('Actual_Results.csv', rows => displayTable('actualResults', rows));
+            loadCSV('./Actual_Results.csv', rows => displayTable('actualResults', rows));
 
             fetch('participants.json')
                 .then(response => response.json())
