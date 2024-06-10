@@ -47,10 +47,30 @@
         async function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF();
+            const margin = 10;
+            const lineHeight = 10;
+            const pageHeight = pdf.internal.pageSize.height;
+            const pageWidth = pdf.internal.pageSize.width;
 
+            // Load logo image
+            const logo = new Image();
+            logo.src = 'https://seeklogo.com/images/U/uefa-euro-2024-logo-124EEA67D8-seeklogo.com.png';
+            await new Promise((resolve) => {
+                logo.onload = resolve;
+            });
+
+            // Add logo to the first page
+            pdf.addImage(logo, 'PNG', margin, margin, 50, 50);
+
+            // Fetch participants data
             const response = await fetch('participants.json');
             const participants = await response.json();
 
+            // Table of contents
+            let toc = [];
+            let currentPage = 1;
+
+            // Generate content for each participant
             for (let i = 0; i < participants.participants.length; i++) {
                 const participant = participants.participants[i];
                 const csvResponse = await fetch(participant.file);
@@ -58,31 +78,50 @@
 
                 if (i > 0) {
                     pdf.addPage();
+                    currentPage++;
                 }
 
+                toc.push({ name: participant.name, page: currentPage });
+
                 pdf.setFontSize(16);
-                pdf.text(participant.name, 10, 10);
+                pdf.text(participant.name, margin, 70);
                 pdf.setFontSize(12);
 
                 const rows = csvData.split('\n').map(row => row.split(','));
-                let y = 20;
-                const lineHeight = 10;
-                const pageHeight = pdf.internal.pageSize.height;
-                const margin = 10;
+                let y = 80;
 
                 rows.forEach(row => {
                     let line = row.join(', ');
-                    let splitText = pdf.splitTextToSize(line, pdf.internal.pageSize.width - margin * 2);
+                    let splitText = pdf.splitTextToSize(line, pageWidth - margin * 2);
 
                     splitText.forEach(textLine => {
                         if (y + lineHeight > pageHeight - margin) {
                             pdf.addPage();
+                            currentPage++;
                             y = margin;
                         }
                         pdf.text(textLine, margin, y);
                         y += lineHeight;
                     });
                 });
+            }
+
+            // Add table of contents on the second page
+            pdf.insertPage(2);
+            pdf.setPage(2);
+            pdf.setFontSize(16);
+            pdf.text("Table of Contents", margin, margin + lineHeight);
+            pdf.setFontSize(12);
+            toc.forEach((entry, index) => {
+                pdf.text(`${entry.name}: Page ${entry.page}`, margin, margin + (index + 2) * lineHeight);
+            });
+
+            // Add page numbers
+            const totalPages = pdf.internal.getNumberOfPages();
+            for (let i = 1; i <= totalPages; i++) {
+                pdf.setPage(i);
+                pdf.setFontSize(10);
+                pdf.text(`Page ${i} of ${totalPages}`, pageWidth - margin * 3, pageHeight - margin);
             }
 
             pdf.save('full_predictions.pdf');
