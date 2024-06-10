@@ -161,18 +161,18 @@
 
                 let participantPrediction = '';
                 for (const row of rows) {
-                    if ((row.includes(country1) && row.includes(country2)) || (row.includes(country2) && row.includes(country1))) {
-                        participantPrediction = row.slice(1); // Exclude the date column
+                    if (row.includes(country1) && row.includes(country2)) {
+                        const country1Index = row.indexOf(country1);
+                        const country2Index = row.indexOf(country2);
+                        const country1Score = row[country1Index + 1];
+                        const country2Score = row[country2Index + 1];
+                        participantPrediction = [country1Score, country2Score];
                         matchFound = true;
                         break;
                     }
                 }
                 if (participantPrediction.length > 0) {
-                    if (participantPrediction.includes(country1)) {
-                        tableHTML += `<td>${participantPrediction[1]}</td><td>${participantPrediction[3]}</td>`;
-                    } else {
-                        tableHTML += `<td>${participantPrediction[3]}</td><td>${participantPrediction[1]}</td>`;
-                    }
+                    tableHTML += `<td>${participantPrediction[0]}</td><td>${participantPrediction[1]}</td>`;
                 } else {
                     tableHTML += '<td>N/A</td><td>N/A</td>';
                 }
