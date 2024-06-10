@@ -77,6 +77,31 @@
                 'Czechia': 'https://flagcdn.com/w20/cz.png'
             };
 
+            // Add the logo to the first page
+            const logo = new Image();
+            logo.src = 'https://seeklogo.com/images/U/uefa-euro-2024-logo-124EEA67D8-seeklogo.com.png';
+            pdf.addImage(logo, 'PNG', 80, 10, 50, 50);
+
+            // Add title to the first page
+            pdf.setFontSize(22);
+            pdf.text('Participant Predictions vs. Euro2024 Results', 10, 70);
+
+            let y = 80;
+            const lineHeight = 10;
+            const pageHeight = pdf.internal.pageSize.height;
+            const margin = 10;
+
+            // Add table of contents on the second page
+            pdf.addPage();
+            pdf.setFontSize(16);
+            pdf.text('Table of Contents', 10, 10);
+            pdf.setFontSize(12);
+            let tocY = 20;
+
+            // Track page numbers for the table of contents
+            const tocEntries = [];
+            let pageNumber = 1;
+
             for (let i = 0; i < participants.participants.length; i++) {
                 const participant = participants.participants[i];
                 const csvResponse = await fetch(participant.file);
@@ -84,17 +109,18 @@
 
                 if (i > 0) {
                     pdf.addPage();
+                    pageNumber++;
                 }
 
-                pdf.setFontSize(14);
+                // Add participant name to the table of contents
+                tocEntries.push({ name: participant.name, page: pageNumber });
+                pdf.setFontSize(16);
                 pdf.text(participant.name, 10, 10);
                 pdf.setFontSize(10);
 
                 const rows = csvData.split('\n').map(row => row.split(','));
-                let y = 20;
-                const lineHeight = 10;
-                const pageHeight = pdf.internal.pageSize.height;
-                const margin = 10;
+                y = 20;
+
                 const colWidths = [40, 40, 40, 40]; // Adjust column widths as needed
 
                 for (const row of rows) {
@@ -113,6 +139,7 @@
                         for (const textLine of splitText) {
                             if (y + lineHeight > pageHeight - margin) {
                                 pdf.addPage();
+                                pageNumber++;
                                 y = margin;
                             }
                             pdf.text(textLine, x, y);
@@ -122,6 +149,21 @@
                     }
                     y += lineHeight;
                 }
+            }
+
+            // Add page numbers
+            const totalPages = pdf.internal.getNumberOfPages();
+            for (let j = 1; j <= totalPages; j++) {
+                pdf.setPage(j);
+                pdf.setFontSize(10);
+                pdf.text(`Page ${j} of ${totalPages}`, pdf.internal.pageSize.width - 30, pdf.internal.pageSize.height - 10);
+            }
+
+            // Go back to the table of contents and add the entries
+            pdf.setPage(2);
+            for (const entry of tocEntries) {
+                pdf.text(`${entry.name} - Page ${entry.page}`, 10, tocY);
+                tocY += lineHeight;
             }
 
             pdf.save('full_predictions.pdf');
