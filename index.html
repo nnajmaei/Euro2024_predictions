@@ -866,116 +866,119 @@
         }
 
         function saveCSV() {
-            const predictions = {
-                groups: {},
-                knockout: {},
-                additional: {}
+    const predictions = {
+        groups: {},
+        knockout: {},
+        additional: {}
+    };
+
+    for (let group of ['a', 'b', 'c', 'd', 'e', 'f']) {
+        predictions.groups[group] = [];
+        let table = document.getElementById('group-' + group);
+        let rows = table.rows;
+        for (let i = 1; i < rows.length; i++) {
+            let cells = rows[i].cells;
+            let match = {
+                date: cells[0].innerText.trim(),
+                team1: cells[1].innerText.trim(),
+                score1: cells[2].children[0].value,
+                team2: cells[3].innerText.trim(),
+                score2: cells[4].children[0].value
             };
-
-            for (let group of ['a', 'b', 'c', 'd', 'e', 'f']) {
-                predictions.groups[group] = [];
-                let table = document.getElementById('group-' + group);
-                let rows = table.rows;
-                for (let i = 1; i < rows.length; i++) {
-                    let cells = rows[i].cells;
-                    let match = {
-                        date: cells[0].innerText.trim(),
-                        team1: cells[1].innerText.trim(),
-                        score1: cells[2].children[0].value,
-                        team2: cells[3].innerText.trim(),
-                        score2: cells[4].children[0].value
-                    };
-                    predictions.groups[group].push(match);
-                }
-            }
-
-            for (let i = 1; i <= 8; i++) {
-                predictions.knockout['match' + i] = {
-                    date: document.getElementById('round-16').rows[i].cells[0].innerText.trim(),
-                    team1: document.getElementById('match' + i).innerText.trim(),
-                    team2: document.getElementById('match' + i + '-2').innerText.trim(),
-                    winner: document.getElementById('winner' + i).value
-                };
-            }
-
-            for (let i = 1; i <= 4; i++) {
-                predictions.knockout['qf' + i] = {
-                    date: document.getElementById('quarter-finals').rows[i].cells[0].innerText.trim(),
-                    team1: document.getElementById('qf' + i).innerText.trim(),
-                    team2: document.getElementById('qf' + i + '-2').innerText.trim(),
-                    winner: document.getElementById('winnerQF' + i).value
-                };
-            }
-
-            for (let i = 1; i <= 2; i++) {
-                predictions.knockout['sf' + i] = {
-                    date: document.getElementById('semi-finals').rows[i].cells[0].innerText.trim(),
-                    team1: document.getElementById('sf' + i).innerText.trim(),
-                    team2: document.getElementById('sf' + i + '-2').innerText.trim(),
-                    winner: document.getElementById('winnerSF' + i).value
-                };
-            }
-
-            predictions.knockout['final'] = {
-                date: document.getElementById('final').rows[1].cells[0].innerText.trim(),
-                team1: document.getElementById('final1').innerText.trim(),
-                team2: document.getElementById('final2').innerText.trim(),
-                winner: document.getElementById('champion').value
-            };
-
-            predictions.additional.topGoalscorer = document.getElementById('topGoalscorer').value;
-            predictions.additional.bestGoalkeeper = document.getElementById('bestGoalkeeper').value;
-            predictions.additional.MVP = document.getElementById('MVP').value;
-            predictions.additional.participantName = document.getElementById('participantName').value;
-
-            let csvContent = "data:text/csv;charset=utf-8,";
-            csvContent += "Group Stage Predictions\n";
-            for (let group of ['a', 'b', 'c', 'd', 'e', 'f']) {
-                csvContent += `Group ${group.toUpperCase()}\n`;
-                let matches = predictions.groups[group];
-                for (let match of matches) {
-                    csvContent += `${match.date},${match.team1},${match.score1},${match.team2},${match.score2}\n`;
-                }
-                csvContent += "\n";
-            }
-
-            csvContent += "Knockout Stage Predictions\n";
-            csvContent += "Round of 16\n";
-            for (let i = 1; i <= 8; i++) {
-                csvContent += `${predictions.knockout['match' + i].date},${predictions.knockout['match' + i].team1},${predictions.knockout['match' + i].team2},${predictions.knockout['match' + i].winner}\n`;
-            }
-            csvContent += "\n";
-
-            csvContent += "Quarterfinals\n";
-            for (let i = 1; i <= 4; i++) {
-                csvContent += `${predictions.knockout['qf' + i].date},${predictions.knockout['qf' + i].team1},${predictions.knockout['qf' + i].team2},${predictions.knockout['qf' + i].winner}\n`;
-            }
-            csvContent += "\n";
-
-            csvContent += "Semifinals\n";
-            for (let i = 1; i <= 2; i++) {
-                csvContent += `${predictions.knockout['sf' + i].date},${predictions.knockout['sf' + i].team1},${predictions.knockout['sf' + i].team2},${predictions.knockout['sf' + i].winner}\n`;
-            }
-            csvContent += "\n";
-
-            csvContent += "Final\n";
-            csvContent += `${predictions.knockout['final'].date},${predictions.knockout['final'].team1},${predictions.knockout['final'].team2},${predictions.knockout['final'].winner}\n`;
-            csvContent += "\n";
-
-            csvContent += "Additional Predictions\n";
-            csvContent += `Top Goalscorer,${predictions.additional.topGoalscorer}\n`;
-            csvContent += `Best Goalkeeper,${predictions.additional.bestGoalkeeper}\n`;
-            csvContent += `Player of Tournament,${predictions.additional.MVP}\n`;
-            csvContent += `Participant Name,${predictions.additional.participantName}\n`;
-
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "euro_2024_predictions.csv");
-            document.body.appendChild(link); // Required for FF
-
-            link.click();
+            predictions.groups[group].push(match);
         }
+    }
+
+    for (let i = 1; i <= 8; i++) {
+        predictions.knockout['match' + i] = {
+            date: document.getElementById('round-16').rows[i].cells[0].innerText.trim(),
+            team1: document.getElementById('match' + i).innerText.trim(),
+            team2: document.getElementById('match' + i + '-2').innerText.trim(),
+            winner: document.getElementById('winner' + i).value
+        };
+    }
+
+    for (let i = 1; i <= 4; i++) {
+        predictions.knockout['qf' + i] = {
+            date: document.getElementById('quarter-finals').rows[i].cells[0].innerText.trim(),
+            team1: document.getElementById('qf' + i).innerText.trim(),
+            team2: document.getElementById('qf' + i + '-2').innerText.trim(),
+            winner: document.getElementById('winnerQF' + i).value
+        };
+    }
+
+    for (let i = 1; i <= 2; i++) {
+        predictions.knockout['sf' + i] = {
+            date: document.getElementById('semi-finals').rows[i].cells[0].innerText.trim(),
+            team1: document.getElementById('sf' + i).innerText.trim(),
+            team2: document.getElementById('sf' + i + '-2').innerText.trim(),
+            winner: document.getElementById('winnerSF' + i).value
+        };
+    }
+
+    predictions.knockout['final'] = {
+        date: document.getElementById('final').rows[1].cells[0].innerText.trim(),
+        team1: document.getElementById('final1').innerText.trim(),
+        team2: document.getElementById('final2').innerText.trim(),
+        winner: document.getElementById('champion').value
+    };
+
+    predictions.additional.topGoalscorer = document.getElementById('topGoalscorer').value;
+    predictions.additional.bestGoalkeeper = document.getElementById('bestGoalkeeper').value;
+    predictions.additional.MVP = document.getElementById('MVP').value;
+    predictions.additional.participantName = document.getElementById('participantName').value;
+
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Group Stage Predictions\n";
+    for (let group of ['a', 'b', 'c', 'd', 'e', 'f']) {
+        csvContent += `Group ${group.toUpperCase()}\n`;
+        let matches = predictions.groups[group];
+        for (let match of matches) {
+            csvContent += `${match.date},${match.team1},${match.score1},${match.team2},${match.score2}\n`;
+        }
+        csvContent += "\n";
+    }
+
+    csvContent += "Knockout Stage Predictions\n";
+    csvContent += "Round of 16\n";
+    for (let i = 1; i <= 8; i++) {
+        csvContent += `${predictions.knockout['match' + i].date},${predictions.knockout['match' + i].team1},${predictions.knockout['match' + i].team2},${predictions.knockout['match' + i].winner}\n`;
+    }
+    csvContent += "\n";
+
+    csvContent += "Quarterfinals\n";
+    for (let i = 1; i <= 4; i++) {
+        csvContent += `${predictions.knockout['qf' + i].date},${predictions.knockout['qf' + i].team1},${predictions.knockout['qf' + i].team2},${predictions.knockout['qf' + i].winner}\n`;
+    }
+    csvContent += "\n";
+
+    csvContent += "Semifinals\n";
+    for (let i = 1; i <= 2; i++) {
+        csvContent += `${predictions.knockout['sf' + i].date},${predictions.knockout['sf' + i].team1},${predictions.knockout['sf' + i].team2},${predictions.knockout['sf' + i].winner}\n`;
+    }
+    csvContent += "\n";
+
+    csvContent += "Final\n";
+    csvContent += `${predictions.knockout['final'].date},${predictions.knockout['final'].team1},${predictions.knockout['final'].team2},${predictions.knockout['final'].winner}\n`;
+    csvContent += "\n";
+
+    csvContent += "Additional Predictions\n";
+    csvContent += `Top Goalscorer,${predictions.additional.topGoalscorer}\n`;
+    csvContent += `Best Goalkeeper,${predictions.additional.bestGoalkeeper}\n`;
+    csvContent += `Player of Tournament,${predictions.additional.MVP}\n`;
+    csvContent += `Participant Name,${predictions.additional.participantName}\n`;
+
+    const participantName = predictions.additional.participantName.replace(/\s+/g, '_');
+    const fileName = `${participantName}_euro_2024_predictions.csv`;
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", fileName);
+    document.body.appendChild(link); // Required for FF
+
+    link.click();
+}
 
     </script>
 </body>
