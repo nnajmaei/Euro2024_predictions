@@ -145,9 +145,17 @@
         }
 
         async function loadCSV(file) {
-            const response = await fetch(file);
-            const data = await response.text();
-            return data;
+            try {
+                const response = await fetch(file);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.text();
+                return data;
+            } catch (error) {
+                console.error('Failed to fetch CSV file:', error);
+                return '';
+            }
         }
 
         function parseCSV(data) {
@@ -192,11 +200,19 @@
 
         async function loadParticipantPredictions() {
             const participantFile = document.getElementById('participantDropdown').value;
+            console.log('Loading predictions for:', participantFile);
+            
             const actualResultsCSV = await loadCSV('Actual Results.csv');
             const participantCSV = await loadCSV(participantFile);
 
+            console.log('Actual Results CSV:', actualResultsCSV);
+            console.log('Participant CSV:', participantCSV);
+
             const actualResults = parseCSV(actualResultsCSV);
             const participantPredictions = parseCSV(participantCSV);
+
+            console.log('Parsed Actual Results:', actualResults);
+            console.log('Parsed Participant Predictions:', participantPredictions);
 
             const resultsContainer = document.getElementById('results-container');
             resultsContainer.innerHTML = '';
@@ -206,6 +222,8 @@
                 resultsContainer.innerHTML += createGroupTable(group);
                 const groupResults = actualResults.filter(row => row[0] && row[0].includes(`Group ${group.toUpperCase()}`));
                 const groupPredictions = participantPredictions.filter(row => row[0] && row[0].includes(`Group ${group.toUpperCase()}`));
+                console.log(`Group ${group.toUpperCase()} Results:`, groupResults);
+                console.log(`Group ${group.toUpperCase()} Predictions:`, groupPredictions);
                 populateTable(group, groupResults, groupPredictions);
             });
         }
