@@ -47,8 +47,6 @@
         async function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF();
-            let currentPage = 1;
-            let contentsStartY = 80;
 
             // Load the logo image
             const logoResponse = await fetch('logo.png');
@@ -58,33 +56,33 @@
             reader.onloadend = async function () {
                 const logoDataUrl = reader.result;
 
-                // Add the logo image to the first page (centered)
+                // Add the logo image to the first page, centered
                 const pageWidth = pdf.internal.pageSize.width;
-                pdf.addImage(logoDataUrl, 'PNG', pageWidth / 2 - 25, 10, 50, 50);
+                const pageHeight = pdf.internal.pageSize.height;
+                const logoWidth = 50;
+                const logoHeight = 50;
+                const logoX = (pageWidth - logoWidth) / 2;
+                const logoY = (pageHeight - logoHeight) / 2 - 20; // Adjust Y position to leave space for text
 
-                // Add "Table of Contents" heading
+                pdf.addImage(logoDataUrl, 'PNG', logoX, logoY, logoWidth, logoHeight);
+                
                 pdf.setFontSize(16);
-                pdf.text('Table of Contents', pageWidth / 2, 70, { align: 'center' });
-                pdf.setFontSize(12);
+                pdf.text('All Participants Predictions', pageWidth / 2, logoY + logoHeight + 20, { align: 'center' });
+
+                // Start a new page for the participant CSV data
+                pdf.addPage();
 
                 const response = await fetch('participants.json');
                 const participants = await response.json();
-
-                // Create a list of contents
-                const toc = [];
 
                 for (let i = 0; i < participants.participants.length; i++) {
                     const participant = participants.participants[i];
                     const csvResponse = await fetch(participant.file);
                     const csvData = await csvResponse.text();
 
-                    // Save the starting page for each participant
                     if (i > 0) {
                         pdf.addPage();
-                        currentPage++;
                     }
-
-                    toc.push({ name: participant.name, page: currentPage });
 
                     pdf.setFontSize(16);
                     pdf.text(participant.name, 10, 20);
@@ -93,37 +91,22 @@
                     const rows = csvData.split('\n').map(row => row.split(','));
                     let y = 30;
                     const lineHeight = 10;
-                    const pageHeight = pdf.internal.pageSize.height;
                     const margin = 10;
 
                     rows.forEach(row => {
                         let line = row.join(', ');
-                        let splitText = pdf.splitTextToSize(line, pdf.internal.pageSize.width - margin * 2);
+                        let splitText = pdf.splitTextToSize(line, pageWidth - margin * 2);
 
                         splitText.forEach(textLine => {
                             if (y + lineHeight > pageHeight - margin) {
                                 pdf.addPage();
                                 y = margin;
-                                currentPage++;
                             }
                             pdf.text(textLine, margin, y);
                             y += lineHeight;
                         });
                     });
                 }
-
-                // Add page numbers
-                const totalPages = pdf.internal.getNumberOfPages();
-                for (let j = 1; j <= totalPages; j++) {
-                    pdf.setPage(j);
-                    pdf.text(`Page ${j} of ${totalPages}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
-                }
-
-                // Add the table of contents on the first page
-                pdf.setPage(1);
-                toc.forEach((item, index) => {
-                    pdf.text(`${item.name} ......................................... ${item.page}`, 10, contentsStartY + index * 10);
-                });
 
                 pdf.save('full_predictions.pdf');
             };
