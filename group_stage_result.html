@@ -50,6 +50,17 @@
         th {
             background-color: #333333;
         }
+        .center {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .center h2 {
+            display: inline-block;
+            margin: 0;
+        }
+        .center img {
+            vertical-align: middle;
+        }
     </style>
 </head>
 <body>
@@ -67,7 +78,7 @@
         </select>
         <button onclick="showPredictions()">Show Predictions</button>
     </div>
-    <div id="resultsContainer"></div>
+    <div id="resultsContainer" class="center"></div>
 
     <script>
         const countries = {
@@ -128,8 +139,8 @@
             const response = await fetch('./jsons/participants.json');
             const participants = await response.json();
 
-            let tableHTML = `<h2><img src="${countries[country1]}" alt="${country1} flag"> ${country1} vs. ${country2} <img src="${countries[country2]}" alt="${country2} flag"></h2>`;
-            tableHTML += '<table>';
+            let headerHTML = `<h2><img src="${countries[country1]}" alt="${country1} flag"> ${country1} vs. ${country2} <img src="${countries[country2]}" alt="${country2} flag"></h2>`;
+            let tableHTML = '<table>';
             tableHTML += '<tr><th></th>';
             participants.participants.forEach(participant => {
                 tableHTML += `<th colspan="2">${participant.name}</th>`;
@@ -158,7 +169,7 @@
                 }
                 if (participantPrediction) {
                     const scores = participantPrediction.split(', ');
-                    tableHTML += `<td>${scores[0]}</td><td>${scores[1]}</td>`;
+                    tableHTML += `<td>${scores[1]}</td><td>${scores[2]}</td>`;
                 } else {
                     tableHTML += '<td>N/A</td><td>N/A</td>';
                 }
@@ -170,7 +181,7 @@
             if (!matchFound) {
                 resultsContainer.innerHTML = `<p>No matches found between ${country1} and ${country2} in participant predictions.</p>`;
             } else {
-                resultsContainer.innerHTML = tableHTML;
+                resultsContainer.innerHTML = headerHTML + tableHTML;
             }
         }
     </script>
