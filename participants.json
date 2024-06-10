@@ -1,7 +1,7 @@
 {
   "participants": [
-    { "file": "./data/Nima_N.csv", "name": "Nima N" },
-    { "file": "./data/Ramin_R.csv", "name": "Ramin R" },
-    { "file": "./data/Shahriar_N.csv", "name": "Shahriar N" }
+    { "name": "Nima N", "file": "./data/Nima_N.csv" },
+    { "name": "Ramin R", "file": "./data/Ramin_R.csv" },
+    { "name": "Shahriar N", "file": "./data/Shahriar_N.csv" }
   ]
 }
