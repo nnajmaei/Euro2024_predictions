@@ -27,6 +27,14 @@
             border: 1px solid #444444;
             margin: 10px;
         }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            cursor: pointer;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -122,6 +130,7 @@
 
             let tableHTML = '<table>';
             tableHTML += '<tr><th>Participant</th><th>Prediction</th></tr>';
+            let matchFound = false;
 
             for (const participant of participants.participants) {
                 const csvResponse = await fetch(participant.file);
@@ -131,13 +140,18 @@
                 for (const row of rows) {
                     if (row.includes(country1) && row.includes(country2)) {
                         tableHTML += `<tr><td>${participant.name}</td><td>${row.join(', ')}</td></tr>`;
+                        matchFound = true;
                         break;
                     }
                 }
             }
 
-            tableHTML += '</table>';
-            resultsContainer.innerHTML = tableHTML;
+            if (!matchFound) {
+                resultsContainer.innerHTML = `<p>No matches found between ${country1} and ${country2} in participant predictions.</p>`;
+            } else {
+                tableHTML += '</table>';
+                resultsContainer.innerHTML = tableHTML;
+            }
         }
     </script>
 </body>
