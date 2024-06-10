@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Predictions Scores</title>
+    <style>
+        body {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            margin: 10px;
+            background-color: #1e1e1e;
+            color: #7c7a7a;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            background-color: #fff;
+            color: #000;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: 1px solid #444444;
+            cursor: pointer;
+            height: 36px;
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <button onclick="updateScores()">Update Scores</button>
+    </div>
+    <div id="resultsContainer" class="center"></div>
+
+    <script>
+        async function fetchCSV(filePath) {
+            const response = await fetch(filePath);
+            const text = await response.text();
+            return text.split('\n').map(row => row.split(','));
+        }
+
+        async function updateScores() {
+            const participantsResponse = await fetch('./jsons/participants.json');
+            const participants = await participantsResponse.json();
+
+            const actualResults = await fetchCSV('./results_csv/Actual_Results.csv');
+            let updateResultsHTML = '';
+
+            for (const participant of participants.participants) {
+                const participantCSVPath = participant.file;
+                let participantData = await fetchCSV(participantCSVPath);
+
+                for (let i = 0; i < participantData.length; i++) {
+                    const row = participantData[i];
+                    const country1 = row[1];
+                    const country2 = row[3];
+
+                    const actualResultRow = actualResults.find(r => r.includes(country1) && r.includes(country2));
+                    if (actualResultRow && actualResultRow[1] !== '' && actualResultRow[3] !== '') {
+                        const actualScore1 = parseInt(actualResultRow[1], 10);
+                        const actualScore2 = parseInt(actualResultRow[3], 10);
+                        const predictedScore1 = parseInt(row[2], 10);
+                        const predictedScore2 = parseInt(row[4], 10);
+
+                        let score = 0;
+                        if (predictedScore1 === actualScore1 && predictedScore2 === actualScore2) {
+                            score = 10;
+                        } else if (actualScore1 - actualScore2 === predictedScore1 - predictedScore2) {
+                            if ((actualScore1 > actualScore2 && predictedScore1 > predictedScore2) || (actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
+                                score = 8;
+                            } else {
+                                score = 5;
+                            }
+                        } else if ((actualScore1 > actualScore2 && predictedScore1 > predictedScore2) || (actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
+                            score = 5;
+                        }
+
+                        participantData[i].push(score.toString());
+                    }
+                }
+
+                // Convert updated data back to CSV format
+                const updatedCSVContent = participantData.map(row => row.join(',')).join('\n');
+
+                // Save updated CSV content
+                const blob = new Blob([updatedCSVContent], { type: 'text/csv' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = participantCSVPath.split('/').pop(); // Get the file name
+                a.click();
+
+                updateResultsHTML += `<p>Updated scores for ${participant.name} and saved to ${participantCSVPath}</p>`;
+            }
+
+            document.getElementById('resultsContainer').innerHTML = updateResultsHTML;
+        }
+    </script>
+</body>
+</html>
