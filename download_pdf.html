@@ -84,13 +84,13 @@
                         pdf.addPage();
                     }
 
-                    pdf.setFontSize(16);
-                    pdf.text(participant.name, 10, 20);
                     pdf.setFontSize(12);
+                    pdf.text(participant.name, 10, 10);
+                    pdf.setFontSize(8);
 
                     const rows = csvData.split('\n').map(row => row.split(','));
-                    let y = 30;
-                    const lineHeight = 10;
+                    let y = 15;
+                    const lineHeight = 8;
                     const margin = 10;
 
                     rows.forEach(row => {
