@@ -65,7 +65,7 @@
                 const logoY = (pageHeight - logoHeight) / 2 - 40; // Adjust Y position to leave space for text
 
                 pdf.addImage(logoDataUrl, 'PNG', logoX, logoY, logoWidth, logoHeight);
-
+                
                 pdf.setFontSize(16);
                 pdf.text('All Participants Predictions', pageWidth / 2, logoY + logoHeight + 20, { align: 'center' });
 
@@ -115,7 +115,7 @@
                     const margin = 5;
 
                     rows.forEach(row => {
-                        let line = row.join(',').trim();
+                        let line = row.join(', ').trim();
                         if (line) {  // Skip empty rows
                             let splitText = pdf.splitTextToSize(line, pageWidth - margin * 2);
 
@@ -124,11 +124,10 @@
                                     pdf.addPage();
                                     y = margin;
                                 }
-                                textLine = textLine.trim().replace(/,\s*$/, ''); // Remove trailing whitespace or commas
-                                if (boldText.includes(textLine)) {
+                                if (boldText.includes(textLine.trim())) {
                                     pdf.setFont(undefined, 'bold');
                                     pdf.text(textLine, margin, y);
-                                    pdf.line(margin, y + 1, margin + pdf.getStringUnitWidth(textLine) * pdf.internal.getFontSize() / 72, y + 1); // Underline
+                                    pdf.line(margin, y + 1, margin + pdf.getStringUnitWidth(textLine) * 8, y + 1); // Underline
                                     pdf.setFont(undefined, 'normal');
                                 } else {
                                     pdf.text(textLine, margin, y);
