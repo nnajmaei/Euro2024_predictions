@@ -50,9 +50,9 @@
             <label for="participant1">Select Participant 1:</label>
             <select id="participant1" onchange="loadPredictions(1)">
                 <option value="">Select...</option>
-                <option value="./data/Nima_N.csv">Nima N</option>
-                <option value="./data/Ramin_R.csv">Ramin R</option>
-                <option value="./data/Shahriar_N.csv">Shahriar N</option>
+                <option value="/data/Nima_N.csv">Nima N</option>
+                <option value="/data/Ramin_R.csv">Ramin R</option>
+                <option value="/data/Shahriar_N.csv">Shahriar N</option>
             </select>
             <div id="predictions1"></div>
         </div>
@@ -60,9 +60,9 @@
             <label for="participant2">Select Participant 2:</label>
             <select id="participant2" onchange="loadPredictions(2)">
                 <option value="">Select...</option>
-                <option value="./data/Nima_N.csv">Nima N</option>
-                <option value="./data/Ramin_R.csv">Ramin R</option>
-                <option value="./data/Shahriar_N.csv">Shahriar N</option>
+                <option value="/data/Nima_N.csv">Nima N</option>
+                <option value="/data/Ramin_R.csv">Ramin R</option>
+                <option value="/data/Shahriar_N.csv">Shahriar N</option>
             </select>
             <div id="predictions2"></div>
         </div>
@@ -70,15 +70,42 @@
             <label for="participant3">Select Participant 3:</label>
             <select id="participant3" onchange="loadPredictions(3)">
                 <option value="">Select...</option>
-                <option value="./data/Nima_N.csv">Nima N</option>
-                <option value="./data/Ramin_R.csv">Ramin R</option>
-                <option value="./data/Shahriar_N.csv">Shahriar N</option>
+                <option value="/data/Nima_N.csv">Nima N</option>
+                <option value="/data/Ramin_R.csv">Ramin R</option>
+                <option value="/data/Shahriar_N.csv">Shahriar N</option>
             </select>
             <div id="predictions3"></div>
         </div>
     </div>
 
     <script>
+        const flags = {
+            'Germany': 'https://flagcdn.com/w20/de.png',
+            'Scotland': 'https://flagcdn.com/w20/gb-sct.png',
+            'Hungary': 'https://flagcdn.com/w20/hu.png',
+            'Switzerland': 'https://flagcdn.com/w20/ch.png',
+            'Spain': 'https://flagcdn.com/w20/es.png',
+            'Croatia': 'https://flagcdn.com/w20/hr.png',
+            'Italy': 'https://flagcdn.com/w20/it.png',
+            'Albania': 'https://flagcdn.com/w20/al.png',
+            'Serbia': 'https://flagcdn.com/w20/rs.png',
+            'England': 'https://flagcdn.com/w20/gb-eng.png',
+            'Slovenia': 'https://flagcdn.com/w20/si.png',
+            'Denmark': 'https://flagcdn.com/w20/dk.png',
+            'Poland': 'https://flagcdn.com/w20/pl.png',
+            'Netherlands': 'https://flagcdn.com/w20/nl.png',
+            'Austria': 'https://flagcdn.com/w20/at.png',
+            'France': 'https://flagcdn.com/w20/fr.png',
+            'Romania': 'https://flagcdn.com/w20/ro.png',
+            'Ukraine': 'https://flagcdn.com/w20/ua.png',
+            'Belgium': 'https://flagcdn.com/w20/be.png',
+            'Slovakia': 'https://flagcdn.com/w20/sk.png',
+            'Turkey': 'https://flagcdn.com/w20/tr.png',
+            'Georgia': 'https://flagcdn.com/w20/ge.png',
+            'Portugal': 'https://flagcdn.com/w20/pt.png',
+            'Czechia': 'https://flagcdn.com/w20/cz.png'
+        };
+
         function loadPredictions(participantNumber) {
             const participantSelect = document.getElementById(`participant${participantNumber}`);
             const selectedFile = participantSelect.value;
@@ -98,7 +125,11 @@
                         rows.forEach(row => {
                             tableHTML += '<tr>';
                             row.forEach(cell => {
-                                tableHTML += `<td>${cell}</td>`;
+                                if (flags[cell.trim()]) {
+                                    tableHTML += `<td><img src="${flags[cell.trim()]}" class="flag"> ${cell}</td>`;
+                                } else {
+                                    tableHTML += `<td>${cell}</td>`;
+                                }
                             });
                             tableHTML += '</tr>';
                         });
@@ -107,6 +138,7 @@
                     })
                     .catch(error => {
                         predictionsDiv.innerHTML = `Error loading predictions: ${error.message}`;
+                        console.error('Error details:', error);
                     });
             } else {
                 predictionsDiv.innerHTML = '';
