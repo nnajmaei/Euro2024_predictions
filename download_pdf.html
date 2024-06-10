@@ -95,30 +95,32 @@
                 const lineHeight = 10;
                 const pageHeight = pdf.internal.pageSize.height;
                 const margin = 10;
+                const colWidths = [40, 40, 40, 40]; // Adjust column widths as needed
 
                 for (const row of rows) {
-                    let line = '';
-                    for (const cell of row) {
-                        const cellContent = cell.trim();
+                    let x = margin;
+                    for (let j = 0; j < row.length; j++) {
+                        const cellContent = row[j].trim();
                         if (flags[cellContent]) {
                             const img = new Image();
                             img.src = flags[cellContent];
-                            pdf.addImage(img, 'PNG', 10, y - 6, 5, 5);  // Adjust image position and size
-                            line += '     '; // Add space for the flag
+                            pdf.addImage(img, 'PNG', x, y - 4, 6, 4); // Adjust image position and size
+                            x += 8; // Adjust x position for the flag
                         }
-                        line += cellContent + ', ';
-                    }
-                    line = line.slice(0, -2); // Remove the last comma and space
-                    const splitText = pdf.splitTextToSize(line, pdf.internal.pageSize.width - margin * 2);
+                        let cellText = cellContent.replace(/,+$/, ''); // Remove trailing commas
+                        const splitText = pdf.splitTextToSize(cellText, colWidths[j] - 2);
 
-                    for (const textLine of splitText) {
-                        if (y + lineHeight > pageHeight - margin) {
-                            pdf.addPage();
-                            y = margin;
+                        for (const textLine of splitText) {
+                            if (y + lineHeight > pageHeight - margin) {
+                                pdf.addPage();
+                                y = margin;
+                            }
+                            pdf.text(textLine, x, y);
+                            y += lineHeight;
                         }
-                        pdf.text(textLine, margin, y);
-                        y += lineHeight;
+                        x += colWidths[j];
                     }
+                    y += lineHeight;
                 }
             }
 
