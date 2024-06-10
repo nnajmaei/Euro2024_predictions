@@ -161,14 +161,18 @@
 
                 let participantPrediction = '';
                 for (const row of rows) {
-                    if (row.includes(country1) && row.includes(country2)) {
+                    if ((row.includes(country1) && row.includes(country2)) || (row.includes(country2) && row.includes(country1))) {
                         participantPrediction = row.slice(1); // Exclude the date column
                         matchFound = true;
                         break;
                     }
                 }
                 if (participantPrediction.length > 0) {
-                    tableHTML += `<td>${participantPrediction[1]}</td><td>${participantPrediction[3]}</td>`;
+                    if (participantPrediction.includes(country1)) {
+                        tableHTML += `<td>${participantPrediction[1]}</td><td>${participantPrediction[3]}</td>`;
+                    } else {
+                        tableHTML += `<td>${participantPrediction[3]}</td><td>${participantPrediction[1]}</td>`;
+                    }
                 } else {
                     tableHTML += '<td>N/A</td><td>N/A</td>';
                 }
