@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Country Predictions</title>
+    <style>
+        body {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            margin: 10px;
+            background-color: #1e1e1e;
+            color: #7c7a7a;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .dropdown-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        select {
+            width: 200px;
+            background-color: #6b6a6a;
+            color: #fff;
+            border: 1px solid #444444;
+            margin: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #333333;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img src="./logos/logo.png" alt="Euro 2024 Logo" style="width:200px;">
+    </div>
+    <div class="dropdown-container">
+        <label for="country1">Select Country 1:</label>
+        <select id="country1">
+            <option value="">Select...</option>
+        </select>
+        <label for="country2">Select Country 2:</label>
+        <select id="country2">
+            <option value="">Select...</option>
+        </select>
+        <button onclick="showPredictions()">Show Predictions</button>
+    </div>
+    <div id="resultsContainer"></div>
+
+    <script>
+        const countries = {
+            'Germany': 'https://flagcdn.com/w20/de.png',
+            'Scotland': 'https://flagcdn.com/w20/gb-sct.png',
+            'Hungary': 'https://flagcdn.com/w20/hu.png',
+            'Switzerland': 'https://flagcdn.com/w20/ch.png',
+            'Spain': 'https://flagcdn.com/w20/es.png',
+            'Croatia': 'https://flagcdn.com/w20/hr.png',
+            'Italy': 'https://flagcdn.com/w20/it.png',
+            'Albania': 'https://flagcdn.com/w20/al.png',
+            'Serbia': 'https://flagcdn.com/w20/rs.png',
+            'England': 'https://flagcdn.com/w20/gb-eng.png',
+            'Slovenia': 'https://flagcdn.com/w20/si.png',
+            'Denmark': 'https://flagcdn.com/w20/dk.png',
+            'Poland': 'https://flagcdn.com/w20/pl.png',
+            'Netherlands': 'https://flagcdn.com/w20/nl.png',
+            'Austria': 'https://flagcdn.com/w20/at.png',
+            'France': 'https://flagcdn.com/w20/fr.png',
+            'Romania': 'https://flagcdn.com/w20/ro.png',
+            'Ukraine': 'https://flagcdn.com/w20/ua.png',
+            'Belgium': 'https://flagcdn.com/w20/be.png',
+            'Slovakia': 'https://flagcdn.com/w20/sk.png',
+            'Turkey': 'https://flagcdn.com/w20/tr.png',
+            'Georgia': 'https://flagcdn.com/w20/ge.png',
+            'Portugal': 'https://flagcdn.com/w20/pt.png',
+            'Czechia': 'https://flagcdn.com/w20/cz.png'
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const country1Select = document.getElementById('country1');
+            const country2Select = document.getElementById('country2');
+
+            for (const country in countries) {
+                const option1 = document.createElement('option');
+                option1.value = country;
+                option1.text = country;
+                country1Select.add(option1);
+
+                const option2 = document.createElement('option');
+                option2.value = country;
+                option2.text = country;
+                country2Select.add(option2);
+            }
+        });
+
+        async function showPredictions() {
+            const country1 = document.getElementById('country1').value;
+            const country2 = document.getElementById('country2').value;
+            const resultsContainer = document.getElementById('resultsContainer');
+            resultsContainer.innerHTML = '';
+
+            if (!country1 || !country2) {
+                alert('Please select both countries.');
+                return;
+            }
+
+            const response = await fetch('./jsons/participants.json');
+            const participants = await response.json();
+
+            let tableHTML = '<table>';
+            tableHTML += '<tr><th>Participant</th><th>Prediction</th></tr>';
+
+            for (const participant of participants.participants) {
+                const csvResponse = await fetch(participant.file);
+                const csvData = await csvResponse.text();
+                const rows = csvData.split('\n').map(row => row.split(','));
+
+                for (const row of rows) {
+                    if (row.includes(country1) && row.includes(country2)) {
+                        tableHTML += `<tr><td>${participant.name}</td><td>${row.join(', ')}</td></tr>`;
+                        break;
+                    }
+                }
+            }
+
+            tableHTML += '</table>';
+            resultsContainer.innerHTML = tableHTML;
+        }
+    </script>
+</body>
+</html>

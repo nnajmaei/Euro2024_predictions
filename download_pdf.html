@@ -44,33 +44,6 @@
     </div>
 
     <script>
-        const flags = {
-            'Germany': 'https://flagcdn.com/w20/de.png',
-            'Scotland': 'https://flagcdn.com/w20/gb-sct.png',
-            'Hungary': 'https://flagcdn.com/w20/hu.png',
-            'Switzerland': 'https://flagcdn.com/w20/ch.png',
-            'Spain': 'https://flagcdn.com/w20/es.png',
-            'Croatia': 'https://flagcdn.com/w20/hr.png',
-            'Italy': 'https://flagcdn.com/w20/it.png',
-            'Albania': 'https://flagcdn.com/w20/al.png',
-            'Serbia': 'https://flagcdn.com/w20/rs.png',
-            'England': 'https://flagcdn.com/w20/gb-eng.png',
-            'Slovenia': 'https://flagcdn.com/w20/si.png',
-            'Denmark': 'https://flagcdn.com/w20/dk.png',
-            'Poland': 'https://flagcdn.com/w20/pl.png',
-            'Netherlands': 'https://flagcdn.com/w20/nl.png',
-            'Austria': 'https://flagcdn.com/w20/at.png',
-            'France': 'https://flagcdn.com/w20/fr.png',
-            'Romania': 'https://flagcdn.com/w20/ro.png',
-            'Ukraine': 'https://flagcdn.com/w20/ua.png',
-            'Belgium': 'https://flagcdn.com/w20/be.png',
-            'Slovakia': 'https://flagcdn.com/w20/sk.png',
-            'Turkey': 'https://flagcdn.com/w20/tr.png',
-            'Georgia': 'https://flagcdn.com/w20/ge.png',
-            'Portugal': 'https://flagcdn.com/w20/pt.png',
-            'Czechia': 'https://flagcdn.com/w20/cz.png'
-        };
-
         async function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF();
@@ -141,18 +114,17 @@
                     const lineHeight = 4;  // Reduce line height further
                     const margin = 5;
 
-                    for (const row of rows) {
-                        const line = row.join(', ').trim();
+                    rows.forEach(row => {
+                        let line = row.join(', ').trim();
                         if (line) {  // Skip empty rows
-                            const splitText = pdf.splitTextToSize(line, pageWidth - margin * 2);
+                            let splitText = pdf.splitTextToSize(line, pageWidth - margin * 2);
 
-                            for (const textLine of splitText) {
+                            splitText.forEach(textLine => {
                                 if (y + lineHeight > pageHeight - margin) {
                                     pdf.addPage();
                                     y = margin;
                                 }
-                                const trimmedTextLine = textLine.trim();
-                                if (boldText.includes(trimmedTextLine)) {
+                                if (boldText.includes(textLine.trim())) {
                                     pdf.setFont(undefined, 'bold');
                                     pdf.text(textLine, margin, y);
                                     pdf.line(margin, y + 1, margin + pdf.getStringUnitWidth(textLine) * 8, y + 1); // Underline
@@ -160,24 +132,10 @@
                                 } else {
                                     pdf.text(textLine, margin, y);
                                 }
-
-                                // Add country flags
-                                const countryName = trimmedTextLine.split(' ')[0];
-                                if (flags[countryName]) {
-                                    const flagResponse = await fetch(flags[countryName]);
-                                    const flagBlob = await flagResponse.blob();
-                                    const flagReader = new FileReader();
-                                    flagReader.onloadend = function () {
-                                        const flagDataUrl = flagReader.result;
-                                        pdf.addImage(flagDataUrl, 'PNG', margin - 5, y - 3, 5, 3);
-                                    };
-                                    flagReader.readAsDataURL(flagBlob);
-                                }
-
                                 y += lineHeight;
-                            }
+                            });
                         }
-                    }
+                    });
                 }
 
                 pdf.save('full_predictions.pdf');
