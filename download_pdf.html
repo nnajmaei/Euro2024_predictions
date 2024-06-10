@@ -126,10 +126,12 @@
                                 }
                                 if (boldText.includes(textLine.trim())) {
                                     pdf.setFont(undefined, 'bold');
-                                } else {
+                                    pdf.text(textLine, margin, y);
+                                    pdf.line(margin, y + 1, margin + pdf.getStringUnitWidth(textLine) * 8, y + 1); // Underline
                                     pdf.setFont(undefined, 'normal');
+                                } else {
+                                    pdf.text(textLine, margin, y);
                                 }
-                                pdf.text(textLine, margin, y);
                                 y += lineHeight;
                             });
                         }
