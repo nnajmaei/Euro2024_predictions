@@ -108,27 +108,15 @@
             'Czechia': 'https://flagcdn.com/w20/cz.png'
         };
 
-        function populateDropdowns(files) {
+        function populateDropdowns(participants) {
             const dropdowns = [document.getElementById('participant1'), document.getElementById('participant2'), document.getElementById('participant3')];
-            files.forEach(file => {
-                fetch(file)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return response.text();
-                    })
-                    .then(data => {
-                        const rows = data.split('\n');
-                        const participantName = rows[0].split(',')[0]; // Assuming the participant name is in the first cell of the first row
-                        dropdowns.forEach(dropdown => {
-                            const option = document.createElement('option');
-                            option.value = file;
-                            option.text = participantName;
-                            dropdown.add(option);
-                        });
-                    })
-                    .catch(error => console.error('Error loading participant names:', error));
+            participants.forEach(participant => {
+                dropdowns.forEach(dropdown => {
+                    const option = document.createElement('option');
+                    option.value = participant.file;
+                    option.text = participant.name;
+                    dropdown.add(option);
+                });
             });
         }
 
@@ -177,10 +165,10 @@
 
         // Fetch the JSON file and populate dropdowns on page load
         window.onload = function() {
-            fetch('files.json')
+            fetch('participants.json')
                 .then(response => response.json())
-                .then(data => populateDropdowns(data.files))
-                .catch(error => console.error('Error loading files list:', error));
+                .then(data => populateDropdowns(data.participants))
+                .catch(error => console.error('Error loading participants list:', error));
         };
     </script>
 </body>
