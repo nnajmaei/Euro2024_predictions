@@ -139,7 +139,8 @@
 
                 for (const row of rows) {
                     if (row.includes(country1) && row.includes(country2)) {
-                        tableHTML += `<tr><td>${participant.name}</td><td>${row.join(', ')}</td></tr>`;
+                        const prediction = row.slice(1).join(', '); // Exclude the date column
+                        tableHTML += `<tr><td>${participant.name}</td><td>${prediction}</td></tr>`;
                         matchFound = true;
                         break;
                     }
