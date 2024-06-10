@@ -47,9 +47,35 @@
         async function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF();
-
             const response = await fetch('participants.json');
             const participants = await response.json();
+
+            const flags = {
+                'Germany': 'https://flagcdn.com/w20/de.png',
+                'Scotland': 'https://flagcdn.com/w20/gb-sct.png',
+                'Hungary': 'https://flagcdn.com/w20/hu.png',
+                'Switzerland': 'https://flagcdn.com/w20/ch.png',
+                'Spain': 'https://flagcdn.com/w20/es.png',
+                'Croatia': 'https://flagcdn.com/w20/hr.png',
+                'Italy': 'https://flagcdn.com/w20/it.png',
+                'Albania': 'https://flagcdn.com/w20/al.png',
+                'Serbia': 'https://flagcdn.com/w20/rs.png',
+                'England': 'https://flagcdn.com/w20/gb-eng.png',
+                'Slovenia': 'https://flagcdn.com/w20/si.png',
+                'Denmark': 'https://flagcdn.com/w20/dk.png',
+                'Poland': 'https://flagcdn.com/w20/pl.png',
+                'Netherlands': 'https://flagcdn.com/w20/nl.png',
+                'Austria': 'https://flagcdn.com/w20/at.png',
+                'France': 'https://flagcdn.com/w20/fr.png',
+                'Romania': 'https://flagcdn.com/w20/ro.png',
+                'Ukraine': 'https://flagcdn.com/w20/ua.png',
+                'Belgium': 'https://flagcdn.com/w20/be.png',
+                'Slovakia': 'https://flagcdn.com/w20/sk.png',
+                'Turkey': 'https://flagcdn.com/w20/tr.png',
+                'Georgia': 'https://flagcdn.com/w20/ge.png',
+                'Portugal': 'https://flagcdn.com/w20/pt.png',
+                'Czechia': 'https://flagcdn.com/w20/cz.png'
+            };
 
             for (let i = 0; i < participants.participants.length; i++) {
                 const participant = participants.participants[i];
@@ -60,9 +86,9 @@
                     pdf.addPage();
                 }
 
-                pdf.setFontSize(16);
+                pdf.setFontSize(14);
                 pdf.text(participant.name, 10, 10);
-                pdf.setFontSize(12);
+                pdf.setFontSize(10);
 
                 const rows = csvData.split('\n').map(row => row.split(','));
                 let y = 20;
@@ -70,19 +96,30 @@
                 const pageHeight = pdf.internal.pageSize.height;
                 const margin = 10;
 
-                rows.forEach(row => {
-                    let line = row.join(', ');
-                    let splitText = pdf.splitTextToSize(line, pdf.internal.pageSize.width - margin * 2);
+                for (const row of rows) {
+                    let line = '';
+                    for (const cell of row) {
+                        const cellContent = cell.trim();
+                        if (flags[cellContent]) {
+                            const img = new Image();
+                            img.src = flags[cellContent];
+                            pdf.addImage(img, 'PNG', 10, y - 6, 5, 5);  // Adjust image position and size
+                            line += '     '; // Add space for the flag
+                        }
+                        line += cellContent + ', ';
+                    }
+                    line = line.slice(0, -2); // Remove the last comma and space
+                    const splitText = pdf.splitTextToSize(line, pdf.internal.pageSize.width - margin * 2);
 
-                    splitText.forEach(textLine => {
+                    for (const textLine of splitText) {
                         if (y + lineHeight > pageHeight - margin) {
                             pdf.addPage();
                             y = margin;
                         }
                         pdf.text(textLine, margin, y);
                         y += lineHeight;
-                    });
-                });
+                    }
+                }
             }
 
             pdf.save('full_predictions.pdf');
