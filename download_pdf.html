@@ -37,7 +37,7 @@
 </head>
 <body>
     <div class="logo-container">
-        <img src="https://seeklogo.com/images/U/uefa-euro-2024-logo-124EEA67D8-seeklogo.com.png" alt="Euro 2024 Logo" style="width:200px;">
+        <img src="./logo.png" alt="Euro 2024 Logo" style="width:200px;">
     </div>
     <div class="button-container">
         <button onclick="downloadPDF()">Download CSVs as PDF</button>
@@ -46,7 +46,7 @@
     <script>
         async function downloadPDF() {
             const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdf = new jsPDF();
 
             // Load the logo image
             const logoResponse = await fetch('logo.png');
@@ -75,10 +75,6 @@
                 const response = await fetch('participants.json');
                 const participants = await response.json();
 
-                const margin = 10;
-                const pageContentWidth = pageWidth - 2 * margin;
-                const columnWidth = pageContentWidth / 2 - margin;
-
                 for (let i = 0; i < participants.participants.length; i++) {
                     const participant = participants.participants[i];
                     const csvResponse = await fetch(participant.file);
@@ -89,40 +85,26 @@
                     }
 
                     pdf.setFontSize(12);
-                    pdf.text(participant.name, margin, margin);
-                    pdf.setFontSize(6);
+                    pdf.text(participant.name, 10, 10);
+                    pdf.setFontSize(8);
 
                     const rows = csvData.split('\n').map(row => row.split(','));
-                    let x = margin;
-                    let y = margin + 10;
-                    let col = 0;
+                    let y = 15;
+                    const lineHeight = 8;
+                    const margin = 10;
 
                     rows.forEach(row => {
-                        if (col > 1) {
-                            pdf.addPage();
-                            x = margin;
-                            y = margin + 10;
-                            col = 0;
-                        }
-
                         let line = row.join(', ');
-                        let splitText = pdf.splitTextToSize(line, columnWidth);
+                        let splitText = pdf.splitTextToSize(line, pageWidth - margin * 2);
 
                         splitText.forEach(textLine => {
-                            if (y + 8 > pageHeight - margin) {
+                            if (y + lineHeight > pageHeight - margin) {
                                 pdf.addPage();
-                                x = margin;
-                                y = margin + 10;
-                                col = 0;
+                                y = margin;
                             }
-                            pdf.text(textLine, x, y);
-                            y += 8;
+                            pdf.text(textLine, margin, y);
+                            y += lineHeight;
                         });
-
-                        y += 4;
-                        col++;
-                        x = col === 1 ? margin + columnWidth + margin : margin;
-                        y = col === 1 ? y - (splitText.length + 1) * 8 : y;
                     });
                 }
 
