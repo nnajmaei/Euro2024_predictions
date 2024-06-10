@@ -52,7 +52,7 @@
             const logoResponse = await fetch('./logos/logo.png');
             const logoBlob = await logoResponse.blob();
             const reader = new FileReader();
-            
+
             reader.onloadend = async function () {
                 const logoDataUrl = reader.result;
 
@@ -62,22 +62,29 @@
                 const logoWidth = 50;
                 const logoHeight = 50;
                 const logoX = (pageWidth - logoWidth) / 2;
-                const logoY = (pageHeight - logoHeight) / 2 - 20; // Adjust Y position to leave space for text
+                const logoY = (pageHeight - logoHeight) / 2 - 40; // Adjust Y position to leave space for text
 
                 pdf.addImage(logoDataUrl, 'PNG', logoX, logoY, logoWidth, logoHeight);
-                
+
                 pdf.setFontSize(16);
                 pdf.text('All Participants Predictions', pageWidth / 2, logoY + logoHeight + 20, { align: 'center' });
-
-                // Start a new page for the participant CSV data
-                pdf.addPage();
 
                 const response = await fetch('./jsons/participants.json');
                 const participants = await response.json();
 
+                pdf.setFontSize(12);
+                let y = logoY + logoHeight + 30;
+                participants.participants.forEach(participant => {
+                    pdf.text(participant.name, 10, y);
+                    y += 10;
+                });
+
+                // Start a new page for the participant CSV data
+                pdf.addPage();
+
                 const boldText = [
-                    'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 
-                    'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final', 
+                    'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F',
+                    'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final',
                     'Top Goalscorer', 'Best Goalkeeper', 'Player of Tournament', 'Additional Predictions'
                 ];
 
