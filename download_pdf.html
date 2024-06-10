@@ -37,7 +37,7 @@
 </head>
 <body>
     <div class="logo-container">
-        <img src="./logo.png" alt="Euro 2024 Logo" style="width:200px;">
+        <img src="https://seeklogo.com/images/U/uefa-euro-2024-logo-124EEA67D8-seeklogo.com.png" alt="Euro 2024 Logo" style="width:200px;">
     </div>
     <div class="button-container">
         <button onclick="downloadPDF()">Download CSVs as PDF</button>
@@ -48,44 +48,61 @@
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF();
 
-            const response = await fetch('participants.json');
-            const participants = await response.json();
+            // Load the logo image
+            const logoResponse = await fetch('logo.png');
+            const logoBlob = await logoResponse.blob();
+            const reader = new FileReader();
+            
+            reader.onloadend = async function () {
+                const logoDataUrl = reader.result;
 
-            for (let i = 0; i < participants.participants.length; i++) {
-                const participant = participants.participants[i];
-                const csvResponse = await fetch(participant.file);
-                const csvData = await csvResponse.text();
+                // Add the logo image to the first page
+                pdf.addImage(logoDataUrl, 'PNG', 10, 10, 50, 50);
 
-                if (i > 0) {
-                    pdf.addPage();
+                const response = await fetch('participants.json');
+                const participants = await response.json();
+
+                let startY = 70; // Adjust start position to avoid overlapping the logo
+
+                for (let i = 0; i < participants.participants.length; i++) {
+                    const participant = participants.participants[i];
+                    const csvResponse = await fetch(participant.file);
+                    const csvData = await csvResponse.text();
+
+                    if (i > 0) {
+                        pdf.addPage();
+                        startY = 20; // Reset start position for new pages
+                    }
+
+                    pdf.setFontSize(16);
+                    pdf.text(participant.name, 10, startY);
+                    pdf.setFontSize(12);
+
+                    const rows = csvData.split('\n').map(row => row.split(','));
+                    let y = startY + 10;
+                    const lineHeight = 10;
+                    const pageHeight = pdf.internal.pageSize.height;
+                    const margin = 10;
+
+                    rows.forEach(row => {
+                        let line = row.join(', ');
+                        let splitText = pdf.splitTextToSize(line, pdf.internal.pageSize.width - margin * 2);
+
+                        splitText.forEach(textLine => {
+                            if (y + lineHeight > pageHeight - margin) {
+                                pdf.addPage();
+                                y = margin;
+                            }
+                            pdf.text(textLine, margin, y);
+                            y += lineHeight;
+                        });
+                    });
                 }
 
-                pdf.setFontSize(16);
-                pdf.text(participant.name, 10, 10);
-                pdf.setFontSize(12);
+                pdf.save('full_predictions.pdf');
+            };
 
-                const rows = csvData.split('\n').map(row => row.split(','));
-                let y = 20;
-                const lineHeight = 10;
-                const pageHeight = pdf.internal.pageSize.height;
-                const margin = 10;
-
-                rows.forEach(row => {
-                    let line = row.join(', ');
-                    let splitText = pdf.splitTextToSize(line, pdf.internal.pageSize.width - margin * 2);
-
-                    splitText.forEach(textLine => {
-                        if (y + lineHeight > pageHeight - margin) {
-                            pdf.addPage();
-                            y = margin;
-                        }
-                        pdf.text(textLine, margin, y);
-                        y += lineHeight;
-                    });
-                });
-            }
-
-            pdf.save('full_predictions.pdf');
+            reader.readAsDataURL(logoBlob);
         }
     </script>
 </body>
