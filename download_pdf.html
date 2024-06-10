@@ -66,10 +66,22 @@
 
                 const rows = csvData.split('\n').map(row => row.split(','));
                 let y = 20;
+                const lineHeight = 10;
+                const pageHeight = pdf.internal.pageSize.height;
+                const margin = 10;
+
                 rows.forEach(row => {
                     let line = row.join(', ');
-                    pdf.text(line, 10, y);
-                    y += 10;
+                    let splitText = pdf.splitTextToSize(line, pdf.internal.pageSize.width - margin * 2);
+
+                    splitText.forEach(textLine => {
+                        if (y + lineHeight > pageHeight - margin) {
+                            pdf.addPage();
+                            y = margin;
+                        }
+                        pdf.text(textLine, margin, y);
+                        y += lineHeight;
+                    });
                 });
             }
 
