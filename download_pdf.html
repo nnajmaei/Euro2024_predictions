@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download Predictions as PDF</title>
+    <title>Download CSVs as PDF</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <style>
         body {
@@ -40,46 +40,58 @@
         <img src="https://seeklogo.com/images/U/uefa-euro-2024-logo-124EEA67D8-seeklogo.com.png" alt="Euro 2024 Logo" style="width:200px;">
     </div>
     <div class="button-container">
-        <button onclick="downloadPDF()">Download Predictions as PDF</button>
+        <button onclick="downloadPDF()">Download CSVs as PDF</button>
     </div>
 
     <script>
         async function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF();
+            let currentPage = 1;
+            let contentsStartY = 80;
 
             // Load the logo image
-            const logoResponse = await fetch('./logo.png');
+            const logoResponse = await fetch('logo.png');
             const logoBlob = await logoResponse.blob();
             const reader = new FileReader();
             
             reader.onloadend = async function () {
                 const logoDataUrl = reader.result;
 
-                // Add the logo image to the first page
-                pdf.addImage(logoDataUrl, 'PNG', 10, 10, 50, 50);
+                // Add the logo image to the first page (centered)
+                const pageWidth = pdf.internal.pageSize.width;
+                pdf.addImage(logoDataUrl, 'PNG', pageWidth / 2 - 25, 10, 50, 50);
+
+                // Add "Table of Contents" heading
+                pdf.setFontSize(16);
+                pdf.text('Table of Contents', pageWidth / 2, 70, { align: 'center' });
+                pdf.setFontSize(12);
 
                 const response = await fetch('participants.json');
                 const participants = await response.json();
 
-                let startY = 70; // Adjust start position to avoid overlapping the logo
+                // Create a list of contents
+                const toc = [];
 
                 for (let i = 0; i < participants.participants.length; i++) {
                     const participant = participants.participants[i];
                     const csvResponse = await fetch(participant.file);
                     const csvData = await csvResponse.text();
 
+                    // Save the starting page for each participant
                     if (i > 0) {
                         pdf.addPage();
-                        startY = 20; // Reset start position for new pages
+                        currentPage++;
                     }
 
+                    toc.push({ name: participant.name, page: currentPage });
+
                     pdf.setFontSize(16);
-                    pdf.text(participant.name, 10, startY);
+                    pdf.text(participant.name, 10, 20);
                     pdf.setFontSize(12);
 
                     const rows = csvData.split('\n').map(row => row.split(','));
-                    let y = startY + 10;
+                    let y = 30;
                     const lineHeight = 10;
                     const pageHeight = pdf.internal.pageSize.height;
                     const margin = 10;
@@ -92,12 +104,26 @@
                             if (y + lineHeight > pageHeight - margin) {
                                 pdf.addPage();
                                 y = margin;
+                                currentPage++;
                             }
                             pdf.text(textLine, margin, y);
                             y += lineHeight;
                         });
                     });
                 }
+
+                // Add page numbers
+                const totalPages = pdf.internal.getNumberOfPages();
+                for (let j = 1; j <= totalPages; j++) {
+                    pdf.setPage(j);
+                    pdf.text(`Page ${j} of ${totalPages}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
+                }
+
+                // Add the table of contents on the first page
+                pdf.setPage(1);
+                toc.forEach((item, index) => {
+                    pdf.text(`${item.name} ......................................... ${item.page}`, 10, contentsStartY + index * 10);
+                });
 
                 pdf.save('full_predictions.pdf');
             };
