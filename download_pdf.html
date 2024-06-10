@@ -90,21 +90,23 @@
 
                     const rows = csvData.split('\n').map(row => row.split(','));
                     let y = 15;
-                    const lineHeight = 5;
+                    const lineHeight = 4;  // Reduce line height further
                     const margin = 5;
 
                     rows.forEach(row => {
-                        let line = row.join(', ');
-                        let splitText = pdf.splitTextToSize(line, pageWidth - margin * 2);
+                        let line = row.join(', ').trim();
+                        if (line) {  // Skip empty rows
+                            let splitText = pdf.splitTextToSize(line, pageWidth - margin * 2);
 
-                        splitText.forEach(textLine => {
-                            if (y + lineHeight > pageHeight - margin) {
-                                pdf.addPage();
-                                y = margin;
-                            }
-                            pdf.text(textLine, margin, y);
-                            y += lineHeight;
-                        });
+                            splitText.forEach(textLine => {
+                                if (y + lineHeight > pageHeight - margin) {
+                                    pdf.addPage();
+                                    y = margin;
+                                }
+                                pdf.text(textLine, margin, y);
+                                y += lineHeight;
+                            });
+                        }
                     });
                 }
 
