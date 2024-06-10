@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download CSVs as PDF</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            margin: 10px;
+            background-color: #1e1e1e;
+            color: #7c7a7a;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img src="https://seeklogo.com/images/U/uefa-euro-2024-logo-124EEA67D8-seeklogo.com.png" alt="Euro 2024 Logo" style="width:200px;">
+    </div>
+    <div class="button-container">
+        <button onclick="downloadPDF()">Download CSVs as PDF</button>
+    </div>
+
+    <script>
+        async function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+
+            const response = await fetch('participants.json');
+            const participants = await response.json();
+
+            for (let i = 0; i < participants.participants.length; i++) {
+                const participant = participants.participants[i];
+                const csvResponse = await fetch(participant.file);
+                const csvData = await csvResponse.text();
+
+                if (i > 0) {
+                    pdf.addPage();
+                }
+
+                pdf.setFontSize(16);
+                pdf.text(participant.name, 10, 10);
+                pdf.setFontSize(12);
+
+                const rows = csvData.split('\n').map(row => row.split(','));
+                let y = 20;
+                rows.forEach(row => {
+                    let line = row.join(', ');
+                    pdf.text(line, 10, y);
+                    y += 10;
+                });
+            }
+
+            pdf.save('participants_results.pdf');
+        }
+    </script>
+</body>
+</html>
