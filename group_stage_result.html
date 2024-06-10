@@ -16,6 +16,9 @@
             justify-content: center;
             margin-bottom: 20px;
         }
+        .module-container {
+            margin-bottom: 40px;
+        }
         .dropdown-container {
             text-align: center;
             margin-top: 20px;
@@ -69,18 +72,65 @@
     <div class="logo-container">
         <img src="./logos/logo.png" alt="Euro 2024 Logo" style="width:200px;">
     </div>
-    <div class="dropdown-container">
-        <label for="country1">Select Country 1:</label>
-        <select id="country1">
-            <option value="">Select...</option>
-        </select>
-        <label for="country2">Select Country 2:</label>
-        <select id="country2">
-            <option value="">Select...</option>
-        </select>
-        <button onclick="showPredictions()">Show Predictions</button>
+    <div class="module-container">
+        <div class="dropdown-container">
+            <label for="country1-1">Select Country 1:</label>
+            <select id="country1-1">
+                <option value="">Select...</option>
+            </select>
+            <label for="country2-1">Select Country 2:</label>
+            <select id="country2-1">
+                <option value="">Select...</option>
+            </select>
+            <button onclick="showPredictions(1)">Show Predictions</button>
+        </div>
+        <div id="resultsContainer-1" class="center"></div>
     </div>
-    <div id="resultsContainer" class="center"></div>
+
+    <div class="module-container">
+        <div class="dropdown-container">
+            <label for="country1-2">Select Country 1:</label>
+            <select id="country1-2">
+                <option value="">Select...</option>
+            </select>
+            <label for="country2-2">Select Country 2:</label>
+            <select id="country2-2">
+                <option value="">Select...</option>
+            </select>
+            <button onclick="showPredictions(2)">Show Predictions</button>
+        </div>
+        <div id="resultsContainer-2" class="center"></div>
+    </div>
+
+    <div class="module-container">
+        <div class="dropdown-container">
+            <label for="country1-3">Select Country 1:</label>
+            <select id="country1-3">
+                <option value="">Select...</option>
+            </select>
+            <label for="country2-3">Select Country 2:</label>
+            <select id="country2-3">
+                <option value="">Select...</option>
+            </select>
+            <button onclick="showPredictions(3)">Show Predictions</button>
+        </div>
+        <div id="resultsContainer-3" class="center"></div>
+    </div>
+
+    <div class="module-container">
+        <div class="dropdown-container">
+            <label for="country1-4">Select Country 1:</label>
+            <select id="country1-4">
+                <option value="">Select...</option>
+            </select>
+            <label for="country2-4">Select Country 2:</label>
+            <select id="country2-4">
+                <option value="">Select...</option>
+            </select>
+            <button onclick="showPredictions(4)">Show Predictions</button>
+        </div>
+        <div id="resultsContainer-4" class="center"></div>
+    </div>
 
     <script>
         const countries = {
@@ -111,26 +161,28 @@
         };
 
         document.addEventListener('DOMContentLoaded', function () {
-            const country1Select = document.getElementById('country1');
-            const country2Select = document.getElementById('country2');
+            for (let i = 1; i <= 4; i++) {
+                const country1Select = document.getElementById(`country1-${i}`);
+                const country2Select = document.getElementById(`country2-${i}`);
 
-            for (const country in countries) {
-                const option1 = document.createElement('option');
-                option1.value = country;
-                option1.text = country;
-                country1Select.add(option1);
+                for (const country in countries) {
+                    const option1 = document.createElement('option');
+                    option1.value = country;
+                    option1.text = country;
+                    country1Select.add(option1);
 
-                const option2 = document.createElement('option');
-                option2.value = country;
-                option2.text = country;
-                country2Select.add(option2);
+                    const option2 = document.createElement('option');
+                    option2.value = country;
+                    option2.text = country;
+                    country2Select.add(option2);
+                }
             }
         });
 
-        async function showPredictions() {
-            const country1 = document.getElementById('country1').value;
-            const country2 = document.getElementById('country2').value;
-            const resultsContainer = document.getElementById('resultsContainer');
+        async function showPredictions(moduleNumber) {
+            const country1 = document.getElementById(`country1-${moduleNumber}`).value;
+            const country2 = document.getElementById(`country2-${moduleNumber}`).value;
+            const resultsContainer = document.getElementById(`resultsContainer-${moduleNumber}`);
             resultsContainer.innerHTML = '';
 
             if (!country1 || !country2) {
