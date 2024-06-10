@@ -51,9 +51,14 @@
             const lineHeight = 10;
             const pageHeight = pdf.internal.pageSize.height;
 
-            // Add logo to the first page
+            // Load logo image
             const logo = new Image();
             logo.src = 'https://seeklogo.com/images/U/uefa-euro-2024-logo-124EEA67D8-seeklogo.com.png';
+            await new Promise((resolve) => {
+                logo.onload = resolve;
+            });
+
+            // Add logo to the first page
             pdf.addImage(logo, 'PNG', margin, margin, 50, 50);
 
             // Fetch participants data
@@ -101,7 +106,8 @@
             }
 
             // Add table of contents on the second page
-            pdf.addPage();
+            pdf.insertPage(2);
+            pdf.setPage(2);
             pdf.text("Table of Contents", margin, margin);
             toc.forEach((entry, index) => {
                 pdf.text(`${entry.name}: Page ${entry.page}`, margin, margin + (index + 1) * lineHeight);
