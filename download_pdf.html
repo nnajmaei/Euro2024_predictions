@@ -37,7 +37,7 @@
 </head>
 <body>
     <div class="logo-container">
-        <img src="./logo.png" alt="Euro 2024 Logo" style="width:200px;">
+        <img src="https://seeklogo.com/images/U/uefa-euro-2024-logo-124EEA67D8-seeklogo.com.png" alt="Euro 2024 Logo" style="width:200px;">
     </div>
     <div class="button-container">
         <button onclick="downloadPDF()">Download CSVs as PDF</button>
@@ -89,14 +89,25 @@
                     pdf.setFontSize(8);
 
                     const rows = csvData.split('\n').map(row => row.split(','));
+
                     let y = 15;
                     const lineHeight = 8;
                     const margin = 10;
 
-                    rows.forEach(row => {
-                        let line = row.join(', ');
-                        let splitText = pdf.splitTextToSize(line, pageWidth - margin * 2);
+                    const sectionHeaders = ['Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 'R16', 'QF', 'SF', 'F', 'Others'];
+                    const sections = { 'Group A': [], 'Group B': [], 'Group C': [], 'Group D': [], 'Group E': [], 'Group F': [], 'R16': [], 'QF': [], 'SF': [], 'F': [], 'Others': [] };
 
+                    rows.forEach(row => {
+                        const header = row[0].trim();
+                        if (sectionHeaders.includes(header)) {
+                            sections[header].push(row.join(', '));
+                        } else {
+                            sections['Others'].push(row.join(', '));
+                        }
+                    });
+
+                    const printSection = (section) => {
+                        let splitText = pdf.splitTextToSize(sections[section].join('\n'), pageWidth - margin * 2);
                         splitText.forEach(textLine => {
                             if (y + lineHeight > pageHeight - margin) {
                                 pdf.addPage();
@@ -105,6 +116,23 @@
                             pdf.text(textLine, margin, y);
                             y += lineHeight;
                         });
+                    };
+
+                    // Print Group Stages in two rows
+                    const groupStages = ['Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F'];
+                    let groupRow = groupStages.slice(0, 3).map(group => sections[group].join('\n')).join(' - ');
+                    printSection(groupRow);
+                    y += lineHeight;
+                    groupRow = groupStages.slice(3).map(group => sections[group].join('\n')).join(' - ');
+                    printSection(groupRow);
+                    y += lineHeight;
+
+                    // Print other sections
+                    ['R16', 'QF', 'SF', 'F', 'Others'].forEach(section => {
+                        pdf.text(section, margin, y);
+                        y += lineHeight;
+                        printSection(section);
+                        y += lineHeight;
                     });
                 }
 
