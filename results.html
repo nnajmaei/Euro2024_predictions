@@ -96,21 +96,9 @@
 
     <hr>
 
-    <div class="group-title">Group A</div>
-    <table id="group-a">
-        <tr>
-            <th>Date</th>
-            <th>Actual Team 1</th>
-            <th>Actual Score 1</th>
-            <th>Actual Team 2</th>
-            <th>Actual Score 2</th>
-            <th>Predicted Score 1</th>
-            <th>Predicted Score 2</th>
-        </tr>
-        <!-- Rows will be populated dynamically -->
-    </table>
-    
-    <!-- Add tables for other groups (B, C, D, E, F) similarly -->
+    <div id="results-container">
+        <!-- Results tables will be generated here dynamically -->
+    </div>
 
     <script>
         const csvFiles = ['Nima_N.csv', 'Ramin_R.csv']; // Add more file names as needed
@@ -167,6 +155,23 @@
             return rows;
         }
 
+        function createGroupTable(group) {
+            return `
+                <div class="group-title">Group ${group.toUpperCase()}</div>
+                <table id="group-${group}">
+                    <tr>
+                        <th>Date</th>
+                        <th>Actual Team 1</th>
+                        <th>Actual Score 1</th>
+                        <th>Actual Team 2</th>
+                        <th>Actual Score 2</th>
+                        <th>Predicted Score 1</th>
+                        <th>Predicted Score 2</th>
+                    </tr>
+                </table>
+            `;
+        }
+
         function populateTable(group, actualResults, participantPredictions) {
             const table = document.getElementById('group-' + group);
             while (table.rows.length > 1) {
@@ -193,11 +198,16 @@
             const actualResults = parseCSV(actualResultsCSV);
             const participantPredictions = parseCSV(participantCSV);
 
-            const groupAResults = actualResults.filter(row => row[0] && row[0].includes('Group A'));
-            const groupAPredictions = participantPredictions.filter(row => row[0] && row[0].includes('Group A'));
+            const resultsContainer = document.getElementById('results-container');
+            resultsContainer.innerHTML = '';
 
-            populateTable('a', groupAResults, groupAPredictions);
-            // Repeat for other groups (B, C, D, E, F)
+            const groups = ['a', 'b', 'c', 'd', 'e', 'f'];
+            groups.forEach(group => {
+                resultsContainer.innerHTML += createGroupTable(group);
+                const groupResults = actualResults.filter(row => row[0] && row[0].includes(`Group ${group.toUpperCase()}`));
+                const groupPredictions = participantPredictions.filter(row => row[0] && row[0].includes(`Group ${group.toUpperCase()}`));
+                populateTable(group, groupResults, groupPredictions);
+            });
         }
     </script>
 </body>
