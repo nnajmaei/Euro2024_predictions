@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compare Country Predictions</title>
+    <title>Predictions for Group Stages Games</title>
     <style>
         body {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -141,17 +141,17 @@
 
             let headerHTML = `<h2><img src="${countries[country1]}" alt="${country1} flag"> ${country1} vs. ${country2} <img src="${countries[country2]}" alt="${country2} flag"></h2>`;
             let tableHTML = '<table>';
-            tableHTML += '<tr><th></th>';
+            tableHTML += '<tr><th>Participant</th>';
             participants.participants.forEach(participant => {
                 tableHTML += `<th colspan="2">${participant.name}</th>`;
             });
             tableHTML += '</tr>';
-            tableHTML += '<tr><td></td>';
+            tableHTML += '<tr><th>Teams</th>';
             participants.participants.forEach(participant => {
                 tableHTML += `<td><img src="${countries[country1]}" alt="${country1} flag"></td><td><img src="${countries[country2]}" alt="${country2} flag"></td>`;
             });
             tableHTML += '</tr>';
-            tableHTML += '<tr><td>Score</td>';
+            tableHTML += '<tr><th>Predicted Scores</th>';
             let matchFound = false;
 
             for (const participant of participants.participants) {
