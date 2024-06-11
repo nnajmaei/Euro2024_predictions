@@ -57,7 +57,7 @@
                     const participantRows = csvData.split('\n').map(row => row.split(','));
 
                     for (const row of actualResultsRows) {
-                        if (row.length < 5 || !row[0] || !row[1] || !row[3]) continue; // Skip rows without necessary team and date information
+                        if (!row[0]) continue; // Skip rows without necessary team and date information
 
                         const date = row[0];
                         const team1 = row[1];
