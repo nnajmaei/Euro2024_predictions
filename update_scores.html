@@ -49,29 +49,27 @@
             const actualResultsRows = actualResultsData.split('\n').map(row => row.split(','));
 
             for (const participant of participants.participants) {
-                let participantCSV = 'date,team 1,team 2,score\n';
+                let participantCSV = 'date,team 1,team 2,predicted score 1,predicted score 2,score\n';
 
-                for (const row of actualResultsRows) {
-                    if (row.length < 3 || !row[0] || !row[1] || !row[2]) continue; // Skip empty or incomplete rows
+                const csvResponse = await fetch(participant.file);
+                const csvData = await csvResponse.text();
+                const participantRows = csvData.split('\n').map(row => row.split(','));
 
-                    const date = row[0];
-                    const team1 = row[1];
-                    const team2 = row[3];
-                    const actualScore1 = row[2];
-                    const actualScore2 = row[4];
+                for (const pRow of participantRows) {
+                    if (pRow.length < 5 || !pRow[0] || !pRow[1] || !pRow[2] || !pRow[3] || !pRow[4]) continue; // Skip empty or incomplete rows
 
-                    const csvResponse = await fetch(participant.file);
-                    const csvData = await csvResponse.text();
-                    const participantRows = csvData.split('\n').map(row => row.split(','));
+                    const date = pRow[0];
+                    const team1 = pRow[1];
+                    const team2 = pRow[2];
+                    const predictedScore1 = pRow[3];
+                    const predictedScore2 = pRow[4];
 
                     let participantScore = '';
 
-                    for (const pRow of participantRows) {
-                        if (pRow.includes(team1) && pRow.includes(team2)) {
-                            const country1Index = pRow.indexOf(team1);
-                            const country2Index = pRow.indexOf(team2);
-                            const predictedScore1 = pRow[country1Index + 1];
-                            const predictedScore2 = pRow[country2Index + 1];
+                    for (const row of actualResultsRows) {
+                        if (row.includes(team1) && row.includes(team2)) {
+                            const actualScore1 = row[2];
+                            const actualScore2 = row[4];
 
                             if (!actualScore1 || !actualScore2) {
                                 participantScore = ''; // Leave empty if actual scores are not available
@@ -99,7 +97,8 @@
                             break;
                         }
                     }
-                    participantCSV += `${date},${team1},${team2},${participantScore}\n`;
+
+                    participantCSV += `${date},${team1},${team2},${predictedScore1},${predictedScore2},${participantScore}\n`;
                 }
 
                 const participantNameForFilename = participant.name.replace(/ /g, '_');
