@@ -173,6 +173,7 @@
             if (selectedFile) {
                 loadCSV(selectedFile, rows => {
                     loadCSV('./results_csv/Actual_Results.csv', actualResults => {
+                        actualResults = actualResults.map(resultRow => resultRow.map(cell => cell.trim())); // Trim cells in actualResults
                         displayTable('participantPredictions', rows, actualResults);
                     });
                 });
