@@ -90,13 +90,13 @@
                                     if (predicted1 === actual1 && predicted2 === actual2) {
                                         participantScore = 10;
                                     } else if ((actual1 - actual2 === predicted1 - predicted2) &&
-                                               ((actual1 > actual2 && predicted1 > predicted2) || 
-                                                (actual1 < actual2 && predicted1 < predicted2))) {
+                                               ((actual1 > actual2 && predicted1 > actual2) || 
+                                                (actual1 < actual2 && predicted1 < actual2))) {
                                         participantScore = 8;
                                     } else if (actual1 === actual2 && predicted1 === predicted2) {
                                         participantScore = 5;
-                                    } else if ((actual1 > actual2 && predicted1 > predicted2) || 
-                                               (actual1 < actual2 && predicted1 < predicted2)) {
+                                    } else if ((actual1 > actual2 && predicted1 > actual2) || 
+                                               (actual1 < actual2 && predicted1 < actual2)) {
                                         participantScore = 5;
                                     } else {
                                         participantScore = 0;
@@ -106,6 +106,29 @@
                             }
                         }
                         participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},${participantScore}\n`;
+                    }
+
+                    // Process lines 52 to 59
+                    for (let i = 51; i < 59; i++) {
+                        const row = participantRows[i];
+                        const date = row[0];
+                        const predictedTeam1 = row[1];
+                        const predictedTeam2 = row[2];
+                        const predictedWinner = row[3];
+                        let score = '';
+
+                        if (predictedWinner) {
+                            for (let j = 61; j <= 64; j++) {
+                                const actualResultRow = actualResultsRows[j];
+                                if (actualResultRow.includes(predictedWinner)) {
+                                    score = 20;
+                                    break;
+                                } else {
+                                    score = 0;
+                                }
+                            }
+                        }
+                        participantCSV += `${date},${predictedTeam1},${predictedTeam2},${predictedWinner},${score}\n`;
                     }
 
                     const participantNameForFilename = participant.name.replace(/ /g, '_');
