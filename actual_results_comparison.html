@@ -132,7 +132,7 @@
             });
         }
 
-        function displayTable(containerId, rows) {
+        function displayTable(containerId, rows, scores = []) {
             const boldText = [
                 'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 
                 'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final', 
@@ -140,14 +140,19 @@
             ];
 
             let tableHTML = '<table>';
-            rows.forEach(row => {
+            rows.forEach((row, rowIndex) => {
                 tableHTML += '<tr>';
-                row.forEach(cell => {
+                row.forEach((cell, cellIndex) => {
                     const cellContent = cell.trim();
                     const flagImg = flags[cellContent] ? `<img src="${flags[cellContent]}" class="flag"> ` : '';
                     const cellClass = boldText.includes(cellContent) ? 'bold-text' : '';
                     tableHTML += `<td class="${cellClass}">${flagImg}${cellContent}</td>`;
                 });
+                if (scores.length > 0 && rowIndex > 0) {
+                    scores[rowIndex - 1].forEach(score => {
+                        tableHTML += `<td>${score}</td>`;
+                    });
+                }
                 tableHTML += '</tr>';
             });
             tableHTML += '</table>';
@@ -164,9 +169,14 @@
             }
         }
 
-        // Load actual results on page load
+        // Load actual results and scores on page load
         window.onload = function() {
-            loadCSV('./results_csv/Actual_Results.csv', rows => displayTable('actualResults', rows));
+            loadCSV('./results_csv/Actual_Results.csv', rows => {
+                loadCSV('./results_csv/Scores.csv', scoreRows => {
+                    const scores = scoreRows.slice(1).map(row => row.slice(5)); // Skip header and extract scores
+                    displayTable('actualResults', rows, scores);
+                });
+            });
 
             fetch('./jsons/participants.json')
                 .then(response => response.json())
