@@ -135,6 +135,7 @@
                                 participantScore += 10;
                             }
                         }
+                        participantCSV += `${actualTeam1},${actualTeam2},${participantScore}\n`;
                     }
 
                     const participantNameForFilename = participant.name.replace(/ /g, '_');
