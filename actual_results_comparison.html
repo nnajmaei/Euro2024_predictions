@@ -49,6 +49,9 @@
         .bold-text {
             font-weight: bold;
         }
+        .flag {
+            vertical-align: middle;
+        }
     </style>
 </head>
 <body>
@@ -119,7 +122,7 @@
             });
         }
 
-        function displayTable(containerId, rows) {
+        function displayTable(containerId, rows, actualResults = null) {
             const boldText = [
                 'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 
                 'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final', 
@@ -129,11 +132,31 @@
             let tableHTML = '<table>';
             rows.forEach(row => {
                 tableHTML += '<tr>';
-                row.forEach(cell => {
+                row.forEach((cell, cellIndex) => {
                     const cellContent = cell.trim();
                     const flagImg = flags[cellContent] ? `<img src="${flags[cellContent]}" class="flag"> ` : '';
                     const cellClass = boldText.includes(cellContent) ? 'bold-text' : '';
                     tableHTML += `<td class="${cellClass}">${flagImg}${cellContent}</td>`;
+
+                    if (actualResults && cellIndex > 0 && !isNaN(cellContent)) {
+                        const actualScore1 = parseInt(actualResults[0]);
+                        const actualScore2 = parseInt(actualResults[1]);
+                        const predictedScore1 = parseInt(cellContent);
+                        const predictedScore2 = parseInt(row[cellIndex + 1]);
+
+                        let participantScore = 0;
+                        if (predictedScore1 === actualScore1 && predictedScore2 === actualScore2) {
+                            participantScore = 10;
+                        } else if ((actualScore1 - actualScore2 === predictedScore1 - predictedScore2) && (actualScore1 > actualScore2 && predictedScore1 > predictedScore2 || actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
+                            participantScore = 8;
+                        } else if (actualScore1 === actualScore2 && predictedScore1 === predictedScore2) {
+                            participantScore = 5;
+                        } else if ((actualScore1 > actualScore2 && predictedScore1 > predictedScore2) || (actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
+                            participantScore = 5;
+                        }
+
+                        tableHTML += `<td>${participantScore}</td>`;
+                    }
                 });
                 tableHTML += '</tr>';
             });
@@ -145,7 +168,11 @@
             const participantSelect = document.getElementById('participantSelect');
             const selectedFile = participantSelect.value;
             if (selectedFile) {
-                loadCSV(selectedFile, rows => displayTable('participantPredictions', rows));
+                loadCSV(selectedFile, rows => {
+                    loadCSV('./results_csv/Actual_Results.csv', actualResults => {
+                        displayTable('participantPredictions', rows, actualResults);
+                    });
+                });
             } else {
                 document.getElementById('participantPredictions').innerHTML = '';
             }
