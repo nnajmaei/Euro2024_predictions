@@ -67,10 +67,15 @@
                     let participantScore = '';
 
                     for (const row of actualResultsRows) {
-                        if (row.includes(team1) && row.includes(team2)) {
-                            const actualScore1 = row[2];
-                            const actualScore2 = row[4];
+                        if (row.length < 5 || !row[0] || !row[1] || !row[2] || !row[3] || !row[4]) continue; // Skip empty or incomplete rows
 
+                        const actualDate = row[0];
+                        const actualTeam1 = row[1];
+                        const actualScore1 = row[2];
+                        const actualTeam2 = row[3];
+                        const actualScore2 = row[4];
+
+                        if (actualTeam1 === team1 && actualTeam2 === team2) {
                             if (!actualScore1 || !actualScore2) {
                                 participantScore = ''; // Leave empty if actual scores are not available
                             } else {
@@ -89,7 +94,7 @@
                                     participantScore = 5;
                                 } else if ((actual1 > actual2 && predicted1 > predicted2) || 
                                            (actual1 < actual2 && predicted1 < predicted2)) {
-                                    participantScore = 5;
+                                    participantScore = 3;
                                 } else {
                                     participantScore = 0;
                                 }
