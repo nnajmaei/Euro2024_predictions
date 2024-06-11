@@ -182,6 +182,28 @@
                         participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},${participantScore}\n`;
                     }
 
+                    for (let i = 51; i < 59; i++) {
+                        const row = participantRows[i];
+                        const date = row[0];
+                        const predictedTeam1 = row[1];
+                        const predictedTeam2 = row[2];
+                        const predictedWinner = row[3];
+                        let score = '';
+
+                        if (predictedWinner) {
+                            for (let j = 68; j <= 69; j++) {
+                                const actualResultRow = actualResultsRows[j];
+                                if (actualResultRow.includes(predictedWinner)) {
+                                    score = 40;
+                                    break;
+                                } else {
+                                    score = 0;
+                                }
+                            }
+                        }
+                        participantCSV += `${date},${predictedTeam1},${predictedTeam2},${predictedWinner},,${score}\n`;
+                    }
+
                     const participantNameForFilename = participant.name.replace(/ /g, '_');
                     downloadCSV(participantCSV, `${participantNameForFilename}_scores.csv`);
                 }
