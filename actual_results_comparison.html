@@ -15,6 +15,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 10px;
+            table-layout: fixed;
         }
         table, th, td {
             border: 1px solid black;
@@ -54,11 +55,11 @@
         .aligned-tables {
             display: flex;
         }
-        .aligned-tables table {
-            table-layout: fixed;
-        }
         .aligned-tables th, .aligned-tables td {
             width: calc(100% / 4); /* Adjust the number 4 based on the actual number of columns */
+        }
+        .participant-predictions .date-column {
+            display: none;
         }
     </style>
 </head>
@@ -80,7 +81,7 @@
                     <option value="">Select...</option>
                 </select>
             </div>
-            <div id="participantPredictions" class="aligned-tables"></div>
+            <div id="participantPredictions" class="aligned-tables participant-predictions"></div>
         </div>
     </div>
 
@@ -132,7 +133,7 @@
             });
         }
 
-        function displayTable(containerId, rows) {
+        function displayTable(containerId, rows, hideDateColumn = false) {
             const boldText = [
                 'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 
                 'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final', 
@@ -140,13 +141,14 @@
             ];
 
             let tableHTML = '<table>';
-            rows.forEach(row => {
+            rows.forEach((row, rowIndex) => {
                 tableHTML += '<tr>';
-                row.forEach(cell => {
+                row.forEach((cell, cellIndex) => {
                     const cellContent = cell.trim();
                     const flagImg = flags[cellContent] ? `<img src="${flags[cellContent]}" class="flag"> ` : '';
                     const cellClass = boldText.includes(cellContent) ? 'bold-text' : '';
-                    tableHTML += `<td class="${cellClass}">${flagImg}${cellContent}</td>`;
+                    const dateClass = hideDateColumn && cellIndex === 0 ? 'date-column' : '';
+                    tableHTML += `<td class="${cellClass} ${dateClass}">${flagImg}${cellContent}</td>`;
                 });
                 tableHTML += '</tr>';
             });
@@ -158,7 +160,7 @@
             const participantSelect = document.getElementById('participantSelect');
             const selectedFile = participantSelect.value;
             if (selectedFile) {
-                loadCSV(selectedFile, rows => displayTable('participantPredictions', rows));
+                loadCSV(selectedFile, rows => displayTable('participantPredictions', rows, true));
             } else {
                 document.getElementById('participantPredictions').innerHTML = '';
             }
