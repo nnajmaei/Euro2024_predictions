@@ -47,7 +47,7 @@
 
                 const actualResultsResponse = await fetch('./results_csv/Actual_Results.csv');
                 const actualResultsData = await actualResultsResponse.text();
-                const actualResultsRows = actualResultsData.split('\n').map(row => row.split(','));
+                const actualResultsRows = actualResultsData.split('\n').map(row => row.split(',')).slice(0, 100);
 
                 for (const participant of participants.participants) {
                     let participantCSV = 'date,team 1,predicted score 1,team 2,predicted score 2,score\n';
@@ -57,7 +57,10 @@
                     const participantRows = csvData.split('\n').map(row => row.split(','));
 
                     for (const row of actualResultsRows) {
-                        if (!row[0]) continue; // Skip rows without necessary team and date information
+                        if (!row[0]) {
+                            participantCSV += '\n';
+                            continue; // Keep empty lines in output
+                        }
 
                         const date = row[0];
                         const team1 = row[1];
