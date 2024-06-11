@@ -47,7 +47,7 @@
 
                 const actualResultsResponse = await fetch('./results_csv/Actual_Results.csv');
                 const actualResultsData = await actualResultsResponse.text();
-                const actualResultsRows = actualResultsData.split('\n').map(row => row.split(',')).slice(0, 50);
+                const actualResultsRows = actualResultsData.split('\n').map(row => row.split(',')).slice(0, 100);
 
                 for (const participant of participants.participants) {
                     let participantCSV = 'date,team 1,predicted score 1,team 2,predicted score 2,score\n';
@@ -63,10 +63,10 @@
                         }
 
                         const date = row[0];
-                        const team1 = row[1];
-                        const team2 = row[3];
-                        const actualScore1 = row[2];
-                        const actualScore2 = row[4];
+                        const team1 = row[1] || '';
+                        const team2 = row[3] || '';
+                        const actualScore1 = row[2] || '';
+                        const actualScore2 = row[4] || '';
 
                         let participantScore = '';
                         let predictedScore1 = '';
@@ -76,8 +76,8 @@
                             if (pRow.includes(team1) && pRow.includes(team2)) {
                                 const country1Index = pRow.indexOf(team1);
                                 const country2Index = pRow.indexOf(team2);
-                                predictedScore1 = pRow[country1Index + 1];
-                                predictedScore2 = pRow[country2Index + 1];
+                                predictedScore1 = pRow[country1Index + 1] || '';
+                                predictedScore2 = pRow[country2Index + 1] || '';
 
                                 if (actualScore1 && actualScore2) {
                                     const actual1 = parseInt(actualScore1);
