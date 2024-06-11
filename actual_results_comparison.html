@@ -15,8 +15,6 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 10px;
-            vertical-align: top;
-            justify-content: center;
         }
         table, th, td {
             border: 1px solid black;
@@ -49,6 +47,10 @@
         .bold-text {
             font-weight: bold;
         }
+        .participant-select-container {
+            display: flex;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -62,11 +64,13 @@
             <div id="actualResults"></div>
         </div>
         <div class="table-container">
-            <h2>Participant Predictions</h2>
-            <label for="participantSelect">Select Participant:</label>
-            <select id="participantSelect" onchange="loadParticipantPredictions()">
-                <option value="">Select...</option>
-            </select>
+            <div class="participant-select-container">
+                <h2>Participant Predictions</h2>
+                <label for="participantSelect" style="margin-left: 10px;">Select Participant:</label>
+                <select id="participantSelect" onchange="loadParticipantPredictions()">
+                    <option value="">Select...</option>
+                </select>
+            </div>
             <div id="participantPredictions"></div>
         </div>
     </div>
