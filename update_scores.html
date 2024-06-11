@@ -131,6 +131,29 @@
                         participantCSV += `${date},${predictedTeam1},${predictedTeam2},${predictedWinner},${score}\n`;
                     }
 
+                    // Process lines 62 to 65
+                    for (let i = 61; i < 65; i++) {
+                        const row = participantRows[i];
+                        const date = row[0];
+                        const predictedTeam1 = row[1];
+                        const predictedTeam2 = row[2];
+                        const predictedWinner = row[3];
+                        let score = '';
+
+                        if (predictedWinner) {
+                            for (let j = 67; j <= 68; j++) {
+                                const actualResultRow = actualResultsRows[j];
+                                if (actualResultRow.includes(predictedWinner)) {
+                                    score = 40;
+                                    break;
+                                } else {
+                                    score = 0;
+                                }
+                            }
+                        }
+                        participantCSV += `${date},${predictedTeam1},${predictedTeam2},${predictedWinner},${score}\n`;
+                    }
+
                     const participantNameForFilename = participant.name.replace(/ /g, '_');
                     downloadCSV(participantCSV, `${participantNameForFilename}_scores.csv`);
                 }
