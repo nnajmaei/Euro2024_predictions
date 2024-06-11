@@ -132,8 +132,8 @@
             'Czechia': 'https://flagcdn.com/w20/cz.png'
         };
 
-        function loadCSV(file, callback) {
-            fetch(file)
+        function loadCSV(scores, callback) {
+            fetch(scores)
                 .then(response => response.text())
                 .then(data => {
                     const rows = data.split('\n').map(row => row.split(','));
@@ -146,7 +146,7 @@
             const participantSelect = document.getElementById('participantSelect');
             participants.forEach(participant => {
                 const option = document.createElement('option');
-                option.value = participant.file;
+                option.value = participant.scores;
                 option.text = participant.name;
                 participantSelect.add(option);
             });
@@ -176,9 +176,9 @@
 
         function loadParticipantPredictions() {
             const participantSelect = document.getElementById('participantSelect');
-            const selectedFile = participantSelect.value;
-            if (selectedFile) {
-                loadCSV(selectedFile, rows => displayTable('participantPredictions', rows));
+            const selectedscores = participantSelect.value;
+            if (selectedscores) {
+                loadCSV(selectedscores, rows => displayTable('participantPredictions', rows));
             } else {
                 document.getElementById('participantPredictions').innerHTML = '';
             }

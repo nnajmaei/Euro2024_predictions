@@ -339,18 +339,22 @@
                     }
 
                     // Process line 72
-                    let line72PredictedPlayer = participantRows[71][1];
-                    let line72Date = participantRows[71][0];
-                    let line72Score = '';
-                    if (line72PredictedPlayer) {
+                    const row = participantRows[71]; // Row 72 in the file (0-based index 71)
+                    const date = row[0];
+                    const predictedTeam1 = row[1];
+                    const predictedTeam2 = row[2];
+                    const predictedWinner = row[3];
+                    let score = '';
+
+                    if (predictedWinner) {
                         const actualResultRow = actualResultsRows[71]; // Row 72 in the file (0-based index 71)
-                        if (actualResultRow[3] && actualResultRow[3].includes(line72PredictedPlayer)) {
-                            line72Score = 80;
+                        if (actualResultRow[3] && actualResultRow[3].includes(predictedWinner)) {
+                            score = 80;
                         } else {
-                            line72Score = 0;
+                            score = 0;
                         }
                     }
-                    participantCSV += `${line72Date},${line72PredictedPlayer},,${line72Score}\n`;
+                    participantCSV += `${date},${predictedTeam1},${predictedTeam2},${predictedWinner},${score}\n`;
 
                     // Process lines 73 to 74
                     for (let i = 72; i < 74; i++) {
