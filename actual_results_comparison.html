@@ -126,7 +126,7 @@
             const participantSelect = document.getElementById('participantSelect');
             participants.forEach(participant => {
                 const option = document.createElement('option');
-                option.value = participant.file;
+                option.value = JSON.stringify(participant);
                 option.text = participant.name;
                 participantSelect.add(option);
             });
@@ -154,44 +154,62 @@
             document.getElementById(containerId).innerHTML = tableHTML;
         }
 
-        async function loadParticipantPredictions() {
+        function loadParticipantPredictions() {
             const participantSelect = document.getElementById('participantSelect');
-            const selectedFile = participantSelect.value;
-            if (selectedFile) {
-                const participant = participants.find(p => p.file === selectedFile);
-                const predictions = await fetchCSV(selectedFile);
-                const scores = await fetchCSV(participant.scores);
-                const combinedRows = combinePredictionsAndScores(predictions, scores);
-                displayTable('participantPredictions', combinedRows);
+            const selectedParticipant = JSON.parse(participantSelect.value);
+            const { file, scores } = selectedParticipant;
+
+            if (file && scores) {
+                Promise.all([
+                    fetch(file).then(response => response.text()),
+                    fetch(scores).then(response => response.text())
+                ])
+                .then(([predictionsData, scoresData]) => {
+                    const predictionRows = predictionsData.split('\n').map(row => row.split(','));
+                    const scoreRows = scoresData.split('\n').map(row => row.split(','));
+                    displayPredictionWithScores('participantPredictions', predictionRows, scoreRows);
+                })
+                .catch(error => console.error('Error loading predictions or scores:', error));
             } else {
                 document.getElementById('participantPredictions').innerHTML = '';
             }
         }
 
-        async function fetchCSV(file) {
-            const response = await fetch(file);
-            const data = await response.text();
-            return data.split('\n').map(row => row.split(','));
+        function displayPredictionWithScores(containerId, predictionRows, scoreRows) {
+            const boldText = [
+                'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 
+                'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final', 
+                'Top Goalscorer', 'Best Goalkeeper', 'Player of Tournament'
+            ];
+
+            let tableHTML = '<table>';
+            for (let i = 0; i < predictionRows.length; i++) {
+                tableHTML += '<tr>';
+                const predictionRow = predictionRows[i];
+                const scoreRow = scoreRows[i];
+                for (let j = 0; j < predictionRow.length; j++) {
+                    const cellContent = predictionRow[j].trim();
+                    const flagImg = flags[cellContent] ? `<img src="${flags[cellContent]}" class="flag"> ` : '';
+                    const cellClass = boldText.includes(cellContent) ? 'bold-text' : '';
+                    const scoreContent = scoreRow ? scoreRow[j] : ''; // Add score content if available
+                    tableHTML += `<td class="${cellClass}">${flagImg}${cellContent}</td>`;
+                    if (scoreContent) {
+                        tableHTML += `<td class="${cellClass}">${scoreContent}</td>`;
+                    }
+                }
+                tableHTML += '</tr>';
+            }
+            tableHTML += '</table>';
+            document.getElementById(containerId).innerHTML = tableHTML;
         }
 
-        function combinePredictionsAndScores(predictions, scores) {
-            return predictions.map((row, index) => {
-                const score = scores[index] ? scores[index][scores[index].length - 1] : '';
-                return [...row, score];
-            });
-        }
-
-        let participants = [];
         // Load actual results on page load
         window.onload = function() {
             loadCSV('./results_csv/Actual_Results.csv', rows => displayTable('actualResults', rows));
 
             fetch('./jsons/participants.json')
                 .then(response => response.json())
-                .then(data => {
-                    participants = data.participants;
-                    populateDropdowns(data.participants);
-                })
+                .then(data => populateDropdowns(data.participants))
                 .catch(error => console.error('Error loading participants list:', error));
         };
     </script>
