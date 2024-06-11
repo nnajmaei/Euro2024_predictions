@@ -1,7 +1,19 @@
 {
   "participants": [
-    { "name": "Nima N", "file": "./predictions_csv/Nima_N.csv" },
-    { "name": "Ramin R", "file": "./predictions_csv/Ramin_R.csv" },
-    { "name": "Shahriar N", "file": "./predictions_csv/Shahriar_N.csv" }
+    {
+      "name": "Nima N",
+      "file": "./predictions_csv/Nima_N.csv",
+      "scores": "./results/Nima_N_scores.csv"
+    },
+    {
+      "name": "Ramin R",
+      "file": "./predictions_csv/Ramin_R.csv",
+      "scores": "./results/Ramin_R_scores.csv"
+    },
+    {
+      "name": "Shahriar N",
+      "file": "./predictions_csv/Shahriar_N.csv",
+      "scores": "./results/Shahriar_N_scores.csv"
+    }
   ]
 }
