@@ -41,69 +41,75 @@
 
     <script>
         async function generateScoresCSV() {
-            const response = await fetch('./jsons/participants.json');
-            const participants = await response.json();
+            try {
+                const response = await fetch('./jsons/participants.json');
+                const participants = await response.json();
 
-            const actualResultsResponse = await fetch('./results_csv/Actual_Results.csv');
-            const actualResultsData = await actualResultsResponse.text();
-            const actualResultsRows = actualResultsData.split('\n').map(row => row.split(','));
+                const actualResultsResponse = await fetch('./results_csv/Actual_Results.csv');
+                const actualResultsData = await actualResultsResponse.text();
+                const actualResultsRows = actualResultsData.split('\n').map(row => row.split(','));
 
-            for (const participant of participants.participants) {
-                let participantCSV = 'date,team 1,team 2,predicted score 1, predicted score 2, score\n';
+                for (const participant of participants.participants) {
+                    let participantCSV = 'date,team 1,predicted score 1,team 2,predicted score 2,score\n';
 
-                for (const row of actualResultsRows) {
-                    if (row.length < 3 || !row[0] || !row[1] || !row[2]) continue; // Skip empty or incomplete rows
+                    const csvResponse = await fetch(participant.file);
+                    const csvData = await csvResponse.text();
+                    const participantRows = csvData.split('\n').map(row => row.split(','));
 
-                    const date = row[0];
-                    const team1 = row[1];
-                    const team2 = row[3];
-                    const actualScore1 = row[2];
-                    const actualScore2 = row[4];
+                    for (const row of actualResultsRows) {
+                        if (row.length < 5 || !row[0] || !row[1] || !row[2] || !row[3] || !row[4]) continue; // Skip empty or incomplete rows
 
-                const csvResponse = await fetch(participant.file);
-                const csvData = await csvResponse.text();
-                const participantRows = csvData.split('\n').map(row => row.split(','));
+                        const date = row[0];
+                        const team1 = row[1];
+                        const team2 = row[3];
+                        const actualScore1 = row[2];
+                        const actualScore2 = row[4];
 
-                    let participantScore = '';
+                        let participantScore = '';
+                        let predictedScore1 = '';
+                        let predictedScore2 = '';
 
-                    for (const pRow of participantRows) {
-                        if (pRow.includes(team1) && pRow.includes(team2)) {
-                            const country1Index = pRow.indexOf(team1);
-                            const country2Index = pRow.indexOf(team2);
-                            const predictedScore1 = pRow[country1Index + 1];
-                            const predictedScore2 = pRow[country2Index + 1];
+                        for (const pRow of participantRows) {
+                            if (pRow.includes(team1) && pRow.includes(team2)) {
+                                const country1Index = pRow.indexOf(team1);
+                                const country2Index = pRow.indexOf(team2);
+                                predictedScore1 = pRow[country1Index + 1];
+                                predictedScore2 = pRow[country2Index + 1];
 
-                            if (!actualScore1 || !actualScore2) {
-                                participantScore = ''; // Leave empty if actual scores are not available
-                            } else {
-                                const actual1 = parseInt(actualScore1);
-                                const actual2 = parseInt(actualScore2);
-                                const predicted1 = parseInt(predictedScore1);
-                                const predicted2 = parseInt(predictedScore2);
-
-                                if (predicted1 === actual1 && predicted2 === actual2) {
-                                    participantScore = 10;
-                                } else if ((actual1 - actual2 === predicted1 - predicted2) &&
-                                           ((actual1 > actual2 && predicted1 > predicted2) || 
-                                            (actual1 < actual2 && predicted1 < predicted2))) {
-                                    participantScore = 8;
-                                } else if (actual1 === actual2 && predicted1 === predicted2) {
-                                    participantScore = 5;
-                                } else if ((actual1 > actual2 && predicted1 > predicted2) || 
-                                           (actual1 < actual2 && predicted1 < predicted2)) {
-                                    participantScore = 5;
+                                if (!actualScore1 || !actualScore2) {
+                                    participantScore = ''; // Leave empty if actual scores are not available
                                 } else {
-                                    participantScore = 0;
-                                }
-                            }
-                            break;
-                        }
-                    }
-                    participantCSV += `${date},${team1},${team2},${predicted1},${predicted2},${participantScore}\n`;
-                }
+                                    const actual1 = parseInt(actualScore1);
+                                    const actual2 = parseInt(actualScore2);
+                                    const predicted1 = parseInt(predictedScore1);
+                                    const predicted2 = parseInt(predictedScore2);
 
-                const participantNameForFilename = participant.name.replace(/ /g, '_');
-                downloadCSV(participantCSV, `${participantNameForFilename}_scores.csv`);
+                                    if (predicted1 === actual1 && predicted2 === actual2) {
+                                        participantScore = 10;
+                                    } else if ((actual1 - actual2 === predicted1 - predicted2) &&
+                                               ((actual1 > actual2 && predicted1 > predicted2) || 
+                                                (actual1 < actual2 && predicted1 < predicted2))) {
+                                        participantScore = 8;
+                                    } else if (actual1 === actual2 && predicted1 === predicted2) {
+                                        participantScore = 5;
+                                    } else if ((actual1 > actual2 && predicted1 > predicted2) || 
+                                               (actual1 < actual2 && predicted1 < predicted2)) {
+                                        participantScore = 5;
+                                    } else {
+                                        participantScore = 0;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                        participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},${participantScore}\n`;
+                    }
+
+                    const participantNameForFilename = participant.name.replace(/ /g, '_');
+                    downloadCSV(participantCSV, `${participantNameForFilename}_scores.csv`);
+                }
+            } catch (error) {
+                console.error('Error generating scores CSV:', error);
             }
         }
 
