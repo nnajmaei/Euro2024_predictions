@@ -58,7 +58,7 @@
             table-layout: fixed;
         }
         .aligned-tables th, .aligned-tables td {
-            width: calc(100% / 4); /* Adjust the number 4 based on the actual number of columns */
+            width: calc(100% / 5); /* Adjust the number 5 based on the actual number of columns */
         }
     </style>
 </head>
@@ -191,9 +191,9 @@
                     const cellContent = predictionRow[j].trim();
                     const flagImg = flags[cellContent] ? `<img src="${flags[cellContent]}" class="flag"> ` : '';
                     const cellClass = boldText.includes(cellContent) ? 'bold-text' : '';
-                    const scoreContent = scoreRow ? scoreRow[j] : ''; // Add score content if available
                     tableHTML += `<td class="${cellClass}">${flagImg}${cellContent}</td>`;
-                    if (scoreContent) {
+                    if (j === 3 && scoreRow) { // Only add the score if it's the fourth column
+                        const scoreContent = scoreRow[3] ? scoreRow[3].trim() : ''; // Add score content if available
                         tableHTML += `<td class="${cellClass}">${scoreContent}</td>`;
                     }
                 }
