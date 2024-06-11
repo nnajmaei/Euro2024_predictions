@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Predictions Scores</title>
+    <title>Participant Results vs. Euro2024 Results</title>
     <style>
         body {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -11,94 +11,225 @@
             background-color: #1e1e1e;
             color: #7c7a7a;
         }
-        .button-container {
-            text-align: center;
-            margin-top: 20px;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+            vertical-align: top;
+            justify-content: center;
         }
-        button {
-            background-color: #fff;
-            color: #000;
-            padding: 10px 20px;
-            margin-top: 10px;
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #333333;
+        }
+        select {
+            width: 200px;
+            background-color: #6b6a6a;
+            color: #fff;
             border: 1px solid #444444;
-            cursor: pointer;
-            height: 36px;
+        }
+        .comparison-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .table-container {
+            width: 45%;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .bold-text {
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="button-container">
-        <button onclick="updateScores()">Update Scores</button>
+    <div class="logo-container">
+        <img src="./logos/logo.png" alt="Euro 2024 Logo" style="width:200px;">
     </div>
-    <div id="resultsContainer" class="center"></div>
+    <h1>Participant Results vs. Euro2024 Results</h1>
+    <div class="comparison-container">
+        <div class="table-container">
+            <h2>Actual Results</h2>
+            <div id="actualResults"></div>
+        </div>
+        <div class="table-container">
+            <h2>Participant Predictions</h2>
+            <label for="participantSelect">Select Participant:</label>
+            <select id="participantSelect" onchange="loadParticipantPredictions()">
+                <option value="">Select...</option>
+            </select>
+            <div id="participantPredictions"></div>
+        </div>
+    </div>
 
     <script>
-        async function fetchCSV(filePath) {
-            const response = await fetch(filePath);
-            const text = await response.text();
-            return text.split('\n').map(row => row.split(','));
+        const flags = {
+            'Germany': 'https://flagcdn.com/w20/de.png',
+            'Scotland': 'https://flagcdn.com/w20/gb-sct.png',
+            'Hungary': 'https://flagcdn.com/w20/hu.png',
+            'Switzerland': 'https://flagcdn.com/w20/ch.png',
+            'Spain': 'https://flagcdn.com/w20/es.png',
+            'Croatia': 'https://flagcdn.com/w20/hr.png',
+            'Italy': 'https://flagcdn.com/w20/it.png',
+            'Albania': 'https://flagcdn.com/w20/al.png',
+            'Serbia': 'https://flagcdn.com/w20/rs.png',
+            'England': 'https://flagcdn.com/w20/gb-eng.png',
+            'Slovenia': 'https://flagcdn.com/w20/si.png',
+            'Denmark': 'https://flagcdn.com/w20/dk.png',
+            'Poland': 'https://flagcdn.com/w20/pl.png',
+            'Netherlands': 'https://flagcdn.com/w20/nl.png',
+            'Austria': 'https://flagcdn.com/w20/at.png',
+            'France': 'https://flagcdn.com/w20/fr.png',
+            'Romania': 'https://flagcdn.com/w20/ro.png',
+            'Ukraine': 'https://flagcdn.com/w20/ua.png',
+            'Belgium': 'https://flagcdn.com/w20/be.png',
+            'Slovakia': 'https://flagcdn.com/w20/sk.png',
+            'Turkey': 'https://flagcdn.com/w20/tr.png',
+            'Georgia': 'https://flagcdn.com/w20/ge.png',
+            'Portugal': 'https://flagcdn.com/w20/pt.png',
+            'Czechia': 'https://flagcdn.com/w20/cz.png'
+        };
+
+        function loadCSV(file, callback) {
+            fetch(file)
+                .then(response => response.text())
+                .then(data => {
+                    const rows = data.split('\n').map(row => row.split(','));
+                    callback(rows);
+                })
+                .catch(error => console.error('Error loading CSV:', error));
         }
 
-        async function updateScores() {
-            const participantsResponse = await fetch('./jsons/participants.json');
-            const participants = await participantsResponse.json();
+        function populateDropdowns(participants) {
+            const participantSelect = document.getElementById('participantSelect');
+            participants.forEach(participant => {
+                const option = document.createElement('option');
+                option.value = participant.file;
+                option.text = participant.name;
+                participantSelect.add(option);
+            });
+        }
 
-            const actualResults = await fetchCSV('./results_csv/Actual_Results.csv');
-            let updateResultsHTML = '';
+        function displayTable(containerId, rows) {
+            const boldText = [
+                'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 
+                'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final', 
+                'Top Goalscorer', 'Best Goalkeeper', 'Player of Tournament'
+            ];
 
-            for (const participant of participants.participants) {
-                const participantCSVPath = participant.file;
-                let participantData = await fetchCSV(participantCSVPath);
+            let tableHTML = '<table>';
+            rows.forEach(row => {
+                tableHTML += '<tr>';
+                row.forEach(cell => {
+                    const cellContent = cell.trim();
+                    const flagImg = flags[cellContent] ? `<img src="${flags[cellContent]}" class="flag"> ` : '';
+                    const cellClass = boldText.includes(cellContent) ? 'bold-text' : '';
+                    tableHTML += `<td class="${cellClass}">${flagImg}${cellContent}</td>`;
+                });
+                tableHTML += '</tr>';
+            });
+            tableHTML += '</table>';
+            document.getElementById(containerId).innerHTML = tableHTML;
+        }
 
-                for (let i = 0; i < participantData.length; i++) {
-                    const row = participantData[i];
-                    const country1 = row[1];
-                    const country2 = row[3];
-
-                    const actualResultRow = actualResults.find(r => r.includes(country1) && r.includes(country2));
-                    if (actualResultRow && actualResultRow[1] !== '' && actualResultRow[3] !== '') {
-                        const actualScore1 = parseInt(actualResultRow[1], 10);
-                        const actualScore2 = parseInt(actualResultRow[3], 10);
-                        const predictedScore1 = parseInt(row[2], 10);
-                        const predictedScore2 = parseInt(row[4], 10);
-
-                        let score = 0;
-                        if (predictedScore1 === actualScore1 && predictedScore2 === actualScore2) {
-                            score = 10;
-                        } else if ((actualScore1 > actualScore2 && predictedScore1 > predictedScore2 && actualScore1 - actualScore2 === predictedScore1 - predictedScore2) ||
-                                   (actualScore1 < actualScore2 && predictedScore1 < predictedScore2 && actualScore2 - actualScore1 === predictedScore2 - predictedScore1)) {
-                            score = 8;
-                        } else if (actualScore1 === actualScore2 && predictedScore1 === predictedScore2) {
-                            score = 5;
-                        } else if ((actualScore1 > actualScore2 && predictedScore1 > predictedScore2) ||
-                                   (actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
-                            score = 5;
-                        }
-
-                        console.log(`Game: ${country1} vs ${country2}`);
-                        console.log(`Actual Score: ${actualScore1} - ${actualScore2}`);
-                        console.log(`Predicted Score: ${predictedScore1} - ${predictedScore2}`);
-                        console.log(`Calculated Score: ${score}`);
-
-                        participantData[i].push(score.toString());
-                    }
-                }
-
-                // Convert updated data back to CSV format
-                const updatedCSVContent = participantData.map(row => row.join(',')).join('\n');
-
-                // Save updated CSV content
-                const blob = new Blob([updatedCSVContent], { type: 'text/csv' });
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = participantCSVPath.split('/').pop(); // Get the file name
-                a.click();
-
-                updateResultsHTML += `<p>Updated scores for ${participant.name} and saved to ${participantCSVPath}</p>`;
+        function loadParticipantPredictions() {
+            const participantSelect = document.getElementById('participantSelect');
+            const selectedFile = participantSelect.value;
+            if (selectedFile) {
+                loadCSV(selectedFile, rows => displayTable('participantPredictions', rows));
+            } else {
+                document.getElementById('participantPredictions').innerHTML = '';
             }
-
-            document.getElementById('resultsContainer').innerHTML = updateResultsHTML;
         }
+
+        function calculateScores(actualResults, participants) {
+            const scores = [];
+            actualResults.forEach((actualResult) => {
+                const [date, team1, team1Score, team2, team2Score] = actualResult;
+                if (team1Score !== undefined && team2Score !== undefined) {
+                    const row = [date, team1, team2, team1Score, team2Score];
+
+                    participants.forEach((participant) => {
+                        const participantFile = participant.file;
+                        loadCSV(participantFile, (rows) => {
+                            rows.forEach((row) => {
+                                if (row.includes(team1) && row.includes(team2)) {
+                                    const team1Index = row.indexOf(team1);
+                                    const team2Index = row.indexOf(team2);
+                                    const predictedScore1 = parseInt(row[team1Index + 1]);
+                                    const predictedScore2 = parseInt(row[team2Index + 1]);
+                                    const actualScore1 = parseInt(team1Score);
+                                    const actualScore2 = parseInt(team2Score);
+
+                                    let score = 0;
+                                    if (predictedScore1 === actualScore1 && predictedScore2 === actualScore2) {
+                                        score = 10;
+                                    } else if ((actualScore1 - actualScore2 === predictedScore1 - predictedScore2) && (actualScore1 > actualScore2 && predictedScore1 > predictedScore2 || actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
+                                        score = 8;
+                                    } else if (actualScore1 === actualScore2 && predictedScore1 === predictedScore2) {
+                                        score = 5;
+                                    } else if ((actualScore1 > actualScore2 && predictedScore1 > predictedScore2) || (actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
+                                        score = 5;
+                                    }
+
+                                    row.push(score);
+                                }
+                            });
+                        });
+                    });
+
+                    scores.push(row);
+                }
+            });
+
+            return scores;
+        }
+
+        function createScoresCSV(scores, participants) {
+            let csvContent = "data:text/csv;charset=utf-8,Date,Team1,Team2,Actual Score1,Actual Score2";
+            participants.forEach(participant => {
+                csvContent += `,${participant.name}`;
+            });
+            csvContent += "\n";
+
+            scores.forEach(row => {
+                csvContent += row.join(",") + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "scores.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Load actual results on page load
+        window.onload = function() {
+            loadCSV('./results_csv/Actual_Results.csv', actualResults => {
+                displayTable('actualResults', actualResults);
+
+                fetch('./jsons/participants.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        populateDropdowns(data.participants);
+
+                        const scores = calculateScores(actualResults, data.participants);
+                        createScoresCSV(scores, data.participants);
+                    })
+                    .catch(error => console.error('Error loading participants list:', error));
+            });
+        };
     </script>
 </body>
 </html>
