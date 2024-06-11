@@ -57,7 +57,7 @@
                     const participantRows = csvData.split('\n').map(row => row.split(','));
 
                     for (const row of actualResultsRows) {
-                        if (row.length < 1 || !row[0] || !row[1] || !row[2] || !row[3]) continue; // Skip empty or incomplete rows
+                        if (row.length < 5 || !row[0] || !row[1] || !row[2] || !row[3] || !row[4]) continue; // Skip incomplete rows
 
                         const date = row[0];
                         const team1 = row[1];
@@ -76,9 +76,7 @@
                                 predictedScore1 = pRow[country1Index + 1];
                                 predictedScore2 = pRow[country2Index + 1];
 
-                                if (!actualScore1 || !actualScore2) {
-                                    participantScore = ''; // Leave empty if actual scores are not available
-                                } else {
+                                if (actualScore1 && actualScore2) {
                                     const actual1 = parseInt(actualScore1);
                                     const actual2 = parseInt(actualScore2);
                                     const predicted1 = parseInt(predictedScore1);
