@@ -47,7 +47,7 @@
 
                 const actualResultsResponse = await fetch('./results_csv/Actual_Results.csv');
                 const actualResultsData = await actualResultsResponse.text();
-                const actualResultsRows = actualResultsData.split('\n').map(row => row.split(',')).slice(0, 100);
+                const actualResultsRows = actualResultsData.split('\n').map(row => row.split(',')).slice(0, 49);
 
                 for (const participant of participants.participants) {
                     let participantCSV = 'date,team 1,predicted score 1,team 2,predicted score 2,score\n';
