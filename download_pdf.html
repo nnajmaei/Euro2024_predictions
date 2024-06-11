@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,15 +13,18 @@
             background-color: #1e1e1e;
             color: #7c7a7a;
         }
+
         .logo-container {
             display: flex;
             justify-content: center;
             margin-bottom: 20px;
         }
+
         .button-container {
             text-align: center;
             margin-top: 20px;
         }
+
         button {
             background-color: #4CAF50;
             color: white;
@@ -35,6 +39,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="logo-container">
         <img src="./logos/logo.png" alt="Euro 2024 Logo" style="width:200px;">
@@ -65,7 +70,7 @@
                 const logoY = (pageHeight - logoHeight) / 2 - 40; // Adjust Y position to leave space for text
 
                 pdf.addImage(logoDataUrl, 'PNG', logoX, logoY, logoWidth, logoHeight);
-                
+
                 pdf.setFontSize(16);
                 pdf.text('All Participants Predictions', pageWidth / 2, logoY + logoHeight + 20, { align: 'center' });
 
@@ -90,8 +95,8 @@
                 pdf.addPage();
 
                 const boldText = [
-                    'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 
-                    'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final', 
+                    'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F',
+                    'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final',
                     'Top Goalscorer', 'Best Goalkeeper', 'Player of Tournament', 'Additional Predictions'
                 ];
 
@@ -145,4 +150,5 @@
         }
     </script>
 </body>
+
 </html>

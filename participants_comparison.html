@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
             background-color: #1e1e1e;
             color: #7c7a7a;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -18,39 +20,51 @@
             vertical-align: top;
             justify-content: center;
         }
-        table, th, td {
+
+        table,
+        th,
+        td {
             border: 1px solid black;
         }
-        th, td {
+
+        th,
+        td {
             padding: 8px;
             text-align: left;
         }
+
         th {
             background-color: #333333;
         }
+
         select {
             width: 200px;
             background-color: #6b6a6a;
             color: #fff;
             border: 1px solid #444444;
         }
+
         .comparison-container {
             display: flex;
             justify-content: space-between;
         }
+
         .participant-container {
             width: 30%;
         }
+
         .logo-container {
             display: flex;
             justify-content: center;
             margin-bottom: 20px;
         }
+
         .bold-text {
             font-weight: bold;
         }
     </style>
 </head>
+
 <body>
     <div class="logo-container">
         <img src="./logos/logo.png" alt="Euro 2024 Logo" style="width:200px;">
@@ -142,8 +156,8 @@
                                 const cellContent = cell.trim();
                                 const flagImg = flags[cellContent] ? `<img src="${flags[cellContent]}" class="flag"> ` : '';
                                 const boldText = [
-                                    'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 
-                                    'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final', 
+                                    'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F',
+                                    'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final',
                                     'Top Goalscorer', 'Best Goalkeeper', 'Player of Tournament'
                                 ];
                                 const cellClass = boldText.includes(cellContent) ? 'bold-text' : '';
@@ -164,7 +178,7 @@
         }
 
         // Fetch the JSON file and populate dropdowns on page load
-        window.onload = function() {
+        window.onload = function () {
             fetch('./jsons/participants.json')
                 .then(response => response.json())
                 .then(data => populateDropdowns(data.participants))
@@ -172,4 +186,5 @@
         };
     </script>
 </body>
+
 </html>

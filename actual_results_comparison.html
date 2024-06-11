@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,57 +12,76 @@
             background-color: #1e1e1e;
             color: #7c7a7a;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 10px;
         }
-        table, th, td {
+
+        table,
+        th,
+        td {
             border: 1px solid black;
         }
-        th, td {
+
+        th,
+        td {
             padding: 8px;
             text-align: left;
         }
+
         th {
             background-color: #333333;
         }
+
         select {
             width: 200px;
             background-color: #6b6a6a;
             color: #fff;
             border: 1px solid #444444;
         }
+
         .comparison-container {
             display: flex;
             justify-content: space-between;
         }
+
         .table-container {
             width: 45%;
         }
+
         .logo-container {
             display: flex;
             justify-content: center;
             margin-bottom: 20px;
         }
+
         .bold-text {
             font-weight: bold;
         }
+
         .participant-select-container {
             display: flex;
             align-items: center;
         }
+
         .aligned-tables {
             display: flex;
         }
+
         .aligned-tables table {
             table-layout: fixed;
         }
-        .aligned-tables th, .aligned-tables td {
-            width: calc(100% / 4); /* Adjust the number 4 based on the actual number of columns */
+
+        .aligned-tables th,
+        .aligned-tables td {
+            width: calc(100% / 4);
+            /* Adjust the number 4 based on the actual number of columns */
         }
     </style>
 </head>
+
 <body>
     <div class="logo-container">
         <img src="./logos/logo.png" alt="Euro 2024 Logo" style="width:200px;">
@@ -134,8 +154,8 @@
 
         function displayTable(containerId, rows) {
             const boldText = [
-                'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 
-                'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final', 
+                'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F',
+                'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final',
                 'Top Goalscorer', 'Best Goalkeeper', 'Player of Tournament'
             ];
 
@@ -165,7 +185,7 @@
         }
 
         // Load actual results on page load
-        window.onload = function() {
+        window.onload = function () {
             loadCSV('./results_csv/Actual_Results.csv', rows => displayTable('actualResults', rows));
 
             fetch('./jsons/participants.json')
@@ -175,4 +195,5 @@
         };
     </script>
 </body>
+
 </html>
