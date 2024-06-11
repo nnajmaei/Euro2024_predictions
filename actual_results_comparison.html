@@ -51,6 +51,15 @@
             display: flex;
             align-items: center;
         }
+        .aligned-tables {
+            display: flex;
+        }
+        .aligned-tables table {
+            table-layout: fixed;
+        }
+        .aligned-tables th, .aligned-tables td {
+            width: calc(100% / 4); /* Adjust the number 4 based on the actual number of columns */
+        }
     </style>
 </head>
 <body>
@@ -61,7 +70,7 @@
     <div class="comparison-container">
         <div class="table-container">
             <h2>Actual Results</h2>
-            <div id="actualResults"></div>
+            <div id="actualResults" class="aligned-tables"></div>
         </div>
         <div class="table-container">
             <div class="participant-select-container">
@@ -71,7 +80,7 @@
                     <option value="">Select...</option>
                 </select>
             </div>
-            <div id="participantPredictions"></div>
+            <div id="participantPredictions" class="aligned-tables"></div>
         </div>
     </div>
 
