@@ -58,7 +58,7 @@
             table-layout: fixed;
         }
         .aligned-tables th, .aligned-tables td {
-            width: calc(100% / 5); /* Adjust the number 5 based on the actual number of columns */
+            width: calc(100% / 4); /* Adjust the number 4 based on the actual number of columns */
         }
     </style>
 </head>
@@ -126,7 +126,7 @@
             const participantSelect = document.getElementById('participantSelect');
             participants.forEach(participant => {
                 const option = document.createElement('option');
-                option.value = JSON.stringify(participant);
+                option.value = participant.file;
                 option.text = participant.name;
                 participantSelect.add(option);
             });
@@ -156,51 +156,12 @@
 
         function loadParticipantPredictions() {
             const participantSelect = document.getElementById('participantSelect');
-            const selectedParticipant = JSON.parse(participantSelect.value);
-            const { file, scores } = selectedParticipant;
-
-            if (file && scores) {
-                Promise.all([
-                    fetch(file).then(response => response.text()),
-                    fetch(scores).then(response => response.text())
-                ])
-                .then(([predictionsData, scoresData]) => {
-                    const predictionRows = predictionsData.split('\n').map(row => row.split(','));
-                    const scoreRows = scoresData.split('\n').map(row => row.split(','));
-                    displayPredictionWithScores('participantPredictions', predictionRows, scoreRows);
-                })
-                .catch(error => console.error('Error loading predictions or scores:', error));
+            const selectedFile = participantSelect.value;
+            if (selectedFile) {
+                loadCSV(selectedFile, rows => displayTable('participantPredictions', rows));
             } else {
                 document.getElementById('participantPredictions').innerHTML = '';
             }
-        }
-
-        function displayPredictionWithScores(containerId, predictionRows, scoreRows) {
-            const boldText = [
-                'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 
-                'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final', 
-                'Top Goalscorer', 'Best Goalkeeper', 'Player of Tournament'
-            ];
-
-            let tableHTML = '<table>';
-            for (let i = 0; i < predictionRows.length; i++) {
-                tableHTML += '<tr>';
-                const predictionRow = predictionRows[i];
-                const scoreRow = scoreRows[i];
-                for (let j = 0; j < predictionRow.length; j++) {
-                    const cellContent = predictionRow[j].trim();
-                    const flagImg = flags[cellContent] ? `<img src="${flags[cellContent]}" class="flag"> ` : '';
-                    const cellClass = boldText.includes(cellContent) ? 'bold-text' : '';
-                    tableHTML += `<td class="${cellClass}">${flagImg}${cellContent}</td>`;
-                    if (j === 3 && scoreRow) { // Only add the score if it's the fourth column
-                        const scoreContent = scoreRow[3] ? scoreRow[3].trim() : ''; // Add score content if available
-                        tableHTML += `<td class="${cellClass}">${scoreContent}</td>`;
-                    }
-                }
-                tableHTML += '</tr>';
-            }
-            tableHTML += '</table>';
-            document.getElementById(containerId).innerHTML = tableHTML;
         }
 
         // Load actual results on page load
