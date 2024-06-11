@@ -115,9 +115,10 @@
                             participantCSV += '\n';
                             continue; // Keep empty lines in output
                         }
-
-                        const team1 = row[0] || '';
-                        const team2 = row[1] || '';
+                        
+                        const date = row[0];
+                        const team1 = row[1] || '';
+                        const team2 = row[2] || '';
 
                         let participantScore = 0;
 
@@ -127,7 +128,7 @@
                                 break;
                             }
                         }
-                        participantCSV += `${team1},${team2},${participantScore}\n`;
+                        participantCSV += `${date},${team1},${team2},${participantScore}\n`;
                     }
 
                     const participantNameForFilename = participant.name.replace(/ /g, '_');
