@@ -57,7 +57,7 @@
                     const participantRows = csvData.split('\n').map(row => row.split(','));
 
                     // Process the first 49 rows
-                    for (let i = 0; i < 49; i++) {
+                    for (let i = 0; i < 51; i++) {
                         const row = actualResultsRows[i];
                         if (!row[0]) {
                             participantCSV += '\n';
@@ -109,7 +109,7 @@
                     }
 
                     // Process rows 50 to 59 for Round of 16
-                    for (let i = 49; i < 59; i++) {
+                    for (let i = 52; i < 59; i++) {
                         const row = actualResultsRows[i];
                         if (!row[0]) {
                             participantCSV += '\n';
