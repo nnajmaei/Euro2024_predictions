@@ -346,10 +346,94 @@
                     }
                     participantCSV += `${date},${predictedTeam1},${predictedTeam2},${predictedWinner},${score}\n`;
 
+                    for (let i = 72; i < 74; i++) {
+                        const row = actualResultsRows[i];
+                        if (!row[0]) {
+                            participantCSV += '\n';
+                            continue; // Keep empty lines in output
+                        }
+
+                        const date = row[0];
+                        const team1 = row[1] || '';
+                        const team2 = row[3] || '';
+                        const actualScore1 = row[2] || '';
+                        const actualScore2 = row[4] || '';
+
+                        let participantScore = '';
+                        let predictedScore1 = '';
+                        let predictedScore2 = '';
+
+                        for (const pRow of participantRows) {
+                            if (pRow.includes(team1) && pRow.includes(team2)) {
+                                const country1Index = pRow.indexOf(team1);
+                                const country2Index = pRow.indexOf(team2);
+                                predictedScore1 = pRow[country1Index + 1] || '';
+                                predictedScore2 = pRow[country2Index + 1] || '';
+
+                                if (actualScore1 && actualScore2) {
+                                    const actual1 = parseInt(actualScore1);
+                                    const actual2 = parseInt(actualScore2);
+                                    const predicted1 = parseInt(predictedScore1);
+                                    const predicted2 = parseInt(predictedScore2);
+
+                                    if (predicted1 === actual1 && predicted2 === actual2) {
+                                        participantScore = 10;
+                                    } else if ((actual1 - actual2 === predicted1 - predicted2) &&
+                                               ((actual1 > actual2 && predicted1 > actual2) || 
+                                                (actual1 < actual2 && predicted1 < actual2))) {
+                                        participantScore = 8;
+                                    } else if (actual1 === actual2 && predicted1 === predicted2) {
+                                        participantScore = 5;
+                                    } else if ((actual1 > actual2 && predicted1 > actual2) || 
+                                               (actual1 < actual2 && predicted1 < actual2)) {
+                                        participantScore = 5;
+                                    } else {
+                                        participantScore = 0;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                        participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},${participantScore}\n`;
+                    }
+
+                    if (line75PredictedPlayer) {
+                        const actualResultRow = actualResultsRows[74]; // Row 75 in the file (0-based index 74)
+                        if (actualResultRow[1] && actualResultRow[1].includes(line75PredictedPlayer)) {
+                            line75Score = 80;
+                        } else {
+                            line75Score = 0;
+                        }
+                    }
+                    participantCSV += `${line75Date},${line75PredictedPlayer},${line75Score}\n`;
+
+                    if (line76PredictedPlayer) {
+                        const actualResultRow = actualResultsRows[75]; // Row 76 in the file (0-based index 75)
+                        if (actualResultRow[1] && actualResultRow[1].includes(line76PredictedPlayer)) {
+                            line76Score = 80;
+                        } else {
+                            line76Score = 0;
+                        }
+                    }
+                    participantCSV += `${line76Date},${line76PredictedPlayer},${line76Score}\n`;
+
+                    if (line77PredictedPlayer) {
+                        const actualResultRow = actualResultsRows[76]; // Row 77 in the file (0-based index 76)
+                        if (actualResultRow[1] && actualResultRow[1].includes(line77PredictedPlayer)) {
+                            line77Score = 80;
+                        } else {
+                            line77Score = 0;
+                        }
+                    }
+                    participantCSV += `${line77Date},${line77PredictedPlayer},${line77Score}\n`;
+
+
+
 
                     const participantNameForFilename = participant.name.replace(/ /g, '_');
                     downloadCSV(participantCSV, `${participantNameForFilename}_scores.csv`);
                 }
+
             } catch (error) {
                 console.error('Error generating scores CSV:', error);
             }
