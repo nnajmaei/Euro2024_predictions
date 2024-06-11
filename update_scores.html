@@ -134,7 +134,7 @@
                                 }
                             }
                         }
-                        participantCSV += `${date},${predictedTeam1},${predictedTeam2},${predictedWinner},${score}\n`;
+                        participantCSV += `${date},${predictedTeam1},${predictedTeam2},${predictedWinner},,${score}\n`;
                     }
 
                     // Process lines 60 to 61
@@ -186,7 +186,7 @@
                                 break;
                             }
                         }
-                        participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},${participantScore}\n`;
+                        participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},,${participantScore}\n`;
                     }
 
                     // Process lines 62 to 65
@@ -210,7 +210,7 @@
                                 }
                             }
                         }
-                        participantCSV += `${date},${predictedTeam1},${predictedTeam2},${predictedWinner},${score}\n`;
+                        participantCSV += `${date},${predictedTeam1},${predictedTeam2},${predictedWinner},,${score}\n`;
                     }
 
                     // Process lines 66 to 67
@@ -262,7 +262,7 @@
                                 break;
                             }
                         }
-                        participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},${participantScore}\n`;
+                        participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},,${participantScore}\n`;
                     }
 
                     // Process lines 68 to 69
@@ -283,7 +283,7 @@
                                 score = 0;
                             }
                         }
-                        participantCSV += `${date},${predictedTeam1},${predictedTeam2},${predictedWinner},${score}\n`;
+                        participantCSV += `${date},${predictedTeam1},${predictedTeam2},${predictedWinner},,${score}\n`;
                     }
 
                     // Process lines 70 to 71
@@ -335,7 +335,7 @@
                                 break;
                             }
                         }
-                        participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},${participantScore}\n`;
+                        participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},,${participantScore}\n`;
                     }
 
                     // Process line 72
@@ -350,7 +350,7 @@
                             line72Score = 0;
                         }
                     }
-                    participantCSV += `${line72Date},${line72PredictedPlayer},${line72Score}\n`;
+                    participantCSV += `${line72Date},${line72PredictedPlayer},,${line72Score}\n`;
 
                     // Process lines 73 to 74
                     for (let i = 72; i < 74; i++) {
@@ -401,7 +401,7 @@
                                 break;
                             }
                         }
-                        participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},${participantScore}\n`;
+                        participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},,${participantScore}\n`;
                     }
 
                     // Process lines 75 to 77
@@ -420,7 +420,7 @@
                                 score = 0;
                             }
                         }
-                        participantCSV += `${date},${predictedPlayer},${score}\n`;
+                        participantCSV += `${date},${predictedPlayer},,,,${score}\n`;
                     }
 
                     const participantNameForFilename = participant.name.replace(/ /g, '_');
