@@ -56,7 +56,7 @@
                     const csvData = await csvResponse.text();
                     const participantRows = csvData.split('\n').map(row => row.split(','));
 
-                    // Process the first 49 rows
+                    // Process the first 51 rows
                     for (let i = 0; i < 51; i++) {
                         const row = actualResultsRows[i];
                         if (!row[0]) {
@@ -108,7 +108,7 @@
                         participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},${participantScore}\n`;
                     }
 
-                    // Process rows 50 to 59 for Round of 16
+                    // Process rows 52 to 59 for Round of 16
                     for (let i = 52; i < 59; i++) {
                         const row = actualResultsRows[i];
                         if (!row[0]) {
@@ -117,8 +117,8 @@
                         }
                         
                         const date = row[0];
-                        const team1 = row[1] || '';
-                        const team2 = row[2] || '';
+                        const actualTeam1 = row[1] || '';
+                        const actualTeam2 = row[2] || '';
 
                         let participantScore = 0;
                         
@@ -135,7 +135,7 @@
                                 participantScore += 10;
                             }
                         }
-                        participantCSV += `${actualTeam1},${actualTeam2},${participantScore}\n`;
+                        participantCSV += `${date},${actualTeam1},${actualTeam2},${participantScore}\n`;
                     }
 
                     const participantNameForFilename = participant.name.replace(/ /g, '_');
