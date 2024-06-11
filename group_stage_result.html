@@ -226,6 +226,7 @@
             }
             tableHTML += '</tr>';
             tableHTML += '<tr><th>Predicted Scores</th>';
+            let scoresRowHTML = '<tr><th>Scores</th>';
             let matchFound = false;
 
             for (const participant of participants.participants) {
@@ -234,6 +235,7 @@
                 const rows = csvData.split('\n').map(row => row.split(','));
 
                 let participantPrediction = '';
+                let participantScore = 0;
                 for (const row of rows) {
                     if (row.includes(country1) && row.includes(country2)) {
                         const country1Index = row.indexOf(country1);
@@ -242,6 +244,24 @@
                         const country2Score = row[country2Index + 1];
                         participantPrediction = [country1Score, country2Score];
                         matchFound = true;
+
+                        // Calculate score
+                        const actualScore1 = parseInt(actualResult[0]);
+                        const actualScore2 = parseInt(actualResult[1]);
+                        const predictedScore1 = parseInt(country1Score);
+                        const predictedScore2 = parseInt(country2Score);
+
+                        if (predictedScore1 === actualScore1 && predictedScore2 === actualScore2) {
+                            participantScore = 10;
+                        } else if ((actualScore1 - actualScore2 === predictedScore1 - predictedScore2) && (actualScore1 > actualScore2 && predictedScore1 > predictedScore2 || actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
+                            participantScore = 8;
+                        } else if (actualScore1 === actualScore2 && predictedScore1 === predictedScore2) {
+                            participantScore = 5;
+                        } else if ((actualScore1 > actualScore2 && predictedScore1 > predictedScore2) || (actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
+                            participantScore = 5;
+                        } else {
+                            participantScore = 0;
+                        }
                         break;
                     }
                 }
@@ -250,9 +270,11 @@
                 } else {
                     tableHTML += '<td>N/A</td><td>N/A</td>';
                 }
+                scoresRowHTML += `<td colspan="2">${participantScore}</td>`;
             }
 
             tableHTML += '</tr>';
+            tableHTML += scoresRowHTML + '</tr>';
             tableHTML += '</table>';
 
             if (!matchFound) {
