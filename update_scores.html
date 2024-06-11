@@ -49,6 +49,20 @@
         .bold-text {
             font-weight: bold;
         }
+        .generate-button {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
+        button {
+            background-color: #fff;
+            color: #000;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: 1px solid #444444;
+            cursor: pointer;
+            height: 36px;
+        }
     </style>
 </head>
 <body>
@@ -69,6 +83,9 @@
             </select>
             <div id="participantPredictions"></div>
         </div>
+    </div>
+    <div class="generate-button">
+        <button onclick="generateScoresCSV()">Generate Scores CSV</button>
     </div>
 
     <script>
@@ -153,45 +170,44 @@
 
         function calculateScores(actualResults, participants) {
             const scores = [];
-            actualResults.forEach((actualResult) => {
-                const [date, team1, team1Score, team2, team2Score] = actualResult;
-                if (team1Score !== undefined && team2Score !== undefined) {
-                    const row = [date, team1, team2, team1Score, team2Score];
+            const promises = participants.map(participant => {
+                return new Promise((resolve) => {
+                    loadCSV(participant.file, (rows) => {
+                        actualResults.forEach((actualResult) => {
+                            const [date, team1, team1Score, team2, team2Score] = actualResult;
+                            if (team1Score !== undefined && team2Score !== undefined) {
+                                const row = [date, team1, team2, team1Score, team2Score];
+                                let score = 0;
+                                rows.forEach((predRow) => {
+                                    if (predRow.includes(team1) && predRow.includes(team2)) {
+                                        const team1Index = predRow.indexOf(team1);
+                                        const team2Index = predRow.indexOf(team2);
+                                        const predictedScore1 = parseInt(predRow[team1Index + 1]);
+                                        const predictedScore2 = parseInt(predRow[team2Index + 1]);
+                                        const actualScore1 = parseInt(team1Score);
+                                        const actualScore2 = parseInt(team2Score);
 
-                    participants.forEach((participant) => {
-                        const participantFile = participant.file;
-                        loadCSV(participantFile, (rows) => {
-                            rows.forEach((row) => {
-                                if (row.includes(team1) && row.includes(team2)) {
-                                    const team1Index = row.indexOf(team1);
-                                    const team2Index = row.indexOf(team2);
-                                    const predictedScore1 = parseInt(row[team1Index + 1]);
-                                    const predictedScore2 = parseInt(row[team2Index + 1]);
-                                    const actualScore1 = parseInt(team1Score);
-                                    const actualScore2 = parseInt(team2Score);
-
-                                    let score = 0;
-                                    if (predictedScore1 === actualScore1 && predictedScore2 === actualScore2) {
-                                        score = 10;
-                                    } else if ((actualScore1 - actualScore2 === predictedScore1 - predictedScore2) && (actualScore1 > actualScore2 && predictedScore1 > predictedScore2 || actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
-                                        score = 8;
-                                    } else if (actualScore1 === actualScore2 && predictedScore1 === predictedScore2) {
-                                        score = 5;
-                                    } else if ((actualScore1 > actualScore2 && predictedScore1 > predictedScore2) || (actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
-                                        score = 5;
+                                        if (predictedScore1 === actualScore1 && predictedScore2 === actualScore2) {
+                                            score = 10;
+                                        } else if ((actualScore1 - actualScore2 === predictedScore1 - predictedScore2) && (actualScore1 > actualScore2 && predictedScore1 > predictedScore2 || actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
+                                            score = 8;
+                                        } else if (actualScore1 === actualScore2 && predictedScore1 === predictedScore2) {
+                                            score = 5;
+                                        } else if ((actualScore1 > actualScore2 && predictedScore1 > predictedScore2) || (actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
+                                            score = 5;
+                                        }
                                     }
-
-                                    row.push(score);
-                                }
-                            });
+                                });
+                                row.push(score);
+                                scores.push(row);
+                            }
                         });
+                        resolve();
                     });
-
-                    scores.push(row);
-                }
+                });
             });
 
-            return scores;
+            return Promise.all(promises).then(() => scores);
         }
 
         function createScoresCSV(scores, participants) {
@@ -214,7 +230,20 @@
             document.body.removeChild(link);
         }
 
-        // Load actual results on page load
+        function generateScoresCSV() {
+            loadCSV('./results_csv/Actual_Results.csv', actualResults => {
+                fetch('./jsons/participants.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        calculateScores(actualResults, data.participants).then(scores => {
+                            createScoresCSV(scores, data.participants);
+                        });
+                    })
+                    .catch(error => console.error('Error loading participants list:', error));
+            });
+        }
+
+        // Load actual results and participant data on page load
         window.onload = function() {
             loadCSV('./results_csv/Actual_Results.csv', actualResults => {
                 displayTable('actualResults', actualResults);
@@ -223,9 +252,6 @@
                     .then(response => response.json())
                     .then(data => {
                         populateDropdowns(data.participants);
-
-                        const scores = calculateScores(actualResults, data.participants);
-                        createScoresCSV(scores, data.participants);
                     })
                     .catch(error => console.error('Error loading participants list:', error));
             });
