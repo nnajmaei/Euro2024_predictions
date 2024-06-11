@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Scores CSV</title>
+    <title>Generate Scores CSV</title>
     <style>
         body {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -11,42 +11,14 @@
             background-color: #1e1e1e;
             color: #7c7a7a;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 10px;
-            vertical-align: top;
-            justify-content: center;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #333333;
-        }
-        .comparison-container {
-            display: flex;
-            justify-content: space-between;
-        }
-        .table-container {
-            width: 45%;
-        }
         .logo-container {
             display: flex;
             justify-content: center;
             margin-bottom: 20px;
         }
-        .bold-text {
-            font-weight: bold;
-        }
-        .generate-button {
-            display: flex;
-            justify-content: center;
-            margin: 20px;
+        .center {
+            text-align: center;
+            margin-top: 20px;
         }
         button {
             background-color: #fff;
@@ -63,58 +35,94 @@
     <div class="logo-container">
         <img src="./logos/logo.png" alt="Euro 2024 Logo" style="width:200px;">
     </div>
-    <div class="generate-button">
-        <button onclick="generateScoresCSV()">Update Scores CSV</button>
+    <div class="center">
+        <button onclick="generateScoresCSV()">Generate Scores CSV</button>
     </div>
 
     <script>
-        function loadCSV(file, callback) {
-            fetch(file)
-                .then(response => response.text())
-                .then(data => {
-                    const rows = data.split('\n').map(row => row.split(','));
-                    callback(rows);
-                })
-                .catch(error => console.error('Error loading CSV:', error));
+        async function generateScoresCSV() {
+            const response = await fetch('./jsons/participants.json');
+            const participants = await response.json();
+
+            const actualResultsResponse = await fetch('./results_csv/Actual_Results.csv');
+            const actualResultsData = await actualResultsResponse.text();
+            const actualResultsRows = actualResultsData.split('\n').map(row => row.split(','));
+
+            let scoresCSV = 'date,team 1,team 2';
+
+            participants.participants.forEach(participant => {
+                scoresCSV += `,${participant.name}`;
+            });
+            scoresCSV += '\n';
+
+            for (const row of actualResultsRows) {
+                if (row.length < 3 || !row[0] || !row[1] || !row[2]) continue; // Skip empty or incomplete rows
+
+                const date = row[0];
+                const team1 = row[1];
+                const team2 = row[2];
+                const actualScore1 = row[3];
+                const actualScore2 = row[4];
+
+                scoresCSV += `${date},${team1},${team2}`;
+
+                for (const participant of participants.participants) {
+                    const csvResponse = await fetch(participant.file);
+                    const csvData = await csvResponse.text();
+                    const participantRows = csvData.split('\n').map(row => row.split(','));
+
+                    let participantScore = '';
+
+                    for (const pRow of participantRows) {
+                        if (pRow.includes(team1) && pRow.includes(team2)) {
+                            const country1Index = pRow.indexOf(team1);
+                            const country2Index = pRow.indexOf(team2);
+                            const predictedScore1 = pRow[country1Index + 1];
+                            const predictedScore2 = pRow[country2Index + 1];
+
+                            if (!actualScore1 || !actualScore2) {
+                                participantScore = ''; // Leave empty if actual scores are not available
+                            } else {
+                                const actual1 = parseInt(actualScore1);
+                                const actual2 = parseInt(actualScore2);
+                                const predicted1 = parseInt(predictedScore1);
+                                const predicted2 = parseInt(predictedScore2);
+
+                                if (predicted1 === actual1 && predicted2 === actual2) {
+                                    participantScore = 10;
+                                } else if ((actual1 - actual2 === predicted1 - predicted2) &&
+                                           ((actual1 > actual2 && predicted1 > predicted2) || 
+                                            (actual1 < actual2 && predicted1 < predicted2))) {
+                                    participantScore = 8;
+                                } else if (actual1 === actual2 && predicted1 === predicted2) {
+                                    participantScore = 5;
+                                } else if ((actual1 > actual2 && predicted1 > predicted2) || 
+                                           (actual1 < actual2 && predicted1 < predicted2)) {
+                                    participantScore = 5;
+                                } else {
+                                    participantScore = 0;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                    scoresCSV += `,${participantScore}`;
+                }
+                scoresCSV += '\n';
+            }
+
+            downloadCSV(scoresCSV, 'scores.csv');
         }
 
-        function generateScoresCSV() {
-            loadCSV('./results_csv/Actual_Results.csv', actualResults => {
-                fetch('./jsons/participants.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        const scores = calculateScores(actualResults, data.participants);
-                        createScoresCSV(scores, data.participants);
-                    })
-                    .catch(error => console.error('Error loading participants list:', error));
-            });
-        }
-
-        function calculateScores(actualResults, participants) {
-            // Implement your logic to calculate scores based on actualResults and participants data
-            const scores = participants.map(participant => {
-                // Example calculation (you should replace it with your actual logic)
-                const score = actualResults.reduce((acc, result) => acc + (participant.predictions.includes(result) ? 1 : 0), 0);
-                return { name: participant.name, score: score };
-            });
-            return scores;
-        }
-
-        function createScoresCSV(scores, participants) {
-            let csvContent = "data:text/csv;charset=utf-8,";
-            csvContent += "Name,Score\n"; // Add header
-
-            scores.forEach(score => {
-                csvContent += `${score.name},${score.score}\n`;
-            });
-
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "scores.csv");
-            document.body.appendChild(link); // Required for Firefox
-
-            link.click(); // This will download the CSV file
+        function downloadCSV(csv, filename) {
+            const csvBlob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(csvBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     </script>
 </body>
