@@ -11,15 +11,12 @@
             background-color: #1e1e1e;
             color: #7c7a7a;
         }
-        .comparison-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 10px;
+            vertical-align: top;
+            justify-content: center;
         }
         table, th, td {
             border: 1px solid black;
@@ -37,6 +34,13 @@
             color: #fff;
             border: 1px solid #444444;
         }
+        .comparison-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .table-container {
+            width: 45%;
+        }
         .logo-container {
             display: flex;
             justify-content: center;
@@ -53,11 +57,11 @@
     </div>
     <h1>Participant Results vs. Euro2024 Results</h1>
     <div class="comparison-container">
-        <div>
+        <div class="table-container">
             <h2>Actual Results</h2>
             <div id="actualResults"></div>
         </div>
-        <div>
+        <div class="table-container">
             <h2>Participant Predictions</h2>
             <label for="participantSelect">Select Participant:</label>
             <select id="participantSelect" onchange="loadParticipantPredictions()">

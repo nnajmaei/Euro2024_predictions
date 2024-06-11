@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Participant Results vs. Euro2024 Results</title>
+    <title>Download All Participants Predictions</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <style>
         body {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -11,43 +12,26 @@
             background-color: #1e1e1e;
             color: #7c7a7a;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 10px;
-            vertical-align: top;
-            justify-content: center;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #333333;
-        }
-        select {
-            width: 200px;
-            background-color: #6b6a6a;
-            color: #fff;
-            border: 1px solid #444444;
-        }
-        .comparison-container {
-            display: flex;
-            justify-content: space-between;
-        }
-        .table-container {
-            width: 45%;
-        }
         .logo-container {
             display: flex;
             justify-content: center;
             margin-bottom: 20px;
         }
-        .bold-text {
-            font-weight: bold;
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border: none;
         }
     </style>
 </head>
@@ -55,185 +39,110 @@
     <div class="logo-container">
         <img src="./logos/logo.png" alt="Euro 2024 Logo" style="width:200px;">
     </div>
-    <h1>Participant Results vs. Euro2024 Results</h1>
-    <div class="comparison-container">
-        <div class="table-container">
-            <h2>Actual Results</h2>
-            <div id="actualResults"></div>
-        </div>
-        <div class="table-container">
-            <h2>Participant Predictions</h2>
-            <label for="participantSelect">Select Participant:</label>
-            <select id="participantSelect" onchange="loadParticipantPredictions()">
-                <option value="">Select...</option>
-            </select>
-            <div id="participantPredictions"></div>
-        </div>
+    <div class="button-container">
+        <button onclick="downloadPDF()">Download All Participants Predictions</button>
     </div>
 
     <script>
-        const flags = {
-            'Germany': 'https://flagcdn.com/w20/de.png',
-            'Scotland': 'https://flagcdn.com/w20/gb-sct.png',
-            'Hungary': 'https://flagcdn.com/w20/hu.png',
-            'Switzerland': 'https://flagcdn.com/w20/ch.png',
-            'Spain': 'https://flagcdn.com/w20/es.png',
-            'Croatia': 'https://flagcdn.com/w20/hr.png',
-            'Italy': 'https://flagcdn.com/w20/it.png',
-            'Albania': 'https://flagcdn.com/w20/al.png',
-            'Serbia': 'https://flagcdn.com/w20/rs.png',
-            'England': 'https://flagcdn.com/w20/gb-eng.png',
-            'Slovenia': 'https://flagcdn.com/w20/si.png',
-            'Denmark': 'https://flagcdn.com/w20/dk.png',
-            'Poland': 'https://flagcdn.com/w20/pl.png',
-            'Netherlands': 'https://flagcdn.com/w20/nl.png',
-            'Austria': 'https://flagcdn.com/w20/at.png',
-            'France': 'https://flagcdn.com/w20/fr.png',
-            'Romania': 'https://flagcdn.com/w20/ro.png',
-            'Ukraine': 'https://flagcdn.com/w20/ua.png',
-            'Belgium': 'https://flagcdn.com/w20/be.png',
-            'Slovakia': 'https://flagcdn.com/w20/sk.png',
-            'Turkey': 'https://flagcdn.com/w20/tr.png',
-            'Georgia': 'https://flagcdn.com/w20/ge.png',
-            'Portugal': 'https://flagcdn.com/w20/pt.png',
-            'Czechia': 'https://flagcdn.com/w20/cz.png'
-        };
+        async function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
 
-        function loadCSV(file, callback) {
-            fetch(file)
-                .then(response => response.text())
-                .then(data => {
-                    const rows = data.split('\n').map(row => row.split(','));
-                    callback(rows);
-                })
-                .catch(error => console.error('Error loading CSV:', error));
-        }
+            // Load the logo image
+            const logoResponse = await fetch('./logos/logo.png');
+            const logoBlob = await logoResponse.blob();
+            const reader = new FileReader();
 
-        function populateDropdowns(participants) {
-            const participantSelect = document.getElementById('participantSelect');
-            participants.forEach(participant => {
-                const option = document.createElement('option');
-                option.value = participant.file;
-                option.text = participant.name;
-                participantSelect.add(option);
-            });
-        }
+            reader.onloadend = async function () {
+                const logoDataUrl = reader.result;
 
-        function displayTable(containerId, rows) {
-            const boldText = [
-                'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 
-                'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final', 
-                'Top Goalscorer', 'Best Goalkeeper', 'Player of Tournament'
-            ];
+                // Add the logo image to the first page, centered
+                const pageWidth = pdf.internal.pageSize.width;
+                const pageHeight = pdf.internal.pageSize.height;
+                const logoWidth = 50;
+                const logoHeight = 50;
+                const logoX = (pageWidth - logoWidth) / 2;
+                const logoY = (pageHeight - logoHeight) / 2 - 40; // Adjust Y position to leave space for text
 
-            let tableHTML = '<table>';
-            rows.forEach(row => {
-                tableHTML += '<tr>';
-                row.forEach(cell => {
-                    const cellContent = cell.trim();
-                    const flagImg = flags[cellContent] ? `<img src="${flags[cellContent]}" class="flag"> ` : '';
-                    const cellClass = boldText.includes(cellContent) ? 'bold-text' : '';
-                    tableHTML += `<td class="${cellClass}">${flagImg}${cellContent}</td>`;
+                pdf.addImage(logoDataUrl, 'PNG', logoX, logoY, logoWidth, logoHeight);
+                
+                pdf.setFontSize(16);
+                pdf.text('All Participants Predictions', pageWidth / 2, logoY + logoHeight + 20, { align: 'center' });
+
+                const response = await fetch('./jsons/participants.json');
+                const participants = await response.json();
+
+                pdf.setFontSize(12);
+                pdf.setFont(undefined, 'bold');
+                pdf.text('Participants', pageWidth / 2, logoY + logoHeight + 35, { align: 'center' });
+                pdf.setFont(undefined, 'normal');
+                pdf.setLineWidth(0.5);
+                pdf.line((pageWidth - 30) / 2, logoY + logoHeight + 38, (pageWidth + 30) / 2, logoY + logoHeight + 38); // Underline
+
+                let y = logoY + logoHeight + 45;
+                const lineSpacing = 5;
+                participants.participants.forEach(participant => {
+                    pdf.text(participant.name, pageWidth / 2, y, { align: 'center' });
+                    y += lineSpacing;
                 });
-                tableHTML += '</tr>';
-            });
-            tableHTML += '</table>';
-            document.getElementById(containerId).innerHTML = tableHTML;
-        }
 
-        function loadParticipantPredictions() {
-            const participantSelect = document.getElementById('participantSelect');
-            const selectedFile = participantSelect.value;
-            if (selectedFile) {
-                loadCSV(selectedFile, rows => displayTable('participantPredictions', rows));
-            } else {
-                document.getElementById('participantPredictions').innerHTML = '';
-            }
-        }
+                // Start a new page for the participant CSV data
+                pdf.addPage();
 
-        function calculateScores(actualResults, participantPredictions) {
-            const scores = {};
-            actualResults.forEach((actualResult) => {
-                const [date, team1, team1Score, team2, team2Score] = actualResult;
-                scores[`${date} ${team1} vs ${team2}`] = {};
+                const boldText = [
+                    'Group Stage Predictions', 'Group A', 'Group B', 'Group C', 'Group D', 'Group E', 'Group F', 
+                    'Knockout Stage Predictions', 'Round of 16', 'Quarterfinals', 'Semifinals', 'Final', 
+                    'Top Goalscorer', 'Best Goalkeeper', 'Player of Tournament', 'Additional Predictions'
+                ];
 
-                participantPredictions.forEach((participant) => {
-                    const participantName = participant.name;
-                    const participantFile = participant.file;
-                    loadCSV(participantFile, (rows) => {
-                        rows.forEach((row) => {
-                            if (row.includes(team1) && row.includes(team2)) {
-                                const team1Index = row.indexOf(team1);
-                                const team2Index = row.indexOf(team2);
-                                const predictedScore1 = parseInt(row[team1Index + 1]);
-                                const predictedScore2 = parseInt(row[team2Index + 1]);
-                                const actualScore1 = parseInt(team1Score);
-                                const actualScore2 = parseInt(team2Score);
+                for (let i = 0; i < participants.participants.length; i++) {
+                    const participant = participants.participants[i];
+                    const csvResponse = await fetch(participant.file);
+                    const csvData = await csvResponse.text();
 
-                                let score = 0;
-                                if (predictedScore1 === actualScore1 && predictedScore2 === actualScore2) {
-                                    score = 10;
-                                } else if ((actualScore1 - actualScore2 === predictedScore1 - predictedScore2) && (actualScore1 > actualScore2 && predictedScore1 > predictedScore2 || actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
-                                    score = 8;
-                                } else if (actualScore1 === actualScore2 && predictedScore1 === predictedScore2) {
-                                    score = 5;
-                                } else if ((actualScore1 > actualScore2 && predictedScore1 > predictedScore2) || (actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
-                                    score = 5;
+                    if (i > 0) {
+                        pdf.addPage();
+                    }
+
+                    pdf.setFontSize(12);
+                    pdf.text(participant.name, 10, 10);
+                    pdf.setFontSize(8);
+
+                    const rows = csvData.split('\n').map(row => row.split(','));
+                    rows.pop(); // Remove the last row
+                    let y = 15;
+                    const lineHeight = 4;  // Reduce line height further
+                    const margin = 5;
+
+                    rows.forEach(row => {
+                        let line = row.join(', ').trim();
+                        if (line) {  // Skip empty rows
+                            let splitText = pdf.splitTextToSize(line, pageWidth - margin * 2);
+
+                            splitText.forEach(textLine => {
+                                if (y + lineHeight > pageHeight - margin) {
+                                    pdf.addPage();
+                                    y = margin;
                                 }
-
-                                scores[`${date} ${team1} vs ${team2}`][participantName] = score;
-                            }
-                        });
+                                if (boldText.includes(textLine.trim())) {
+                                    pdf.setFont(undefined, 'bold');
+                                    pdf.text(textLine, margin, y);
+                                    pdf.line(margin, y + 1, margin + pdf.getStringUnitWidth(textLine) * 8, y + 1); // Underline
+                                    pdf.setFont(undefined, 'normal');
+                                } else {
+                                    pdf.text(textLine, margin, y);
+                                }
+                                y += lineHeight;
+                            });
+                        }
                     });
-                });
-            });
+                }
 
-            return scores;
+                pdf.save('full_predictions.pdf');
+            };
+
+            reader.readAsDataURL(logoBlob);
         }
-
-        function createResultsCSV(scores) {
-            let csvContent = "data:text/csv;charset=utf-8,Date,Team1,Team2";
-            const participantNames = Object.keys(scores[Object.keys(scores)[0]]);
-            participantNames.forEach(name => {
-                csvContent += `,${name}`;
-            });
-            csvContent += "\n";
-
-            for (const match in scores) {
-                const [date, team1VsTeam2] = match.split(" ");
-                const [team1, team2] = team1VsTeam2.split(" vs ");
-                csvContent += `${date},${team1},${team2}`;
-                participantNames.forEach(name => {
-                    csvContent += `,${scores[match][name]}`;
-                });
-                csvContent += "\n";
-            }
-
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "participant_scores.csv");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        // Load actual results on page load
-        window.onload = function() {
-            loadCSV('./results_csv/Actual_Results.csv', rows => {
-                displayTable('actualResults', rows);
-
-                fetch('./jsons/participants.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        populateDropdowns(data.participants);
-
-                        const scores = calculateScores(rows, data.participants);
-                        createResultsCSV(scores);
-                    })
-                    .catch(error => console.error('Error loading participants list:', error));
-            });
-        };
     </script>
 </body>
 </html>
