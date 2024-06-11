@@ -55,7 +55,7 @@
                 const actualResultsRows = actualResultsData.split('\n').map(row => row.split(','));
 
                 for (const participant of participants.participants) {
-                    let participantCSV = '';
+                    let participantCSV = null;
 
                     const csvResponse = await fetch(participant.file);
                     const csvData = await csvResponse.text();
@@ -70,21 +70,21 @@
                         }
 
                         const date = row[0];
-                        const team1 = row[1] || '';
-                        const team2 = row[3] || '';
-                        const actualScore1 = row[2] || '';
-                        const actualScore2 = row[4] || '';
+                        const team1 = row[1] || null;
+                        const team2 = row[3] || null;
+                        const actualScore1 = row[2] || null;
+                        const actualScore2 = row[4] || null;
 
-                        let participantScore = '';
-                        let predictedScore1 = '';
-                        let predictedScore2 = '';
+                        let participantScore = null;
+                        let predictedScore1 = null;
+                        let predictedScore2 = null;
 
                         for (const pRow of participantRows) {
                             if (pRow.includes(team1) && pRow.includes(team2)) {
                                 const country1Index = pRow.indexOf(team1);
                                 const country2Index = pRow.indexOf(team2);
-                                predictedScore1 = pRow[country1Index + 1] || '';
-                                predictedScore2 = pRow[country2Index + 1] || '';
+                                predictedScore1 = pRow[country1Index + 1] || null;
+                                predictedScore2 = pRow[country2Index + 1] || null;
 
                                 if (actualScore1 && actualScore2) {
                                     const actual1 = parseInt(actualScore1);
@@ -121,7 +121,7 @@
                         const predictedTeam1 = row[1];
                         const predictedTeam2 = row[2];
                         const predictedWinner = row[3];
-                        let score = '';
+                        let score = null;
 
                         if (predictedWinner) {
                             for (let j = 61; j <= 64; j++) {
@@ -146,21 +146,21 @@
                         }
 
                         const date = row[0];
-                        const team1 = row[1] || '';
-                        const team2 = row[3] || '';
-                        const actualScore1 = row[2] || '';
-                        const actualScore2 = row[4] || '';
+                        const team1 = row[1] || null;
+                        const team2 = row[3] || null;
+                        const actualScore1 = row[2] || null;
+                        const actualScore2 = row[4] || null;
 
-                        let participantScore = '';
-                        let predictedScore1 = '';
-                        let predictedScore2 = '';
+                        let participantScore = null;
+                        let predictedScore1 = null;
+                        let predictedScore2 = null;
 
                         for (const pRow of participantRows) {
                             if (pRow.includes(team1) && pRow.includes(team2)) {
                                 const country1Index = pRow.indexOf(team1);
                                 const country2Index = pRow.indexOf(team2);
-                                predictedScore1 = pRow[country1Index + 1] || '';
-                                predictedScore2 = pRow[country2Index + 1] || '';
+                                predictedScore1 = pRow[country1Index + 1] || null;
+                                predictedScore2 = pRow[country2Index + 1] || null;
 
                                 if (actualScore1 && actualScore2) {
                                     const actual1 = parseInt(actualScore1);
@@ -197,7 +197,7 @@
                         const predictedTeam1 = row[1];
                         const predictedTeam2 = row[2];
                         const predictedWinner = row[3];
-                        let score = '';
+                        let score = null;
 
                         if (predictedWinner) {
                             for (let j = 67; j <= 68; j++) {
@@ -222,21 +222,21 @@
                         }
 
                         const date = row[0];
-                        const team1 = row[1] || '';
-                        const team2 = row[3] || '';
-                        const actualScore1 = row[2] || '';
-                        const actualScore2 = row[4] || '';
+                        const team1 = row[1] || null;
+                        const team2 = row[3] || null;
+                        const actualScore1 = row[2] || null;
+                        const actualScore2 = row[4] || null;
 
-                        let participantScore = '';
-                        let predictedScore1 = '';
-                        let predictedScore2 = '';
+                        let participantScore = null;
+                        let predictedScore1 = null;
+                        let predictedScore2 = null;
 
                         for (const pRow of participantRows) {
                             if (pRow.includes(team1) && pRow.includes(team2)) {
                                 const country1Index = pRow.indexOf(team1);
                                 const country2Index = pRow.indexOf(team2);
-                                predictedScore1 = pRow[country1Index + 1] || '';
-                                predictedScore2 = pRow[country2Index + 1] || '';
+                                predictedScore1 = pRow[country1Index + 1] || null;
+                                predictedScore2 = pRow[country2Index + 1] || null;
 
                                 if (actualScore1 && actualScore2) {
                                     const actual1 = parseInt(actualScore1);
@@ -273,7 +273,7 @@
                         const predictedTeam1 = row[1];
                         const predictedTeam2 = row[2];
                         const predictedWinner = row[3];
-                        let score = '';
+                        let score = null;
 
                         if (predictedWinner) {
                             const actualResultRow = actualResultsRows[71]; // Row 72 in the file (0-based index 71)
@@ -295,21 +295,21 @@
                         }
 
                         const date = row[0];
-                        const team1 = row[1] || '';
-                        const team2 = row[3] || '';
-                        const actualScore1 = row[2] || '';
-                        const actualScore2 = row[4] || '';
+                        const team1 = row[1] || null;
+                        const team2 = row[3] || null;
+                        const actualScore1 = row[2] || null;
+                        const actualScore2 = row[4] || null;
 
-                        let participantScore = '';
-                        let predictedScore1 = '';
-                        let predictedScore2 = '';
+                        let participantScore = null;
+                        let predictedScore1 = null;
+                        let predictedScore2 = null;
 
                         for (const pRow of participantRows) {
                             if (pRow.includes(team1) && pRow.includes(team2)) {
                                 const country1Index = pRow.indexOf(team1);
                                 const country2Index = pRow.indexOf(team2);
-                                predictedScore1 = pRow[country1Index + 1] || '';
-                                predictedScore2 = pRow[country2Index + 1] || '';
+                                predictedScore1 = pRow[country1Index + 1] || null;
+                                predictedScore2 = pRow[country2Index + 1] || null;
 
                                 if (actualScore1 && actualScore2) {
                                     const actual1 = parseInt(actualScore1);
@@ -344,7 +344,7 @@
                     const predictedTeam1 = row[1];
                     const predictedTeam2 = row[2];
                     const predictedWinner = row[3];
-                    let score = '';
+                    let score = null;
 
                     if (predictedWinner) {
                         const actualResultRow = actualResultsRows[71]; // Row 72 in the file (0-based index 71)
@@ -365,21 +365,21 @@
                         }
 
                         const date = row[0];
-                        const team1 = row[1] || '';
-                        const team2 = row[3] || '';
-                        const actualScore1 = row[2] || '';
-                        const actualScore2 = row[4] || '';
+                        const team1 = row[1] || null;
+                        const team2 = row[3] || null;
+                        const actualScore1 = row[2] || null;
+                        const actualScore2 = row[4] || null;
 
-                        let participantScore = '';
-                        let predictedScore1 = '';
-                        let predictedScore2 = '';
+                        let participantScore = null;
+                        let predictedScore1 = null;
+                        let predictedScore2 = null;
 
                         for (const pRow of participantRows) {
                             if (pRow.includes(team1) && pRow.includes(team2)) {
                                 const country1Index = pRow.indexOf(team1);
                                 const country2Index = pRow.indexOf(team2);
-                                predictedScore1 = pRow[country1Index + 1] || '';
-                                predictedScore2 = pRow[country2Index + 1] || '';
+                                predictedScore1 = pRow[country1Index + 1] || null;
+                                predictedScore2 = pRow[country2Index + 1] || null;
 
                                 if (actualScore1 && actualScore2) {
                                     const actual1 = parseInt(actualScore1);
@@ -414,7 +414,7 @@
                         if (!row) continue;
                         const date = row[0];
                         const predictedPlayer = row[1];
-                        let score = '';
+                        let score = null;
 
                         if (predictedPlayer) {
                             const actualResultRow = actualResultsRows[i];
