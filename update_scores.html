@@ -48,25 +48,18 @@
             const actualResultsData = await actualResultsResponse.text();
             const actualResultsRows = actualResultsData.split('\n').map(row => row.split(','));
 
-            let scoresCSV = 'date,team 1,team 2';
+            for (const participant of participants.participants) {
+                let participantCSV = 'date,team 1,team 2,score\n';
 
-            participants.participants.forEach(participant => {
-                scoresCSV += `,${participant.name}`;
-            });
-            scoresCSV += '\n';
+                for (const row of actualResultsRows) {
+                    if (row.length < 3 || !row[0] || !row[1] || !row[2]) continue; // Skip empty or incomplete rows
 
-            for (const row of actualResultsRows) {
-                if (row.length < 3 || !row[0] || !row[1] || !row[2]) continue; // Skip empty or incomplete rows
+                    const date = row[0];
+                    const team1 = row[1];
+                    const team2 = row[3];
+                    const actualScore1 = row[2];
+                    const actualScore2 = row[4];
 
-                const date = row[0];
-                const team1 = row[1];
-                const team2 = row[3];
-                const actualScore1 = row[2];
-                const actualScore2 = row[4];
-
-                scoresCSV += `${date},${team1},${team2}`;
-
-                for (const participant of participants.participants) {
                     const csvResponse = await fetch(participant.file);
                     const csvData = await csvResponse.text();
                     const participantRows = csvData.split('\n').map(row => row.split(','));
@@ -106,12 +99,11 @@
                             break;
                         }
                     }
-                    scoresCSV += `,${participantScore}`;
+                    participantCSV += `${date},${team1},${team2},${participantScore}\n`;
                 }
-                scoresCSV += '\n';
-            }
 
-            downloadCSV(scoresCSV, 'scores.csv');
+                downloadCSV(participantCSV, `${participant.name}_scores.csv`);
+            }
         }
 
         function downloadCSV(csv, filename) {
