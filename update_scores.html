@@ -121,14 +121,20 @@
                         const team2 = row[2] || '';
 
                         let participantScore = 0;
-
+                        
                         for (const pRow of participantRows) {
-                            if ((pRow.includes(team1) && pRow.includes(team2)) || (pRow.includes(team2) && pRow.includes(team1))) {
-                                participantScore = 10;
+                            const participantTeam1 = pRow[0] || '';
+                            const participantTeam2 = pRow[1] || '';
+
+                            if ((actualTeam1 === participantTeam1 || actualTeam1 === participantTeam2) && 
+                                (actualTeam2 === participantTeam1 || actualTeam2 === participantTeam2)) {
+                                participantScore = 20;
                                 break;
+                            } else if (actualTeam1 === participantTeam1 || actualTeam1 === participantTeam2 || 
+                                       actualTeam2 === participantTeam1 || actualTeam2 === participantTeam2) {
+                                participantScore += 10;
                             }
                         }
-                        participantCSV += `${date},${team1},${team2},${participantScore}\n`;
                     }
 
                     const participantNameForFilename = participant.name.replace(/ /g, '_');
