@@ -154,23 +154,44 @@
             document.getElementById(containerId).innerHTML = tableHTML;
         }
 
-        function loadParticipantPredictions() {
+        async function loadParticipantPredictions() {
             const participantSelect = document.getElementById('participantSelect');
             const selectedFile = participantSelect.value;
             if (selectedFile) {
-                loadCSV(selectedFile, rows => displayTable('participantPredictions', rows));
+                const participant = participants.find(p => p.file === selectedFile);
+                const predictions = await fetchCSV(selectedFile);
+                const scores = await fetchCSV(participant.scores);
+                const combinedRows = combinePredictionsAndScores(predictions, scores);
+                displayTable('participantPredictions', combinedRows);
             } else {
                 document.getElementById('participantPredictions').innerHTML = '';
             }
         }
 
+        async function fetchCSV(file) {
+            const response = await fetch(file);
+            const data = await response.text();
+            return data.split('\n').map(row => row.split(','));
+        }
+
+        function combinePredictionsAndScores(predictions, scores) {
+            return predictions.map((row, index) => {
+                const score = scores[index] ? scores[index][scores[index].length - 1] : '';
+                return [...row, score];
+            });
+        }
+
+        let participants = [];
         // Load actual results on page load
         window.onload = function() {
             loadCSV('./results_csv/Actual_Results.csv', rows => displayTable('actualResults', rows));
 
             fetch('./jsons/participants.json')
                 .then(response => response.json())
-                .then(data => populateDropdowns(data.participants))
+                .then(data => {
+                    participants = data.participants;
+                    populateDropdowns(data.participants);
+                })
                 .catch(error => console.error('Error loading participants list:', error));
         };
     </script>
