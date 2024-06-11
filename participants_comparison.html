@@ -127,7 +127,7 @@
             participants.forEach(participant => {
                 dropdowns.forEach(dropdown => {
                     const option = document.createElement('option');
-                    option.value = participant.file;
+                    option.value = participant.scores;
                     option.text = participant.name;
                     dropdown.add(option);
                 });
@@ -136,11 +136,11 @@
 
         function loadPredictions(participantNumber) {
             const participantSelect = document.getElementById(`participant${participantNumber}`);
-            const selectedFile = participantSelect.value;
+            const selectedscores = participantSelect.value;
             const predictionsDiv = document.getElementById(`predictions${participantNumber}`);
             predictionsDiv.innerHTML = 'Loading...'; // Show a loading message
-            if (selectedFile) {
-                fetch(selectedFile)
+            if (selectedscores) {
+                fetch(selectedscores)
                     .then(response => {
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
@@ -177,7 +177,7 @@
             }
         }
 
-        // Fetch the JSON file and populate dropdowns on page load
+        // Fetch the JSON scores and populate dropdowns on page load
         window.onload = function () {
             fetch('./jsons/participants.json')
                 .then(response => response.json())

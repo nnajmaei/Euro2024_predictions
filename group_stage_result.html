@@ -248,7 +248,7 @@
             let matchFound = false;
 
             for (const participant of participants.participants) {
-                const csvResponse = await fetch(participant.file);
+                const csvResponse = await fetch(participant.scores);
                 const csvData = await csvResponse.text();
                 const rows = csvData.split('\n').map(row => row.split(','));
 
