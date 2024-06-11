@@ -130,7 +130,7 @@
             ];
 
             let tableHTML = '<table>';
-            rows.forEach(row => {
+            rows.forEach((row, rowIndex) => {
                 tableHTML += '<tr>';
                 row.forEach((cell, cellIndex) => {
                     const cellContent = cell.trim();
@@ -138,24 +138,27 @@
                     const cellClass = boldText.includes(cellContent) ? 'bold-text' : '';
                     tableHTML += `<td class="${cellClass}">${flagImg}${cellContent}</td>`;
 
-                    if (actualResults && cellIndex > 0 && !isNaN(cellContent)) {
-                        const actualScore1 = parseInt(actualResults[0]);
-                        const actualScore2 = parseInt(actualResults[1]);
-                        const predictedScore1 = parseInt(cellContent);
-                        const predictedScore2 = parseInt(row[cellIndex + 1]);
+                    if (actualResults && rowIndex > 0 && cellIndex === 0) {
+                        const actualResult = actualResults.find(resultRow => resultRow.includes(cellContent));
+                        if (actualResult) {
+                            const actualScore1 = parseInt(actualResult[1]);
+                            const actualScore2 = parseInt(actualResult[2]);
+                            const predictedScore1 = parseInt(row[cellIndex + 1]);
+                            const predictedScore2 = parseInt(row[cellIndex + 2]);
 
-                        let participantScore = 0;
-                        if (predictedScore1 === actualScore1 && predictedScore2 === actualScore2) {
-                            participantScore = 10;
-                        } else if ((actualScore1 - actualScore2 === predictedScore1 - predictedScore2) && (actualScore1 > actualScore2 && predictedScore1 > predictedScore2 || actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
-                            participantScore = 8;
-                        } else if (actualScore1 === actualScore2 && predictedScore1 === predictedScore2) {
-                            participantScore = 5;
-                        } else if ((actualScore1 > actualScore2 && predictedScore1 > predictedScore2) || (actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
-                            participantScore = 5;
+                            let participantScore = 0;
+                            if (predictedScore1 === actualScore1 && predictedScore2 === actualScore2) {
+                                participantScore = 10;
+                            } else if ((actualScore1 - actualScore2 === predictedScore1 - predictedScore2) && (actualScore1 > actualScore2 && predictedScore1 > predictedScore2 || actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
+                                participantScore = 8;
+                            } else if (actualScore1 === actualScore2 && predictedScore1 === predictedScore2) {
+                                participantScore = 5;
+                            } else if ((actualScore1 > actualScore2 && predictedScore1 > predictedScore2) || (actualScore1 < actualScore2 && predictedScore1 < predictedScore2)) {
+                                participantScore = 5;
+                            }
+
+                            tableHTML += `<td>${participantScore}</td>`;
                         }
-
-                        tableHTML += `<td>${participantScore}</td>`;
                     }
                 });
                 tableHTML += '</tr>';
