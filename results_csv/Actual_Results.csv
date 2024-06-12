@@ -1,78 +1,77 @@
-Group Stage Predictions
-Group A
-June 14,Germany,3,Scotland,0
-June 15,Hungary,1,Switzerland,0
-June 19,Scotland,1,Switzerland,1
-June 19,Germany,1,Hungary,1
-June 23,Switzerland,0,Germany,2
-June 23,Scotland,0,Hungary,1
-
-Group B
-June 15,Spain,2,Croatia,1
-June 15,Italy,3,Albania,0
-June 19,Croatia,1,Albania,0
-June 20,Spain,1,Italy,1
-June 24,Albania,0,Spain,3
-June 24,Croatia,1,Italy,2
-
-Group C
-June 16,Serbia,0,England,1
-June 16,Slovenia,0,Denmark,1
-June 20,Denmark,1,England,1
-June 20,Slovenia,0,Serbia,2
-June 25,England,3,Slovenia,0
-June 25,Denmark,1,Serbia,1
-
-Group D
-June 16,Poland,0,Netherlands,2
-June 17,Austria,1,France,2
-June 21,Poland,0,Austria,1
-June 21,Netherlands,1,France,2
-June 25,France,1,Poland,0
-June 25,Netherlands,1,Austria,1
-
-Group E
-June 17,Romania,0,Ukraine,1
-June 17,Belgium,1,Slovakia,0
-June 21,Slovakia,0,Ukraine,1
-June 22,Belgium,2,Romania,0
-June 26,Slovakia,1,Romania,1
-June 26,Ukraine,0,Belgium,3
-
-Group F
-June 18,Turkey,1,Georgia,0
-June 18,Portugal,1,Czechia,0
-June 22,Georgia,0,Czechia,0
-June 22,Portugal,1,Turkey,0
-June 26,Czechia,0,Turkey,0
-June 26,Georgia,0,Portugal,1
-
-Knockout Stage Predictions
-Round of 16
-June 30,Spain,Czechia,Spain
-June 29,Germany,Denmark,Germany
-July 1,England,Austria,England
-July 1,Netherlands,Ukraine,Netherlands
-July 2,Belgium,Serbia,Belgium
-July 2,France,Turkey,France
-June 30,Portugal,Croatia,Portugal
-June 29,Hungary,Italy,Italy
-
-Quarterfinals
-July 5,Spain,Germany,Spain
-July 5,England,Netherlands,England
-July 6,Belgium,France,France
-July 6,Portugal,Italy,Italy
-
-Semifinals
-July 9,Spain,England,England
-July 10,France,Italy,France
-
-Final
-July 14,England,France,France
-
-Additional Predictions
-Top Goalscorer,Kane
-Best Goalkeeper,Lloris
-Player of Tournament,Mbappe
-Participant Name,
+Group Stage Predictions,,,
+Group A,,,
+14-Jun,Germany,,Scotland
+15-Jun,Hungary,,Switzerland
+19-Jun,Scotland,,Switzerland
+19-Jun,Germany,,Hungary
+23-Jun,Switzerland,,Germany
+23-Jun,Scotland,,Hungary
+,,,
+Group B,,,
+15-Jun,Spain,,Croatia
+15-Jun,Italy,,Albania
+19-Jun,Croatia,,Albania
+20-Jun,Spain,,Italy
+24-Jun,Albania,,Spain
+24-Jun,Croatia,,Italy
+,,,
+Group C,,,
+16-Jun,Serbia,,England
+16-Jun,Slovenia,,Denmark
+20-Jun,Denmark,,England
+20-Jun,Slovenia,,Serbia
+25-Jun,England,,Slovenia
+25-Jun,Denmark,,Serbia
+,,,
+Group D,,,
+16-Jun,Poland,,Netherlands
+17-Jun,Austria,,France
+21-Jun,Poland,,Austria
+21-Jun,Netherlands,,France
+25-Jun,France,,Poland
+25-Jun,Netherlands,,Austria
+,,,
+Group E,,,
+17-Jun,Romania,,Ukraine
+17-Jun,Belgium,,Slovakia
+21-Jun,Slovakia,,Ukraine
+22-Jun,Belgium,,Romania
+26-Jun,Slovakia,,Romania
+26-Jun,Ukraine,,Belgium
+,,,
+Group F,,,
+18-Jun,Turkey,,Georgia
+18-Jun,Portugal,,Czechia
+22-Jun,Georgia,,Czechia
+22-Jun,Portugal,,Turkey
+26-Jun,Czechia,,Turkey
+26-Jun,Georgia,,Portugal
+,,,
+Knockout Stage Predictions,,,
+Round of 16,,,
+30-Jun,,,
+29-Jun,,,
+01-Jul,,,
+01-Jul,,,
+02-Jul,,,
+02-Jul,,,
+30-Jun,,,
+29-Jun,,,
+,,,
+Quarterfinals,,,
+05-Jul,,,
+05-Jul,,,
+06-Jul,,,
+06-Jul,,,
+,,,
+Semifinals,,,
+09-Jul,,,
+10-Jul,,,
+,,,
+Final,,,
+14-Jul,,,
+,,,
+Additional Predictions,,,
+Top Goalscorer,,,
+Best Goalkeeper,,,
+Player of Tournament,,,
