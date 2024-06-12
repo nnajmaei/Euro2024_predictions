@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,64 +38,37 @@
             padding: 0;
         }
 
-        .points-list li {
-            display: flex;
+        ul li {
             margin-bottom: 10px;
-        }
-
-        .points-list li strong:first-child {
-            flex: 0 0 200px; /* Adjusted width to allow more space for the text */
-            text-align: right;
-            margin-right: 10px;
-            white-space: nowrap; /* Prevent text wrapping */
-        }
-
-        .points-list li .description {
-            flex: 1;
-            text-align: left;
-        }
-
-        .section {
-            margin-bottom: 20px;
         }
     </style>
 </head>
-
 <body>
     <div class="logo-container">
         <img src="./logos/logo.png" alt="Euro 2024 Logo" style="width:200px;">
     </div>
     <div class="content">
         <h1>Points System</h1>
-        <ul class="points-list">
-            <li class="section">
-                <strong>Group Stage Predictions:</strong>
-                <ul>
-                    <li><strong>10 points:</strong><span class="description">If the exact scoreline is predicted</span></li>
-                    <li><strong>8 points:</strong><span class="description">If the predicted goal difference and match outcome (only win or loss) match the actual result, even if the exact scores do not.</span></li>
-                    <li><strong>5 points:</strong><span class="description">If the predicted result is a draw, and the actual result is also a draw, regardless of the exact score.</span></li>
-                    <li><strong>5 points:</strong><span class="description">If the predicted match outcome (win or loss) is correct, but the exact scores or goal difference are incorrect.</span></li>
-                    <li><strong>0 points:</strong><span class="description">If none of the above conditions are met.</span></li>
-                </ul>
-            </li>
-            <li class="section">
-                <strong>Knockout Stage Predictions:</strong>
-                <ul>
-                    <li><strong>R16:</strong><span class="description">20 points for correctly predicting the qualified teams to QF</span></li>
-                    <li><strong>QF:</strong><span class="description">40 points for correctly predicting the qualified teams to SF</span></li>
-                    <li><strong>SF:</strong><span class="description">60 points for correctly predicting the qualified teams to F</span></li>
-                    <li><strong>F:</strong><span class="description">80 points for correctly predicting the Champions</span></li>
-                </ul>
-            </li>
-            <li class="section">
-                <strong>Top Players Predictions:</strong>
-                <ul>
-                    <li><strong>80 points:</strong><span class="description">for correctly predicting the Top Goal Scorer.</span></li>
-                    <li><strong>80 points:</strong><span class="description">for correctly predicting the Best Player.</span></li>
-                </ul>
-            </li>
+        <h2>Group Stage Predictions:</h2>
+        <ul>
+            <li>10 points: If the exact scoreline is predicted</li>
+            <li>8 points: If the predicted match outcome (only win or loss) and GD match the actual result, even if the exact scores do not.</li>
+            <li>5 points: If the predicted result is a draw, and the actual result is also a draw, regardless of the exact score.</li>
+            <li>5 points: If the predicted match outcome (win or loss) is correct, but the exact scores or goal difference are incorrect.</li>
+            <li>0 points: If none of the above conditions are met.</li>
+        </ul>
+        <h2>Knockout Stage Predictions:</h2>
+        <ul>
+            <li>R16: 20 points for correctly predicting the qualified teams to QF</li>
+            <li>QF: 40 points for correctly predicting the qualified teams to SF</li>
+            <li>SF: 60 points for correctly predicting the qualified teams to F</li>
+            <li>F: 80 points for correctly predicting the Champions</li>
+        </ul>
+        <h2>Top Players Predictions:</h2>
+        <ul>
+            <li>80 points: for correctly predicting the Top Goal Scorer.</li>
+            <li>80 points: for correctly predicting the Best Player.</li>
         </ul>
     </div>
 </body>
-
 </html>
