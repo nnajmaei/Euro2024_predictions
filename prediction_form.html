@@ -1036,7 +1036,7 @@
             <input type="text" id="topGoalscorer">
         </div>
         <div>
-            <label for="bestGoalkeeper">Best GoalKeeper:</label>
+            <label for="bestGoalkeeper">Best GoalKeeper (LEAVE BLANK):</label>
             <input type="text" id="bestGoalkeeper">
         </div>
     </div>
@@ -1571,7 +1571,6 @@
 
             csvContent += "Top Players\n";
             csvContent += `Top Goalscorer,${predictions.additional.topGoalscorer}\n`;
-            csvContent += `Best Goalkeeper (LEAVE BLANK),${predictions.additional.bestGoalkeeper}\n`;
             csvContent += `Player of Tournament,${predictions.additional.MVP}\n`;
             csvContent += `Participant Name,${predictions.additional.participantName}\n`;
 
