@@ -104,6 +104,13 @@
             border-radius: 3px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
         }
+
+        #scoresTableContainer {
+            background-color: #1e1e1e;
+            color: #7c7a7a;
+            padding: 20px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
@@ -207,7 +214,7 @@
 
         function saveTableAsJPG() {
             const tableContainer = document.getElementById('scoresTableContainer');
-            html2canvas(tableContainer).then(canvas => {
+            html2canvas(tableContainer, { backgroundColor: null, useCORS: true }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = 'table.jpg';
                 link.href = canvas.toDataURL('image/jpeg');
