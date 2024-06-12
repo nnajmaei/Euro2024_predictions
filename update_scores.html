@@ -62,7 +62,7 @@
                     const participantRows = csvData.split('\n').map(row => row.split(','));
 
                     participantCSV += 'Group Stage\n'
-                    participantCSV += 'Group A,,,,Score\n'
+                    participantCSV += 'Group A,,,,,Point\n'
 
                     for (let i = 2; i < 8; i++) {
                         const row = actualResultsRows[i];
