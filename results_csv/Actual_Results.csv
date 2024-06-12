@@ -1,75 +1,75 @@
 Group Stage Predictions
 Group A
-June 14,Germany,2,Scotland,2
-June 15,Hungary,1,Switzerland,2
-June 19,Scotland,1,Switzerland,2
-June 19,Germany,3,Hungary,2
-June 23,Switzerland,1,Germany,2
-June 23,Scotland,1,Hungary,2
+June 14,Germany,3,Scotland,0
+June 15,Hungary,1,Switzerland,0
+June 19,Scotland,1,Switzerland,1
+June 19,Germany,1,Hungary,1
+June 23,Switzerland,0,Germany,2
+June 23,Scotland,0,Hungary,1
 
 Group B
-June 15,Spain,1,Croatia,2
-June 15,Italy,1,Albania,1
-June 19,Croatia,1,Albania,2
-June 20,Spain,1,Italy,2
-June 24,Albania,1,Spain,2
-June 24,Croatia,1,Italy,1
+June 15,Spain,2,Croatia,1
+June 15,Italy,3,Albania,0
+June 19,Croatia,1,Albania,0
+June 20,Spain,1,Italy,1
+June 24,Albania,0,Spain,3
+June 24,Croatia,1,Italy,2
 
 Group C
-June 16,Serbia,1,England,2
-June 16,Slovenia,1,Denmark,1
-June 20,Denmark,2,England,2
-June 20,Slovenia,2,Serbia,1
-June 25,England,1,Slovenia,2
-June 25,Denmark,1,Serbia,2
+June 16,Serbia,0,England,1
+June 16,Slovenia,0,Denmark,1
+June 20,Denmark,1,England,1
+June 20,Slovenia,0,Serbia,2
+June 25,England,3,Slovenia,0
+June 25,Denmark,1,Serbia,1
 
 Group D
-June 16,Poland,1,Netherlands,1
-June 17,Austria,5,France,1
-June 21,Poland,2,Austria,1
-June 21,Netherlands,2,France,2
-June 25,France,2,Poland,1
-June 25,Netherlands,2,Austria,1
+June 16,Poland,0,Netherlands,2
+June 17,Austria,1,France,2
+June 21,Poland,0,Austria,1
+June 21,Netherlands,1,France,2
+June 25,France,1,Poland,0
+June 25,Netherlands,1,Austria,1
 
 Group E
-June 17,Romania,2,Ukraine,1
-June 17,Belgium,2,Slovakia,1
-June 21,Slovakia,1,Ukraine,2
-June 22,Belgium,1,Romania,1
-June 26,Slovakia,2,Romania,1
-June 26,Ukraine,1,Belgium,2
+June 17,Romania,0,Ukraine,1
+June 17,Belgium,1,Slovakia,0
+June 21,Slovakia,0,Ukraine,1
+June 22,Belgium,2,Romania,0
+June 26,Slovakia,1,Romania,1
+June 26,Ukraine,0,Belgium,3
 
 Group F
-June 18,Turkey,1,Georgia,1
-June 18,Portugal,1,Czechia,2
-June 22,Georgia,1,Czechia,1
-June 22,Portugal,1,Turkey,2
-June 26,Czechia,1,Turkey,1
-June 26,Georgia,2,Portugal,1
+June 18,Turkey,1,Georgia,0
+June 18,Portugal,1,Czechia,0
+June 22,Georgia,0,Czechia,0
+June 22,Portugal,1,Turkey,0
+June 26,Czechia,0,Turkey,0
+June 26,Georgia,0,Portugal,1
 
 Knockout Stage Predictions
 Round of 16
-June 30,Italy,France,Italy
-June 29,Germany,England,Germany
-July 1,Slovenia,Czechia,Czechia
-July 1,Poland,Romania,Poland
-July 2,Belgium,Hungary,Belgium
-July 2,Netherlands,Georgia,Netherlands
-June 30,Turkey,Albania,Turkey
-June 29,Switzerland,Croatia,Switzerland
+June 30,Spain,Czechia,Spain
+June 29,Germany,Denmark,Germany
+July 1,England,Austria,England
+July 1,Netherlands,Ukraine,Netherlands
+July 2,Belgium,Serbia,Belgium
+July 2,France,Turkey,France
+June 30,Portugal,Croatia,Portugal
+June 29,Hungary,Italy,Italy
 
 Quarterfinals
-July 5,Italy,Germany,Germany
-July 5,Czechia,Poland,Poland
-July 6,Belgium,Netherlands,Belgium
-July 6,Turkey,Switzerland,Switzerland
+July 5,Spain,Germany,Spain
+July 5,England,Netherlands,England
+July 6,Belgium,France,France
+July 6,Portugal,Italy,Italy
 
 Semifinals
-July 9,France,Poland,Germany
-July 10,Belgium,Switzerland,Belgium
+July 9,Spain,England,England
+July 10,France,Italy,France
 
 Final
-July 14,Germany,Belgium,Germany
+July 14,England,France,France
 
 Additional Predictions
 Top Goalscorer,Kane
