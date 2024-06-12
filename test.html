@@ -5,13 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="./logos/favicon.png">
-    <title>Combined Page</title>
+    <title>Admin Page</title>
     <style>
         body {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             margin: 10px;
             background-color: #1e1e1e;
             color: #7c7a7a;
+            text-align: center;
         }
 
         .logo-container {
@@ -164,10 +165,12 @@
     <div class="logo-container">
         <img src="./logos/logo.png" alt="Euro 2024 Logo" style="width:300px;">
     </div>
-
+    <hr>
+    <h2>Update Score Cards</h2>
     <div class="center">
         <button onclick="generateScoresCSV()">Generate Scores CSV</button>
     </div>
+    <hr>
     <script>
         async function generateScoresCSV() {
             try {
@@ -265,7 +268,7 @@
                                         participantScore = 8;
                                     } else if (actual1 === actual2 && predicted1 === predicted2) {
                                         participantScore = 5;
-                                    } else if ((actual1 > actual2 && predicted1 > predicted2) || (actual1 < actual2 && predicted1 < predictedScore2)) {
+                                    } else if ((actual1 > actual2 && predicted1 > predictedScore2) || (actual1 < actual2 && predicted1 < predictedScore2)) {
                                         participantScore = 5;
                                     } else {
                                         participantScore = 0;
@@ -600,6 +603,8 @@
         }
     </script>
 
+    <h2>Tables</h2>
+
     <div class="center">
         <select id="dateSelector" onchange="generateScoresTable()">
             <option value="Overall">Overall</option>
@@ -609,6 +614,7 @@
     <div class="center">
         <button class="save-button" onclick="saveTableAsJPG()">Save Table as JPG</button>
     </div>
+    <hr>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
@@ -693,6 +699,8 @@
             });
         }
     </script>
+
+    <h2>GbyG Results</h2>
 
     <div class="dropdown-container">
         <label for="country1-1">Country 1:</label>
@@ -914,6 +922,7 @@
             link.click();
         }
     </script>
+    <hr>
     <div class="footnote">
         &copy; 2024. Website created by Nima N.
     </div>
