@@ -119,16 +119,15 @@
         }
 
         .capture-button {
-            background-color: rgb(88, 87, 87);
-            color: black;
-            padding: 5px 5px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
             font-size: 16px;
-            margin: 4px 2px;
+            color: black;
+            background-color: white;
+            border: 1px solid #444;
+            border-radius: 5px;
             cursor: pointer;
-            border: none;
         }
     </style>
 </head>
@@ -196,9 +195,8 @@
     <div id="resultsContainer-3" class="center"></div>
     <div id="resultsContainer-4" class="center"></div>
 
-    <button class="capture-button" onclick="captureTables()">Download as JPEG</button>
+    <button class="capture-button" onclick="captureScreenshot()">Capture Screenshot</button>
 
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
         const countries = {
             'Germany': 'https://flagcdn.com/w20/de.png',
@@ -356,45 +354,20 @@
             }
         }
 
-        async function captureTables() {
-            const resultsContainers = document.querySelectorAll('.center');
-            if (resultsContainers.length === 0) {
-                alert('No tables to capture!');
-                return;
-            }
-
-            try {
-                const canvasPromises = Array.from(resultsContainers).map(container => html2canvas(container));
-
-                const canvases = await Promise.all(canvasPromises);
-                const mergedCanvas = document.createElement('canvas');
-                const ctx = mergedCanvas.getContext('2d');
-                const totalHeight = canvases.reduce((sum, canvas) => sum + canvas.height, 0);
-                const maxWidth = Math.max(...canvases.map(canvas => canvas.width));
-                mergedCanvas.width = maxWidth;
-                mergedCanvas.height = totalHeight;
-
-                let yOffset = 0;
-                canvases.forEach(canvas => {
-                    ctx.drawImage(canvas, 0, yOffset);
-                    yOffset += canvas.height;
-                });
-
-                mergedCanvas.toBlob(blob => {
-                    const url = URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = 'tables.jpeg';
-                    link.click();
-                }, 'image/jpeg');
-            } catch (error) {
-                console.error('Error capturing tables:', error);
-            }
+        async function captureScreenshot() {
+            const element = document.body;
+            const canvas = await html2canvas(element);
+            const imgData = canvas.toDataURL('image/jpeg');
+            const link = document.createElement('a');
+            link.href = imgData;
+            link.download = 'predictions_screenshot.jpg';
+            link.click();
         }
     </script>
     <div class="footnote">
         &copy; 2024. Website created by Nima N.
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 </body>
 
 </html>
