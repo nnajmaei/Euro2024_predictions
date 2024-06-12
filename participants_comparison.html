@@ -18,8 +18,6 @@
             border-collapse: collapse;
             margin: 0;
             margin-bottom: 10px;
-            vertical-align: top;
-            justify-content: center;
         }
 
         table,
@@ -53,10 +51,11 @@
         .comparison-container {
             display: flex;
             justify-content: space-between;
+            gap: 10px; /* Adjust gap between participant containers */
         }
 
         .participant-container {
-            width: 30%;
+            flex: 1; /* Make each participant container take equal space */
         }
 
         .logo-container {
@@ -75,7 +74,6 @@
         }
     </style>
 </head>
-
 
 <body>
     <div class="logo-container">
