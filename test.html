@@ -188,16 +188,7 @@
 
         function saveTableAsJPG() {
             const tableContainer = document.getElementById('scoresTableContainer');
-            const rect = tableContainer.getBoundingClientRect();
-            
-            html2canvas(tableContainer, {
-                x: rect.left,
-                y: rect.top,
-                width: rect.width,
-                height: rect.height,
-                scrollX: -window.scrollX,
-                scrollY: -window.scrollY,
-            }).then(canvas => {
+            html2canvas(tableContainer).then(canvas => {
                 const link = document.createElement('a');
                 link.download = 'table.jpg';
                 link.href = canvas.toDataURL('image/jpeg');
