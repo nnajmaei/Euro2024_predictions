@@ -220,7 +220,7 @@
                 }
             }
 
-            let headerHTML = `<h2><img src="${countries[country1]}" alt="${country1} flag"> ${country1} vs. ${country2} <img src="${countries[country2]}" alt="${country2} flag"></h2>`;
+            let headerHTML = `<h2><img src="${countries[country1]}" alt="${country1} flag"> ${country1} ${actualResult[0]} - ${actualResult[1]} ${country2} <img src="${countries[country2]}" alt="${country2} flag"></h2>`;
             let tableHTML = '<table>';
             tableHTML += '<tr><th>Participant</th>';
             participants.participants.forEach(participant => {
@@ -231,17 +231,6 @@
             participants.participants.forEach(participant => {
                 tableHTML += `<td><img src="${countries[country1]}" alt="${country1} flag"></td><td><img src="${countries[country2]}" alt="${country2} flag"></td>`;
             });
-            tableHTML += '</tr>';
-            tableHTML += '<tr><th>Actual Results</th>';
-            if (actualResult[0] === '' || actualResult[1] === '') {
-                participants.participants.forEach(() => {
-                    tableHTML += '<td colspan="2">Game not played yet</td>';
-                });
-            } else {
-                participants.participants.forEach(() => {
-                    tableHTML += `<td>${actualResult[0]}</td><td>${actualResult[1]}</td>`;
-                });
-            }
             tableHTML += '</tr>';
             tableHTML += '<tr><th>Predicted Scores</th>';
             let scoresRowHTML = '<tr><th>Scores</th>';
@@ -286,7 +275,7 @@
                 if (participantPrediction.length > 0) {
                     tableHTML += `<td>${participantPrediction[0]}</td><td>${participantPrediction[1]}</td>`;
                 } else {
-                    tableHTML += '<td>N/A</td><td>N/A</td>';
+                    tableHTML += '<td>N/A</td><td>N/A></td>';
                 }
                 scoresRowHTML += `<td colspan="2">${participantScore}</td>`;
             }
