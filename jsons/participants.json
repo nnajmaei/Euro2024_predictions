@@ -1,14 +1,9 @@
 {
   "participants": [
     {
-      "name": "Nima N",
-      "file": "./predictions_csv/Nima_N.csv",
+      "name": "Ali B",
+      "file": "./predictions_csv/Ali_B.csv",
       "scores": "./results_csv/Nima_N_scores.csv"
-    },
-    {
-      "name": "Ramin R",
-      "file": "./predictions_csv/Ramin_R.csv",
-      "scores": "./results_csv/Ramin_R_scores.csv"
     }
   ]
 }
