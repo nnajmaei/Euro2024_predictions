@@ -1580,7 +1580,7 @@
             csvContent += `Participant Name,${predictions.additional.participantName}\n`;
 
             const participantName = predictions.additional.participantName.replace(/\s+/g, '_');
-            const fileName = `${participantName}_euro_2024_predictions.csv`;
+            const fileName = `${participantName}.csv`;
 
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
