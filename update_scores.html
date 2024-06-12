@@ -47,10 +47,18 @@
     <script>
         async function generateScoresCSV() {
             try {
+                console.log('Fetching participants.json...');
                 const response = await fetch('./jsons/participants.json');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
                 const participants = await response.json();
+                console.log('Participants:', participants);
 
                 const actualResultsResponse = await fetch('./results_csv/Actual_Results.csv');
+                if (!actualResultsResponse.ok) {
+                    throw new Error('Network response was not ok');
+                }
                 const actualResultsData = await actualResultsResponse.text();
                 const actualResultsRows = actualResultsData.split('\n').map(row => row.split(','));
 
@@ -58,6 +66,9 @@
                     let participantCSV = '';
 
                     const csvResponse = await fetch(participant.file);
+                    if (!csvResponse.ok) {
+                        throw new Error('Network response was not ok');
+                    }
                     const csvData = await csvResponse.text();
                     const participantRows = csvData.split('\n').map(row => row.split(','));
 
@@ -98,7 +109,7 @@
                                     participantScore = 8;
                                 } else if (actual1 === actual2 && predicted1 === predicted2) {
                                     participantScore = 5;
-                                } else if ((actual1 > actual2 && predicted1 > predicted2) || (actual1 < actual2 && predicted1 < predicted2)) {
+                                } else if ((actual1 > actual2 && predicted1 > predicted2) || (actual1 < actual2 && predicted1 < actual2)) {
                                     participantScore = 5;
                                 } else {
                                     participantScore = 0;
@@ -429,8 +440,8 @@
             }
 
             catch (error) {
-            console.error('Error generating scores CSV:', error);
-        }
+                console.error('Error generating scores CSV:', error);
+            }
         }
 
         function downloadCSV(csv, filename) {
