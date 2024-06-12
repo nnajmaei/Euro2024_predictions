@@ -33,16 +33,6 @@
             height: 36px;
         }
 
-        button {
-            background-color: #fff;
-            color: #000;
-            padding: 10px 20px;
-            margin-top: 10px;
-            border: 1px solid #444444;
-            cursor: pointer;
-            height: 36px;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
@@ -102,7 +92,6 @@
         <select id="country2-1">
             <option value="">Select...</option>
         </select>
-        <button onclick="showPredictions(1)">Show Predictions</button>
     </div>
     <div class="dropdown-container">
         <label for="country1-2">Country 1:</label>
@@ -113,7 +102,6 @@
         <select id="country2-2">
             <option value="">Select...</option>
         </select>
-        <button onclick="showPredictions(2)">Show Predictions</button>
     </div>
     <div class="dropdown-container">
         <label for="country1-3">Country 1:</label>
@@ -124,7 +112,6 @@
         <select id="country2-3">
             <option value="">Select...</option>
         </select>
-        <button onclick="showPredictions(3)">Show Predictions</button>
     </div>
     <div class="dropdown-container">
         <label for="country1-4">Country 1:</label>
@@ -135,7 +122,6 @@
         <select id="country2-4">
             <option value="">Select...</option>
         </select>
-        <button onclick="showPredictions(4)">Show Predictions</button>
     </div>
 
     <div id="resultsContainer-1" class="center"></div>
@@ -187,6 +173,9 @@
                     option2.text = country;
                     country2Select.add(option2);
                 }
+
+                country1Select.addEventListener('change', () => showPredictions(i));
+                country2Select.addEventListener('change', () => showPredictions(i));
             }
         });
 
@@ -197,7 +186,6 @@
             resultsContainer.innerHTML = '';
 
             if (!country1 || !country2) {
-                alert('Please select both countries.');
                 return;
             }
 
