@@ -190,10 +190,12 @@
 
     <div id="error-message" class="error-message"></div>
 
-    <div id="resultsContainer-1" class="center"></div>
-    <div id="resultsContainer-2" class="center"></div>
-    <div id="resultsContainer-3" class="center"></div>
-    <div id="resultsContainer-4" class="center"></div>
+    <div id="results-container">
+        <div id="resultsContainer-1" class="center"></div>
+        <div id="resultsContainer-2" class="center"></div>
+        <div id="resultsContainer-3" class="center"></div>
+        <div id="resultsContainer-4" class="center"></div>
+    </div>
 
     <button class="capture-button" onclick="captureScreenshot()">Capture Screenshot</button>
 
@@ -355,7 +357,7 @@
         }
 
         async function captureScreenshot() {
-            const element = document.body;
+            const element = document.getElementById('results-container');
             const canvas = await html2canvas(element);
             const imgData = canvas.toDataURL('image/jpeg');
             const link = document.createElement('a');
