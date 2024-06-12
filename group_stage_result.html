@@ -76,6 +76,7 @@
         .center img {
             vertical-align: middle;
         }
+
         .menu-container {
             display: flex;
             justify-content: flex-end;
@@ -86,6 +87,7 @@
             list-style-type: none;
             padding: 0;
         }
+
         .menu li {
             display: inline;
             margin-left: 20px;
@@ -95,6 +97,12 @@
             color: #7c7a7a;
             text-decoration: none;
             font-weight: bold;
+        }
+
+        .error-message {
+            color: red;
+            font-weight: bold;
+            text-align: center;
         }
     </style>
 </head>
@@ -155,6 +163,8 @@
         </select>
     </div>
 
+    <div id="error-message" class="error-message"></div>
+
     <div id="resultsContainer-1" class="center"></div>
     <div id="resultsContainer-2" class="center"></div>
     <div id="resultsContainer-3" class="center"></div>
@@ -213,10 +223,17 @@
         async function showPredictions(moduleNumber) {
             const country1 = document.getElementById(`country1-${moduleNumber}`).value;
             const country2 = document.getElementById(`country2-${moduleNumber}`).value;
+            const errorMessage = document.getElementById('error-message');
             const resultsContainer = document.getElementById(`resultsContainer-${moduleNumber}`);
             resultsContainer.innerHTML = '';
+            errorMessage.innerHTML = '';
 
             if (!country1 || !country2) {
+                return;
+            }
+
+            if (country1 === country2) {
+                errorMessage.innerHTML = `The name of the two countries should be different for set ${moduleNumber}.`;
                 return;
             }
 
