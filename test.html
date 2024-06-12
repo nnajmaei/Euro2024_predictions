@@ -129,6 +129,13 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+        #results-container {
+            background-color: #1e1e1e;
+            color: #7c7a7a;
+            padding: 20px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
@@ -139,7 +146,7 @@
             <li><a href="./comp_euros.html">Euro2024 Results</a></li>
             <li><a href="./gbyg.html">Game by Game Points</a></li>
             <li><a href="./pvp.html">Player vs Player</a></li>
-            <li><a href="./all_pred.html">Download All Predictions</a></li>
+            <li><a href="./dl_pdf.html">Download All Predictions</a></li>
             <li><a href="./predict.html">Prediction Form</a></li>
             <li><a href="./rules.html">Points System</a></li>
         </ul>
@@ -358,7 +365,7 @@
 
         async function captureScreenshot() {
             const element = document.getElementById('results-container');
-            const canvas = await html2canvas(element, { allowTaint: true, useCORS: true });
+            const canvas = await html2canvas(element, { backgroundColor: null, useCORS: true });
             const imgData = canvas.toDataURL('image/jpeg');
             const link = document.createElement('a');
             link.href = imgData;
