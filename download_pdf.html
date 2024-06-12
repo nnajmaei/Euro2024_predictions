@@ -6,41 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Download All Participants Predictions</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-    <style>
-        body {
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            margin: 10px;
-            background-color: #1e1e1e;
-            color: #7c7a7a;
-        }
+    <meta http-equiv="refresh" content="0;url=data:application/pdf;base64,JVBERi0xLjQKJcTl8uXrp..."> <!-- URL should be base64 encoded PDF content -->
 
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .button-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        button {
-            background-color: white;
-            color: black;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border: 2px solid black;
-        }
-    </style>
-</head>
-
-<body>
     <script>
         document.addEventListener('DOMContentLoaded', downloadPDF);
 
@@ -144,6 +111,9 @@
             reader.readAsDataURL(logoBlob);
         }
     </script>
+</head>
+
+<body>
 </body>
 
 </html>
