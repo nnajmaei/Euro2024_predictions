@@ -353,16 +353,17 @@
             }
         }
 
-        function captureTables() {
+        async function captureTables() {
             const resultsContainers = document.querySelectorAll('.center');
             if (resultsContainers.length === 0) {
                 alert('No tables to capture!');
                 return;
             }
 
-            const canvasPromises = Array.from(resultsContainers).map(container => html2canvas(container));
+            try {
+                const canvasPromises = Array.from(resultsContainers).map(container => html2canvas(container));
 
-            Promise.all(canvasPromises).then(canvases => {
+                const canvases = await Promise.all(canvasPromises);
                 const mergedCanvas = document.createElement('canvas');
                 const ctx = mergedCanvas.getContext('2d');
                 const totalHeight = canvases.reduce((sum, canvas) => sum + canvas.height, 0);
@@ -383,7 +384,9 @@
                     link.download = 'tables.jpeg';
                     link.click();
                 }, 'image/jpeg');
-            });
+            } catch (error) {
+                console.error('Error capturing tables:', error);
+            }
         }
     </script>
     <div class="footnote">
