@@ -95,13 +95,11 @@
                                     if (predicted1 === actual1 && predicted2 === actual2) {
                                         participantScore = 10;
                                     } else if ((actual1 - actual2 === predicted1 - predicted2) &&
-                                        ((actual1 > actual2 && predicted1 > actual2) ||
-                                            (actual1 < actual2 && predicted1 < actual2))) {
+                                        ((actual1 > actual2 && predicted1 > predicted2) || (actual1 < actual2 && predicted1 < predicted2))) {
                                         participantScore = 8;
                                     } else if (actual1 === actual2 && predicted1 === predicted2) {
                                         participantScore = 5;
-                                    } else if ((actual1 > actual2 && predicted1 > actual2) ||
-                                        (actual1 < actual2 && predicted1 < actual2)) {
+                                    } else if ((actual1 > actual2 && predicted1 > predicted2) || (actual1 < actual2 && predicted1 < predicted2)) {
                                         participantScore = 5;
                                     } else {
                                         participantScore = 0;
