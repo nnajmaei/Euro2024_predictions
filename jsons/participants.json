@@ -9,11 +9,6 @@
       "name": "Ramin R",
       "file": "./predictions_csv/Ramin_R.csv",
       "scores": "./results_csv/Ramin_R_scores.csv"
-    },
-    {
-      "name": "Shahriar N",
-      "file": "./predictions_csv/Shahriar_N.csv",
-      "scores": "./results_csv/Shahriar_N_scores.csv"
     }
   ]
 }
