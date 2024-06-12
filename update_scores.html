@@ -61,54 +61,7 @@
                     const csvData = await csvResponse.text();
                     const participantRows = csvData.split('\n').map(row => row.split(','));
 
-                    // Process the first 51 rows
-                    for (let i = 0; i < 51; i++) {
-                        const row = actualResultsRows[i];
-                        if (!row[0]) {
-                            participantCSV += '\n';
-                            continue; // Keep empty lines in output
-                        }
-
-                        const date = row[0];
-                        const team1 = row[1] || '';
-                        const team2 = row[3] || '';
-                        const actualScore1 = row[2] || '';
-                        const actualScore2 = row[4] || '';
-
-                        let participantScore = '';
-                        let predictedScore1 = '';
-                        let predictedScore2 = '';
-
-                        for (const pRow of participantRows) {
-                            if (pRow.includes(team1) && pRow.includes(team2)) {
-                                const country1Index = pRow.indexOf(team1);
-                                const country2Index = pRow.indexOf(team2);
-                                predictedScore1 = pRow[country1Index + 1];
-                                predictedScore2 = pRow[country2Index + 1];
-                                if (actualScore1 && actualScore2) {
-                                    const actual1 = parseInt(actualScore1);
-                                    const actual2 = parseInt(actualScore2);
-                                    const predicted1 = parseInt(predictedScore1);
-                                    const predicted2 = parseInt(predictedScore2);
-
-                                    if (predicted1 === actual1 && predicted2 === actual2) {
-                                        participantScore = 10;
-                                    } else if ((actual1 - actual2 === predicted1 - predicted2) &&
-                                        ((actual1 > actual2 && predicted1 > predicted2) || (actual1 < actual2 && predicted1 < predicted2))) {
-                                        participantScore = 8;
-                                    } else if (actual1 === actual2 && predicted1 === predicted2) {
-                                        participantScore = 5;
-                                    } else if ((actual1 > actual2 && predicted1 > predicted2) || (actual1 < actual2 && predicted1 < predicted2)) {
-                                        participantScore = 5;
-                                    } else {
-                                        participantScore = 0;
-                                    }
-                                }
-                                break;
-                            }
-                        }
-                        participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},${participantScore}\n`;
-                    }
+                    participantCSV += processParticipantScores(0,51)
 
                     // Process lines 52 to 59
                     for (let i = 51; i < 59; i++) {
@@ -432,6 +385,62 @@
                 console.error('Error generating scores CSV:', error);
             }
         }
+        
+
+        function processParticipantScores(startIndex, endIndex) {
+            let participantCSV = '';
+
+            for (let i = startIndex; i <= endIndex; i++) {
+                const row = actualResultsRows[i];
+                if (!row[0]) {
+                    participantCSV += '\n';
+                    continue; // Keep empty lines in output
+                }
+
+                const date = row[0];
+                const team1 = row[1] || '';
+                const team2 = row[3] || '';
+                const actualScore1 = row[2] || '';
+                const actualScore2 = row[4] || '';
+
+                let participantScore = '';
+                let predictedScore1 = '';
+                let predictedScore2 = '';
+
+                for (const pRow of participantRows) {
+                    if (pRow.includes(team1) && pRow.includes(team2)) {
+                        const country1Index = pRow.indexOf(team1);
+                        const country2Index = pRow.indexOf(team2);
+                        predictedScore1 = pRow[country1Index + 1];
+                        predictedScore2 = pRow[country2Index + 1];
+                        if (actualScore1 && actualScore2) {
+                            const actual1 = parseInt(actualScore1);
+                            const actual2 = parseInt(actualScore2);
+                            const predicted1 = parseInt(predictedScore1);
+                            const predicted2 = parseInt(predictedScore2);
+
+                            if (predicted1 === actual1 && predicted2 === actual2) {
+                                participantScore = 10;
+                            } else if ((actual1 - actual2 === predicted1 - predicted2) &&
+                                ((actual1 > actual2 && predicted1 > predicted2) || (actual1 < actual2 && predicted1 < predicted2))) {
+                                participantScore = 8;
+                            } else if (actual1 === actual2 && predicted1 === predicted2) {
+                                participantScore = 5;
+                            } else if ((actual1 > actual2 && predicted1 > predicted2) || (actual1 < actual2 && predicted1 < predicted2)) {
+                                participantScore = 5;
+                            } else {
+                                participantScore = 0;
+                            }
+                        }
+                        break;
+                    }
+                }
+                participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},${participantScore}\n`;
+            }
+
+            return participantCSV;
+        }
+
 
         function downloadCSV(csv, filename) {
             const csvBlob = new Blob([csv], { type: 'text/csv' });
