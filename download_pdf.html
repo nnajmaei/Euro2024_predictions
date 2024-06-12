@@ -1,14 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download PDF</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <title>Download All Participants Predictions</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            margin: 10px;
+            background-color: #1e1e1e;
+            color: #7c7a7a;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: white;
+            color: black;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border: 2px solid black;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>PDF Download Page</h1>
-    <button onclick="downloadPDF()">Download PDF</button>
+    <div class="logo-container">
+        <img src="./logos/logo.png" alt="Euro 2024 Logo" style="width:200px;">
+    </div>
+    <div class="button-container">
+        <button onclick="downloadPDF()">Download All Participants Predictions</button>
+    </div>
 
     <script>
         async function downloadPDF() {
@@ -108,9 +146,9 @@
                 pdf.save('full_predictions.pdf');
             };
 
-            const logoArrayBuffer = await logoResponse.arrayBuffer();
-            reader.readAsDataURL(new Blob([logoArrayBuffer], { type: 'image/png' }));
+            reader.readAsDataURL(logoBlob);
         }
     </script>
 </body>
+
 </html>
