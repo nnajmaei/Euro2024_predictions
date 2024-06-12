@@ -68,7 +68,7 @@
             const endDate = new Date('2024-07-14');
             const dateSelector = document.getElementById('dateSelector');
 
-            for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
+            for (let d = endDate; d >= startDate; d.setDate(d.getDate() - 1)) {
                 const dateOption = document.createElement('option');
                 const dateString = d.toLocaleString('default', { month: 'long', day: 'numeric' });
                 dateOption.value = dateString;
