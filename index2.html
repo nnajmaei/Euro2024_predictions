@@ -104,11 +104,12 @@
                     let dateScore = 0;
 
                     for (const row of participantRows) {
-                        if (row.length === 6 && !isNaN(row[5])) {
-                            totalScore += parseInt(row[5]);
+                        if (row.length === 6) {
+                            const score = parseInt(row[5]) || 0;
+                            totalScore += score;
 
                             if (row[0] === selectedDate) {
-                                dateScore += parseInt(row[5]);
+                                dateScore += score;
                             }
                         }
                     }
