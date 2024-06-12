@@ -1540,7 +1540,7 @@
             predictions.additional.participantName = document.getElementById('participantName').value;
 
             let csvContent = "data:text/csv;charset=utf-8,";
-            csvContent += "Group Stage Predictions\n";
+            csvContent += "Group Stage\n";
             for (let group of ['a', 'b', 'c', 'd', 'e', 'f']) {
                 csvContent += `Group ${group.toUpperCase()}\n`;
                 let matches = predictions.groups[group];
@@ -1550,7 +1550,7 @@
                 csvContent += "\n";
             }
 
-            csvContent += "Knockout Stage Predictions\n";
+            csvContent += "Knockout Stage\n";
             csvContent += "Round of 16\n";
             for (let i = 1; i <= 8; i++) {
                 csvContent += `${predictions.knockout['match' + i].date},${predictions.knockout['match' + i].team1},${predictions.knockout['match' + i].team2},${predictions.knockout['match' + i].winner}\n`;
@@ -1573,7 +1573,7 @@
             csvContent += `${predictions.knockout['final'].date},${predictions.knockout['final'].team1},${predictions.knockout['final'].team2},${predictions.knockout['final'].winner}\n`;
             csvContent += "\n";
 
-            csvContent += "Additional Predictions\n";
+            csvContent += "Top Players\n";
             csvContent += `Top Goalscorer,${predictions.additional.topGoalscorer}\n`;
             csvContent += `Best Goalkeeper,${predictions.additional.bestGoalkeeper}\n`;
             csvContent += `Player of Tournament,${predictions.additional.MVP}\n`;
