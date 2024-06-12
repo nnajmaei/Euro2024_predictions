@@ -24,16 +24,6 @@
             margin-top: 20px;
         }
 
-        button {
-            background-color: #fff;
-            color: #000;
-            padding: 10px 20px;
-            margin-top: 10px;
-            border: 1px solid #444444;
-            cursor: pointer;
-            height: 36px;
-        }
-
         select {
             background-color: #fff;
             color: #000;
@@ -66,10 +56,9 @@
         <img src="./logos/logo.png" alt="Euro 2024 Logo" style="width:200px;">
     </div>
     <div class="center">
-        <select id="dateSelector">
+        <select id="dateSelector" onchange="generateScoresTable()">
             <option value="Overall">Overall</option>
         </select>
-        <button onclick="generateScoresTable()">Generate Scores Table</button>
     </div>
     <div id="scoresTableContainer" class="center"></div>
 
@@ -86,6 +75,8 @@
                 dateOption.text = dateString;
                 dateSelector.add(dateOption);
             }
+
+            generateScoresTable();
         });
 
         async function generateScoresTable() {
