@@ -354,13 +354,13 @@
         }
 
         function captureTables() {
-            const tables = document.querySelectorAll('table');
-            if (tables.length === 0) {
+            const resultsContainers = document.querySelectorAll('.center');
+            if (resultsContainers.length === 0) {
                 alert('No tables to capture!');
                 return;
             }
 
-            const canvasPromises = Array.from(tables).map(table => html2canvas(table));
+            const canvasPromises = Array.from(resultsContainers).map(container => html2canvas(container));
 
             Promise.all(canvasPromises).then(canvases => {
                 const mergedCanvas = document.createElement('canvas');
