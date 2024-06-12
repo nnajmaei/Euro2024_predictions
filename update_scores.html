@@ -122,9 +122,6 @@
 
                         if (predictedWinner) {
                             for (let j = 61; j <= 64; j++) {
-                                if (!actualResultRow[j]) {
-                                    continue;
-                                }
                                 const actualResultRow = actualResultsRows[j];
                                 if (actualResultRow.includes(predictedWinner)) {
                                     score = 20;
