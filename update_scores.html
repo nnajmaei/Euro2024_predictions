@@ -61,8 +61,8 @@
                     const csvData = await csvResponse.text();
                     const participantRows = csvData.split('\n').map(row => row.split(','));
 
-                    participantCSV+='Group Stage\n'
-                    participantCSV+='Group A\n'
+                    participantCSV += 'Group Stage\n'
+                    participantCSV += 'Group A\n'
 
                     for (let i = 2; i < 8; i++) {
                         const row = actualResultsRows[i];
@@ -337,6 +337,10 @@
                         participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},${participantScore}\n`;
                     }
 
+                    participantCSV += "\n"
+                    participantCSV += "Knockout Stage\n"
+                    participantCSV += "Round of 16\n"
+
                     // Process lines 52 to 59
                     for (let i = 51; i < 59; i++) {
                         const row = participantRows[i];
@@ -361,57 +365,8 @@
                         participantCSV += `${date},${predictedTeam1},${predictedTeam2},${predictedWinner},,${score}\n`;
                     }
 
-                    // Process lines 60 to 61
-                    for (let i = 59; i < 61; i++) {
-                        const row = actualResultsRows[i];
-                        if (!row[0]) {
-                            participantCSV += '\n';
-                            continue; // Keep empty lines in output
-                        }
-
-                        const date = row[0];
-                        const team1 = row[1] || '';
-                        const team2 = row[3] || '';
-                        const actualScore1 = row[2] || '';
-                        const actualScore2 = row[4] || '';
-
-                        let participantScore = '';
-                        let predictedScore1 = '';
-                        let predictedScore2 = '';
-
-                        for (const pRow of participantRows) {
-                            if (pRow.includes(team1) && pRow.includes(team2)) {
-                                const country1Index = pRow.indexOf(team1);
-                                const country2Index = pRow.indexOf(team2);
-                                predictedScore1 = pRow[country1Index + 1] || '';
-                                predictedScore2 = pRow[country2Index + 1] || '';
-
-                                if (actualScore1 && actualScore2) {
-                                    const actual1 = parseInt(actualScore1);
-                                    const actual2 = parseInt(actualScore2);
-                                    const predicted1 = parseInt(predictedScore1);
-                                    const predicted2 = parseInt(predictedScore2);
-
-                                    if (predicted1 === actual1 && predicted2 === actual2) {
-                                        participantScore = 10;
-                                    } else if ((actual1 - actual2 === predicted1 - predicted2) &&
-                                        ((actual1 > actual2 && predicted1 > actual2) ||
-                                            (actual1 < actual2 && predicted1 < actual2))) {
-                                        participantScore = 8;
-                                    } else if (actual1 === actual2 && predicted1 === predicted2) {
-                                        participantScore = 5;
-                                    } else if ((actual1 > actual2 && predicted1 > actual2) ||
-                                        (actual1 < actual2 && predicted1 < actual2)) {
-                                        participantScore = 5;
-                                    } else {
-                                        participantScore = 0;
-                                    }
-                                }
-                                break;
-                            }
-                        }
-                        participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},,${participantScore}\n`;
-                    }
+                    participantCSV += "\n"
+                    participantCSV += "Quarterfinals\n"
 
                     // Process lines 62 to 65
                     for (let i = 61; i < 65; i++) {
@@ -437,57 +392,8 @@
                         participantCSV += `${date},${predictedTeam1},${predictedTeam2},${predictedWinner},,${score}\n`;
                     }
 
-                    // Process lines 66 to 67
-                    for (let i = 65; i < 67; i++) {
-                        const row = actualResultsRows[i];
-                        if (!row[0]) {
-                            participantCSV += '\n';
-                            continue; // Keep empty lines in output
-                        }
-
-                        const date = row[0];
-                        const team1 = row[1] || '';
-                        const team2 = row[3] || '';
-                        const actualScore1 = row[2] || '';
-                        const actualScore2 = row[4] || '';
-
-                        let participantScore = '';
-                        let predictedScore1 = '';
-                        let predictedScore2 = '';
-
-                        for (const pRow of participantRows) {
-                            if (pRow.includes(team1) && pRow.includes(team2)) {
-                                const country1Index = pRow.indexOf(team1);
-                                const country2Index = pRow.indexOf(team2);
-                                predictedScore1 = pRow[country1Index + 1] || '';
-                                predictedScore2 = pRow[country2Index + 1] || '';
-
-                                if (actualScore1 && actualScore2) {
-                                    const actual1 = parseInt(actualScore1);
-                                    const actual2 = parseInt(actualScore2);
-                                    const predicted1 = parseInt(predictedScore1);
-                                    const predicted2 = parseInt(predictedScore2);
-
-                                    if (predicted1 === actual1 && predicted2 === actual2) {
-                                        participantScore = 10;
-                                    } else if ((actual1 - actual2 === predicted1 - predicted2) &&
-                                        ((actual1 > actual2 && predicted1 > actual2) ||
-                                            (actual1 < actual2 && predicted1 < actual2))) {
-                                        participantScore = 8;
-                                    } else if (actual1 === actual2 && predicted1 === predicted2) {
-                                        participantScore = 5;
-                                    } else if ((actual1 > actual2 && predicted1 > actual2) ||
-                                        (actual1 < actual2 && predicted1 < actual2)) {
-                                        participantScore = 5;
-                                    } else {
-                                        participantScore = 0;
-                                    }
-                                }
-                                break;
-                            }
-                        }
-                        participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},,${participantScore}\n`;
-                    }
+                    participantCSV += "\n"
+                    participantCSV += "Semifinals\n"
 
                     // Process lines 68 to 69
                     for (let i = 67; i < 69; i++) {
@@ -510,57 +416,8 @@
                         participantCSV += `${date},${predictedTeam1},${predictedTeam2},${predictedWinner},,${score}\n`;
                     }
 
-                    // Process lines 70 to 71
-                    for (let i = 69; i < 71; i++) {
-                        const row = actualResultsRows[i];
-                        if (!row[0]) {
-                            participantCSV += '\n';
-                            continue; // Keep empty lines in output
-                        }
-
-                        const date = row[0];
-                        const team1 = row[1] || '';
-                        const team2 = row[3] || '';
-                        const actualScore1 = row[2] || '';
-                        const actualScore2 = row[4] || '';
-
-                        let participantScore = '';
-                        let predictedScore1 = '';
-                        let predictedScore2 = '';
-
-                        for (const pRow of participantRows) {
-                            if (pRow.includes(team1) && pRow.includes(team2)) {
-                                const country1Index = pRow.indexOf(team1);
-                                const country2Index = pRow.indexOf(team2);
-                                predictedScore1 = pRow[country1Index + 1] || '';
-                                predictedScore2 = pRow[country2Index + 1] || '';
-
-                                if (actualScore1 && actualScore2) {
-                                    const actual1 = parseInt(actualScore1);
-                                    const actual2 = parseInt(actualScore2);
-                                    const predicted1 = parseInt(predictedScore1);
-                                    const predicted2 = parseInt(predictedScore2);
-
-                                    if (predicted1 === actual1 && predicted2 === actual2) {
-                                        participantScore = 10;
-                                    } else if ((actual1 - actual2 === predicted1 - predicted2) &&
-                                        ((actual1 > actual2 && predicted1 > actual2) ||
-                                            (actual1 < actual2 && predicted1 < actual2))) {
-                                        participantScore = 8;
-                                    } else if (actual1 === actual2 && predicted1 === predicted2) {
-                                        participantScore = 5;
-                                    } else if ((actual1 > actual2 && predicted1 > actual2) ||
-                                        (actual1 < actual2 && predicted1 < actual2)) {
-                                        participantScore = 5;
-                                    } else {
-                                        participantScore = 0;
-                                    }
-                                }
-                                break;
-                            }
-                        }
-                        participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},,${participantScore}\n`;
-                    }
+                    participantCSV += "\n"
+                    participantCSV += "Final\n"
 
                     // Process line 72
                     const row = participantRows[71]; // Row 72 in the file (0-based index 71)
@@ -580,57 +437,8 @@
                     }
                     participantCSV += `${date},${predictedTeam1},${predictedTeam2},${predictedWinner},,${score}\n`;
 
-                    // Process lines 73 to 74
-                    for (let i = 72; i < 74; i++) {
-                        const row = actualResultsRows[i];
-                        if (!row[0]) {
-                            participantCSV += '\n';
-                            continue; // Keep empty lines in output
-                        }
-
-                        const date = row[0];
-                        const team1 = row[1] || '';
-                        const team2 = row[3] || '';
-                        const actualScore1 = row[2] || '';
-                        const actualScore2 = row[4] || '';
-
-                        let participantScore = '';
-                        let predictedScore1 = '';
-                        let predictedScore2 = '';
-
-                        for (const pRow of participantRows) {
-                            if (pRow.includes(team1) && pRow.includes(team2)) {
-                                const country1Index = pRow.indexOf(team1);
-                                const country2Index = pRow.indexOf(team2);
-                                predictedScore1 = pRow[country1Index + 1] || '';
-                                predictedScore2 = pRow[country2Index + 1] || '';
-
-                                if (actualScore1 && actualScore2) {
-                                    const actual1 = parseInt(actualScore1);
-                                    const actual2 = parseInt(actualScore2);
-                                    const predicted1 = parseInt(predictedScore1);
-                                    const predicted2 = parseInt(predictedScore2);
-
-                                    if (predicted1 === actual1 && predicted2 === actual2) {
-                                        participantScore = 10;
-                                    } else if ((actual1 - actual2 === predicted1 - predicted2) &&
-                                        ((actual1 > actual2 && predicted1 > actual2) ||
-                                            (actual1 < actual2 && predicted1 < actual2))) {
-                                        participantScore = 8;
-                                    } else if (actual1 === actual2 && predicted1 === predicted2) {
-                                        participantScore = 5;
-                                    } else if ((actual1 > actual2 && predicted1 > actual2) ||
-                                        (actual1 < actual2 && predicted1 < actual2)) {
-                                        participantScore = 5;
-                                    } else {
-                                        participantScore = 0;
-                                    }
-                                }
-                                break;
-                            }
-                        }
-                        participantCSV += `${date},${team1},${predictedScore1},${team2},${predictedScore2},,${participantScore}\n`;
-                    }
+                    participantCSV += "\n"
+                    participantCSV += "Additional Predictions\n"
 
                     // Process lines 75 to 77
                     for (let i = 74; i < 77; i++) {
