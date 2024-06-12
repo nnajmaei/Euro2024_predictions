@@ -15,7 +15,7 @@
         }
 
         table {
-            width: 75%;
+            width: 50%;
             border-collapse: collapse;
             margin-bottom: 10px;
             font-size: 12px; /* Adjust the table font size */
@@ -129,6 +129,33 @@
             'Czechia': 'https://flagcdn.com/w20/cz.png'
         };
 
+        const abbreviations = {
+            'Germany': 'GER',
+            'Scotland': 'SCO',
+            'Hungary': 'HUN',
+            'Switzerland': 'SUI',
+            'Spain': 'ESP',
+            'Croatia': 'CRO',
+            'Italy': 'ITA',
+            'Albania': 'ALB',
+            'Serbia': 'SRB',
+            'England': 'ENG',
+            'Slovenia': 'SVN',
+            'Denmark': 'DEN',
+            'Poland': 'POL',
+            'Netherlands': 'NED',
+            'Austria': 'AUT',
+            'France': 'FRA',
+            'Romania': 'ROU',
+            'Ukraine': 'UKR',
+            'Belgium': 'BEL',
+            'Slovakia': 'SVK',
+            'Turkey': 'TUR',
+            'Georgia': 'GEO',
+            'Portugal': 'POR',
+            'Czechia': 'CZE'
+        };
+
         function loadCSV(scores, callback) {
             fetch(scores)
                 .then(response => response.text())
@@ -162,8 +189,9 @@
                 row.forEach(cell => {
                     const cellContent = cell.trim();
                     const flagImg = flags[cellContent] ? `<img src="${flags[cellContent]}" class="flag"> ` : '';
+                    const abbreviation = abbreviations[cellContent] ? abbreviations[cellContent] : cellContent;
                     const cellClass = boldText.includes(cellContent) ? 'bold-text' : '';
-                    tableHTML += `<td class="${cellClass}">${flagImg}${cellContent}</td>`;
+                    tableHTML += `<td class="${cellClass}">${flagImg}${abbreviation}</td>`;
                 });
                 tableHTML += '</tr>';
             });
