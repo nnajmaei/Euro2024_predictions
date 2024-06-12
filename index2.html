@@ -86,6 +86,7 @@
 
                 const selectedDate = document.getElementById('dateSelector').value;
                 let scoresData = [];
+                let description = '';
 
                 for (const participant of participants.participants) {
                     const csvResponse = await fetch(participant.scores);
@@ -108,14 +109,17 @@
 
                     if (selectedDate === 'Overall') {
                         scoresData.push({ name: participant.name, score: totalScore });
+                        description = 'Overall Ranking';
                     } else {
                         scoresData.push({ name: participant.name, score: dateScore });
+                        description = `Ranking for Games on ${selectedDate}`;
                     }
                 }
 
                 scoresData.sort((a, b) => b.score - a.score);
 
-                let tableHTML = '<table>';
+                let tableHTML = `<h2>${description}</h2>`;
+                tableHTML += '<table>';
                 tableHTML += '<tr><th>Participant</th><th>Score</th></tr>';
 
                 for (const data of scoresData) {
