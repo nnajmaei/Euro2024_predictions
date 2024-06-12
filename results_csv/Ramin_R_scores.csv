@@ -1,5 +1,7 @@
-Group Stage Predictions,,,,,
-Group A,,,,,
+Group Stage Predictions,,,
+,,
+Group A,,,
+,,
 14-Jun,Germany,1,Scotland,1,
 15-Jun,Hungary,1,Switzerland,1,
 19-Jun,Scotland,2,Switzerland,0,
@@ -7,7 +9,8 @@ Group A,,,,,
 23-Jun,Switzerland,1,Germany,2,
 23-Jun,Scotland,0,Hungary,1,
 
-Group B,,,,,
+Group B,,,
+,,
 15-Jun,Spain,1,Croatia,1,
 15-Jun,Italy,1,Albania,0,
 19-Jun,Croatia,1,Albania,0,
@@ -15,7 +18,8 @@ Group B,,,,,
 24-Jun,Albania,0,Spain,2,
 24-Jun,Croatia,0,Italy,1,
 
-Group C,,,,,
+Group C,,,
+,,
 16-Jun,Serbia,1,England,1,
 16-Jun,Slovenia,0,Denmark,2,
 20-Jun,Denmark,2,England,2,
@@ -23,7 +27,8 @@ Group C,,,,,
 25-Jun,England,1,Slovenia,0,
 25-Jun,Denmark,1,Serbia,0,
 
-Group D,,,,,
+Group D,,,
+,,
 16-Jun,Poland,0,Netherlands,1,
 17-Jun,Austria,0,France,1,
 21-Jun,Poland,0,Austria,1,
@@ -31,7 +36,8 @@ Group D,,,,,
 25-Jun,France,1,Poland,0,
 25-Jun,Netherlands,1,Austria,0,
 
-Group E,,,,,
+Group E,,,
+,,
 17-Jun,Romania,0,Ukraine,1,
 17-Jun,Belgium,1,Slovakia,0,
 21-Jun,Slovakia,0,Ukraine,0,
@@ -39,7 +45,8 @@ Group E,,,,,
 26-Jun,Slovakia,0,Romania,0,
 26-Jun,Ukraine,0,Belgium,1,
 
-Group F,,,,,
+Group F,,,
+,,
 18-Jun,Turkey,0,Georgia,0,
 18-Jun,Portugal,1,Czechia,0,
 22-Jun,Georgia,0,Czechia,0,
@@ -47,8 +54,10 @@ Group F,,,,,
 26-Jun,Czechia,0,Turkey,1,
 26-Jun,Georgia,0,Portugal,1,
 
-Knockout Stage Predictions,,,,,
-Round of 16,,,,,
+Knockout Stage Predictions,
+,
+Round of 16
+,
 June 30,Italy,Hungary,Italy,,0
 June 29,Germany,England,England,,0
 July 1,Denmark,Austria,Denmark,,0
@@ -58,20 +67,24 @@ July 2,Netherlands,Turkey,Netherlands,,0
 June 30,Portugal,Serbia,Portugal,,0
 June 29,Scotland,Spain,Spain,,0
 
-Quarterfinals,,,,,,
+Quarterfinals
+,
 July 5,Italy,England,Italy,,0
 July 5,Denmark,France,France,,0
 July 6,Belgium,Netherlands,Netherlands,,0
 July 6,Portugal,Spain,Spain,,0
 
-Semifinals,,,,,,
+Semifinals
+,
 July 9,Italy,France,Italy,,0
 July 10,Netherlands,Spain,Spain,,0
 
-Final,,,,,,
+Final
+,
 July 14,Italy,Spain,Italy,,0
 
-Additional Predictions,,,,,,
+Additional Predictions,,,
+,
 Top Goalscorer,Beckham,,,,0
 Best Goalkeeper,Nuer,,,,0
 Player of Tournament,Canavaro,,,,0
