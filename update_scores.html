@@ -80,11 +80,11 @@
                         let predictedScore2 = '';
 
                         for (const pRow of participantRows) {
-                            const country1Index = pRow.indexOf(team1);
-                            const country2Index = pRow.indexOf(team2);
-                            predictedScore1 = pRow[country1Index + 1];
-                            predictedScore2 = pRow[country2Index + 1];
                             if (pRow.includes(team1) && pRow.includes(team2)) {
+                                const country1Index = pRow.indexOf(team1);
+                                const country2Index = pRow.indexOf(team2);
+                                predictedScore1 = pRow[country1Index + 1];
+                                predictedScore2 = pRow[country2Index + 1];
                                 if (actualScore1 && actualScore2) {
                                     const actual1 = parseInt(actualScore1);
                                     const actual2 = parseInt(actualScore2);
