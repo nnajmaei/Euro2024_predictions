@@ -61,7 +61,7 @@
                     const csvData = await csvResponse.text();
                     const participantRows = csvData.split('\n').map(row => row.split(','));
 
-                    participant='Group Stage\n'
+                    participant+='Group Stage\n'
 
                     for (let i = 0; i < 51; i++) {
                         const row = actualResultsRows[i];
