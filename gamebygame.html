@@ -60,10 +60,6 @@
             width: 10%;
         }
 
-        th[colspan="2"] {
-            width: calc(90% / 3);
-        }
-
         .center {
             text-align: center;
             margin-top: 20px;
@@ -338,6 +334,15 @@
                 resultsContainer.innerHTML = `<p>No matches found between ${country1} and ${country2} in participant predictions.</p>`;
             } else {
                 resultsContainer.innerHTML = headerHTML + tableHTML;
+
+                // Set dynamic column widths
+                const numParticipants = participants.participants.length;
+                const remainingWidth = 90;
+                const columnWidth = remainingWidth / (numParticipants * 2);
+                const thElements = resultsContainer.querySelectorAll('th[colspan="2"]');
+                thElements.forEach(th => {
+                    th.style.width = `${columnWidth}%`;
+                });
             }
         }
     </script>
