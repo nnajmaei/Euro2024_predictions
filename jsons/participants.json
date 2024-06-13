@@ -14,6 +14,16 @@
       "name": "Ramin R",
       "file": "./predictions_csv/Ramin_R.csv",
       "scores": "./results_csv/Ramin_R_scores.csv"
+    },
+    {
+      "name": "Siamak J",
+      "file": "./predictions_csv/Siamak_J.csv",
+      "scores": "./results_csv/Siamak_J_scores.csv"
+    },
+    {
+      "name": "Amir D",
+      "file": "./predictions_csv/Amir_D.csv",
+      "scores": "./results_csv/Amir_D_scores.csv"
     }
   ]
 }
