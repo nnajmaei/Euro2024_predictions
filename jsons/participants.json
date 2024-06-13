@@ -24,6 +24,11 @@
       "name": "Amir D",
       "file": "./predictions_csv/Amir_D.csv",
       "scores": "./results_csv/Amir_D_scores.csv"
+    },
+    {
+      "name": "Babak J",
+      "file": "./predictions_csv/Babak_J.csv",
+      "scores": "./results_csv/Babak_J_scores.csv"
     }
   ]
 }
