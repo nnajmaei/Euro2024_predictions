@@ -72,6 +72,11 @@
             text-align: center;
         }
 
+        .widget-container {
+            margin: 40px auto;
+            width: 50%;
+        }
+
         .footnote {
             position: fixed;
             bottom: 10px;
@@ -107,12 +112,9 @@
         </select>
     </div>
     <div id="scoresTableContainer" class="center"></div>
-    <div class="center">
-        <iframe
-            src="https://www.scorebat.com/embed/league/euro2024/?token=MTYyODQ0XzE3MTgyMzMxMDFfM2Q1Y2YzZDk4M2YyZWU5MDA3NDUxZmQ0YjNlZDY0YjdiY2VjZWE1MA=="
-            frameborder="0" width="600" height="200" allowfullscreen allow='autoplay; fullscreen'
-            style="width:100%;height:760px;overflow:hidden;display:block;" class="_scorebatEmbeddedPlayer_"></iframe>
-        <script>(function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = 'https://www.scorebat.com/embed/embed.js?v=arrv'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'scorebat-jssdk'));</script>
+    <div class="widget-container">
+        <iframe src="https://www.scorebat.com/embed/league/euro2024/?token=MTYyODQ0XzE3MTgyMzMxMDFfM2Q1Y2YzZDk4M2YyZWU5MDA3NDUxZmQ0YjNlZDY0YjdiY2VjZWE1MA==" frameborder="0" width="600" height="760" allowfullscreen allow='autoplay; fullscreen' style="width:100%;height:760px;overflow:hidden;display:block;" class="_scorebatEmbeddedPlayer_"></iframe>
+        <script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = 'https://www.scorebat.com/embed/embed.js?v=arrv'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'scorebat-jssdk'));</script>
     </div>
 
     <script>
