@@ -693,7 +693,7 @@
             const tableContainer = document.getElementById('scoresTableContainer');
             html2canvas(tableContainer, { backgroundColor: null, useCORS: true }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = 'table.jpg';
+                link.download = 'Rankings.jpg';
                 link.href = canvas.toDataURL('image/jpeg');
                 link.click();
             });
@@ -918,7 +918,7 @@
             const imgData = canvas.toDataURL('image/jpeg');
             const link = document.createElement('a');
             link.href = imgData;
-            link.download = 'predictions_screenshot.jpg';
+            link.download = 'GbyG.jpg';
             link.click();
         }
     </script>
