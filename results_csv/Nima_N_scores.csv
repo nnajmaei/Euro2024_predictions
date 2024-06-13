@@ -1,5 +1,5 @@
 Group Stage
-Group A,,,,,Point
+Group A,Team 1,,Team 2,,Point
 June 14,Germany,3,Scotland,1,
 June 15,Hungary,1,Switzerland,1,
 June 19,Scotland,1,Switzerland,1,
@@ -48,7 +48,7 @@ June 26,Czechia,1,Turkey,1,
 June 26,Georgia,0,Portugal,3,
 
 Knockout Stage
-Round of 16
+Round of 16,Team 1,Team 2,Winner,,Point
 June 30,Italy,Switzerland,Italy,,0
 June 29,Germany,Serbia,Germany,,0
 July 1,England,Austria,England,,0
@@ -69,7 +69,7 @@ July 9,Germany,England,England,,0
 July 10,France,Spain,France,,0
 
 Final
-July 14,England,France,,,
+July 14,England,France,France,,0
 
 Top Players
 Top Goalscorer,Kane,,,,0

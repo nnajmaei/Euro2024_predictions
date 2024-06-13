@@ -1,5 +1,5 @@
 Group Stage
-Group A,,,,,Point
+Group A,Team 1,,Team 2,,Point
 June 14,Germany,2,Scotland,1,
 June 15,Hungary,0,Switzerland,2,
 June 19,Scotland,0,Switzerland,1,
@@ -48,7 +48,7 @@ June 26,Czechia,2,Turkey,1,
 June 26,Georgia,0,Portugal,3,
 
 Knockout Stage
-Round of 16
+Round of 16,Team 1,Team 2,Winner,,Point
 June 30,Spain,Scotland,Spain,,0
 June 29,Germany,Denmark,Germany,,0
 July 1,England,Turkey,England,,0
