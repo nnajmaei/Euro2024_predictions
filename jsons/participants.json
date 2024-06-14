@@ -34,6 +34,11 @@
       "name": "Mod J",
       "file": "./predictions_csv/Mod_J.csv",
       "scores": "./results_csv/Mod_J_scores.csv"
+    },
+    {
+      "name": "Shahriar N",
+      "file": "./predictions_csv/Shahriar_N.csv",
+      "scores": "./results_csv/Shahriar_N_scores.csv"
     }
   ]
 }
