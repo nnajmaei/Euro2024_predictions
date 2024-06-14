@@ -29,6 +29,11 @@
       "name": "Babak J",
       "file": "./predictions_csv/Babak_J.csv",
       "scores": "./results_csv/Babak_J_scores.csv"
+    },
+    {
+      "name": "Mod J",
+      "file": "./predictions_csv/Mod_J.csv",
+      "scores": "./results_csv/Mod_J_scores.csv"
     }
   ]
 }
