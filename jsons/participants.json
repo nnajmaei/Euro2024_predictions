@@ -39,6 +39,11 @@
       "name": "Shahriar N",
       "file": "./predictions_csv/Shahriar_N.csv",
       "scores": "./results_csv/Shahriar_N_scores.csv"
+    },
+    {
+      "name": "Ehsan T",
+      "file": "./predictions_csv/Ehsan_T.csv",
+      "scores": "./results_csv/Ehsan_T_scores.csv"
     }
   ]
 }
