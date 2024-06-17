@@ -49,32 +49,32 @@ June 17,Austria,1,France,3
 June 21,Poland,1,Austria,1
 ,
 June 21,Netherlands,2,France,3
-,
-June 25,France,1,Poland,1
-,
-June 25,Netherlands,2,Austria,0
-,
-
-Group E
-June 17,Romania,2,Ukraine,0
-,
+,,,
+June 25,France,1,Poland,1,,
+,,,
+June 25,Netherlands,2,Austria,0,,
+,,,
+,,
+Group E,,
+June 17,Romania,2,Ukraine,,,
+,5
 June 17,Belgium,3,Slovakia,0
-,
-June 21,Slovakia,2,Ukraine,1
-,
-June 22,Belgium,2,Romania,0
+,,,
+June 21,Slovakia,2,Ukraine,1,,
+,,,
+June 22,Belgium,2,Romania,0,,
 ,
 June 26,Slovakia,1,Romania,1
-,
-June 26,Ukraine,1,Belgium,1
+,,,
+June 26,Ukraine,1,Belgium,,,
 ,
 
-Group F
+Group F,,
 June 18,Turkey,0,Georgia,1
 ,
-June 18,Portugal,1,Czechia,1
-,
-June 22,Georgia,1,Czechia,3
+June 18,Portugal,1,Czechia,,
+,,,
+June 22,Georgia,1,Czechia,3,,
 ,
 June 22,Portugal,1,Turkey,0
 ,
@@ -85,31 +85,31 @@ June 26,Georgia,1,Portugal,2
 
 KO Stage
 Round of 16,Team 1,Team 2,Winner,,Point
-30-Jun,Croatia,Scotland,Croatia,,
-29-Jun,Germany,Slovenia,Germany,,
-01-Jul,England,Slovakia,England,,
-01-Jul,Netherlands,Romania,Netherlands,,
-02-Jul,Belgium,Italy,Italy,,
-02-Jul,France,Czechia,France,,
-30-Jun,Portugal,Denmark,Portugal,,
-29-Jun,Hungary,Spain,Spain,,
+30-Jun,Croatia,Scotland,Croatia,,0
+29-Jun,Germany,Slovenia,Germany,,0
+01-Jul,England,Slovakia,England,,0
+01-Jul,Netherlands,Romania,Netherlands,,0
+02-Jul,Belgium,Italy,Italy,,0
+02-Jul,France,Czechia,France,,0
+30-Jun,Portugal,Denmark,Portugal,,0
+29-Jun,Hungary,Spain,Spain,,0
 
 Quarterfinals
-05-Jul,Croatia,Germany,Croatia,,
-05-Jul,England,Netherlands,Netherlands,,
-06-Jul,Italy,France,France,,
-06-Jul,Portugal,Spain,Spain,,
+05-Jul,Croatia,Germany,Croatia,,0
+05-Jul,England,Netherlands,Netherlands,,0
+06-Jul,Italy,France,France,,0
+06-Jul,Portugal,Spain,Spain,,0
 
 Semifinals
-09-Jul,Croatia,Netherlands,Croatia,,
-10-Jul,France,Spain,France,,
+09-Jul,Croatia,Netherlands,Croatia,,0
+10-Jul,France,Spain,France,,0
 
 Final
-14-Jul,Croatia,France,France,,
+14-Jul,Croatia,France,France,,0
 
 Top Players
 Top Goalscorer,Maiganan
-,,,,
+,,,,0
 Player of Tournament,Mbappe
-,,,,
-Participant Name,Hootan M,,,,
+,,,,0
+Participant Name,Hootan M,,,,0
