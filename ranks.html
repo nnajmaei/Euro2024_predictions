@@ -139,6 +139,7 @@
 
                 const selectedDate = document.getElementById('dateSelector').value;
                 let scoresData = [];
+                let previousScoresData = [];
                 let description = '';
 
                 for (const participant of participants.participants) {
@@ -171,12 +172,50 @@
 
                 scoresData.sort((a, b) => b.score - a.score);
 
+                const selectedDateIndex = Array.from(document.getElementById('dateSelector').options).findIndex(option => option.value === selectedDate);
+                if (selectedDateIndex > 1) {
+                    const previousDate = document.getElementById('dateSelector').options[selectedDateIndex - 1].value;
+
+                    for (const participant of participants.participants) {
+                        const csvResponse = await fetch(participant.scores);
+                        const csvData = await csvResponse.text();
+                        const participantRows = csvData.split('\n').map(row => row.split(','));
+
+                        let totalScore = 0;
+                        let previousDateScore = 0;
+
+                        for (const row of participantRows) {
+                            if (row.length === 6) {
+                                const score = parseInt(row[5]) || 0;
+                                totalScore += score;
+
+                                if (row[0] === previousDate) {
+                                    previousDateScore += score;
+                                }
+                            }
+                        }
+
+                        if (selectedDate === 'Overall') {
+                            previousScoresData.push({ name: participant.name, score: totalScore });
+                        } else {
+                            previousScoresData.push({ name: participant.name, score: previousDateScore });
+                        }
+                    }
+
+                    previousScoresData.sort((a, b) => b.score - a.score);
+                }
+
                 let tableHTML = `<h2>${description}</h2>`;
                 tableHTML += '<table>';
-                tableHTML += '<tr><th>Rank</th><th>Participant</th><th>Score</th></tr>';
+                tableHTML += '<tr><th>Rank</th><th>Participant</th><th>Score</th><th>Rank Change</th></tr>';
 
                 scoresData.forEach((data, index) => {
-                    tableHTML += `<tr><td>${index + 1}</td><td>${data.name}</td><td>${data.score}</td></tr>`;
+                    let rankChange = '-';
+                    if (previousScoresData.length > 0) {
+                        const previousRank = previousScoresData.findIndex(d => d.name === data.name) + 1;
+                        rankChange = previousRank ? (previousRank - (index + 1)) : '-';
+                    }
+                    tableHTML += `<tr><td>${index + 1}</td><td>${data.name}</td><td>${data.score}</td><td>${rankChange}</td></tr>`;
                 });
 
                 tableHTML += '</table>';
