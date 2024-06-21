@@ -142,6 +142,7 @@
                 let previousScoresData = [];
                 let description = '';
 
+                // Fetch today's scores
                 for (const participant of participants.participants) {
                     const csvResponse = await fetch(participant.scores);
                     const csvData = await csvResponse.text();
@@ -173,27 +174,32 @@
                 scoresData.sort((a, b) => b.score - a.score);
 
                 if (selectedDate === 'Overall') {
-                    const previousDateIndex = Array.from(document.getElementById('dateSelector').options).length - 2;
-                    const previousDate = document.getElementById('dateSelector').options[previousDateIndex].value;
+                    // Fetch previous day's scores
+                    const dateSelectorOptions = document.getElementById('dateSelector').options;
+                    const selectedDateIndex = Array.from(dateSelectorOptions).findIndex(option => option.value === selectedDate);
 
-                    for (const participant of participants.participants) {
-                        const csvResponse = await fetch(participant.scores);
-                        const csvData = await csvResponse.text();
-                        const participantRows = csvData.split('\n').map(row => row.split(','));
+                    if (selectedDateIndex > 1) {
+                        const previousDate = dateSelectorOptions[selectedDateIndex - 1].value;
 
-                        let totalScore = 0;
+                        for (const participant of participants.participants) {
+                            const csvResponse = await fetch(participant.scores);
+                            const csvData = await csvResponse.text();
+                            const participantRows = csvData.split('\n').map(row => row.split(','));
 
-                        for (const row of participantRows) {
-                            if (row.length === 6) {
-                                const score = parseInt(row[5]) || 0;
-                                totalScore += score;
+                            let totalScore = 0;
+
+                            for (const row of participantRows) {
+                                if (row.length === 6) {
+                                    const score = parseInt(row[5]) || 0;
+                                    totalScore += score;
+                                }
                             }
+
+                            previousScoresData.push({ name: participant.name, score: totalScore });
                         }
 
-                        previousScoresData.push({ name: participant.name, score: totalScore });
+                        previousScoresData.sort((a, b) => b.score - a.score);
                     }
-
-                    previousScoresData.sort((a, b) => b.score - a.score);
                 }
 
                 let tableHTML = `<h2>${description}</h2>`;
@@ -209,10 +215,10 @@
                 scoresData.forEach((data, index) => {
                     tableHTML += `<tr><td>${index + 1}</td><td>${data.name}</td><td>${data.score}</td>`;
 
-                    if (selectedDate === 'Overall') {
+                    if (selectedDate === 'Overall' && previousScoresData.length > 0) {
                         const previousRank = previousScoresData.findIndex(d => d.name === data.name) + 1;
                         const rankChange = previousRank ? (previousRank - (index + 1)) : '-';
-                        tableHTML += `<td>${rankChange}</td>`;
+                        tableHTML += `<td>${rankChange >= 0 ? '+' : ''}${rankChange}</td>`;
                     }
 
                     tableHTML += '</tr>';
