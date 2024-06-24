@@ -4,8 +4,8 @@ June 14,Germany,5,Scotland,1
 June 15,Hungary,1,Switzerland,3
 June 19,Scotland,1,Switzerland,1
 June 19,Germany,2,Hungary,0
-June 23,Switzerland,,Germany,
-June 23,Scotland,,Hungary,
+June 23,Switzerland,1,Germany,1
+June 23,Scotland,0,Hungary,1
 
 Group B
 June 15,Spain,3,Croatia,0
