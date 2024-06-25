@@ -28,8 +28,8 @@ June 16,Poland,1,Netherlands,2
 June 17,Austria,0,France,1
 June 21,Poland,1,Austria,3
 June 21,Netherlands,0,France,0
-June 25,France,,Poland,
-June 25,Netherlands,,Austria,
+June 25,France,1,Poland,1
+June 25,Netherlands,2,Austria,3
 
 Group E
 June 17,Romania,3,Ukraine,0
