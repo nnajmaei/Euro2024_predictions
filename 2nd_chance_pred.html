@@ -180,23 +180,29 @@
         <img src="./logos/logo.png" alt="Euro 2024 Logo" style="width:300px;">
     </div>
     <h1>Euro2024 Predictions</h1>
-    <div class="form-container">
-        <div>
-            <label for="participantSelect">Select Participant:</label>
-            <select id="participantSelect" onchange="loadParticipantPredictions()">
-                <option value="">Select Participant</option>
-                <option value="Ali B">Ali B</option>
-                <option value="Nima N">Nima N</option>
-                <option value="Ramin R">Ramin R</option>
-                <option value="Siamak J">Siamak J</option>
-                <option value="Amir D">Amir D</option>
-                <option value="Babak J">Babak J</option>
-                <option value="Mod J">Mod J</option>
-                <option value="Shahriar N">Shahriar N</option>
-                <option value="Ehsan T">Ehsan T</option>
-                <option value="Hootan M">Hootan M</option>
-            </select>
-        </div>
+    <div class="button-container">
+        <button onclick="savePredictions()">Save & Finish Later</button>
+        <button onclick="loadPredictions()">Load Saved Predictions</button>
+        <button onclick="deletePredictions()">Delete Saved Predictions</button>
+    </div>
+
+    <hr>
+
+    <div class="menu-container">
+        <label for="participantDropdown">Choose a participant: </label>
+        <select id="participantDropdown">
+            <option value="">Select</option>
+            <option value="Ali_B">Ali B</option>
+            <option value="Nima_N">Nima N</option>
+            <option value="Ramin_R">Ramin R</option>
+            <option value="Siamak_J">Siamak J</option>
+            <option value="Amir_D">Amir D</option>
+            <option value="Babak_J">Babak J</option>
+            <option value="Mod_J">Mod J</option>
+            <option value="Shahriar_N">Shahriar N</option>
+            <option value="Ehsan_T">Ehsan T</option>
+            <option value="Hootan_M">Hootan M</option>
+        </select>
     </div>
 
     <hr>
@@ -210,731 +216,14 @@
             <th>Team 2</th>
             <th>Score 2</th>
         </tr>
-        <tr>
-            <td>June 14</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/de.png" class="flag">Germany</td>
-            <td><input type="number" id="a1-s1" min="0" onchange="updateRankings('a')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/gb-sct.png" class="flag">Scotland</td>
-            <td><input type="number" id="a1-s2" min="0" onchange="updateRankings('a')"></td>
-        </tr>
-        <tr>
-            <td>June 15</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/hu.png" class="flag">Hungary</td>
-            <td><input type="number" id="a2-s1" min="0" onchange="updateRankings('a')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/ch.png" class="flag">Switzerland</td>
-            <td><input type="number" id="a2-s2" min="0" onchange="updateRankings('a')"></td>
-        </tr>
-        <tr>
-            <td>June 19</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/gb-sct.png" class="flag">Scotland</td>
-            <td><input type="number" id="a3-s1" min="0" onchange="updateRankings('a')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/ch.png" class="flag">Switzerland</td>
-            <td><input type="number" id="a3-s2" min="0" onchange="updateRankings('a')"></td>
-        </tr>
-        <tr>
-            <td>June 19</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/de.png" class="flag">Germany</td>
-            <td><input type="number" id="a4-s1" min="0" onchange="updateRankings('a')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/hu.png" class="flag">Hungary</td>
-            <td><input type="number" id="a4-s2" min="0" onchange="updateRankings('a')"></td>
-        </tr>
-        <tr>
-            <td>June 23</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/ch.png" class="flag">Switzerland</td>
-            <td><input type="number" id="a5-s1" min="0" onchange="updateRankings('a')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/de.png" class="flag">Germany</td>
-            <td><input type="number" id="a5-s2" min="0" onchange="updateRankings('a')"></td>
-        </tr>
-        <tr>
-            <td>June 23</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/gb-sct.png" class="flag">Scotland</td>
-            <td><input type="number" id="a6-s1" min="0" onchange="updateRankings('a')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/hu.png" class="flag">Hungary</td>
-            <td><input type="number" id="a6-s2" min="0" onchange="updateRankings('a')"></td>
-        </tr>
+        <!-- Add your group matches here -->
     </table>
 
-    <table id="ranking-group-a" class="group-ranking">
-        <tr>
-            <th>Team</th>
-            <th>Points</th>
-            <th>Played</th>
-            <th>Won</th>
-            <th>Drawn</th>
-            <th>Lost</th>
-            <th>GF</th>
-            <th>GA</th>
-            <th>GD</th>
-        </tr>
-        <tr data-team="Germany">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/de.png" class="flag">Germany</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-        <tr data-team="Scotland">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/gb-sct.png" class="flag">Scotland</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-        <tr data-team="Hungary">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/hu.png" class="flag">Hungary</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-        <tr data-team="Switzerland">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/ch.png" class="flag">Switzerland</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-    </table>
+    <!-- Add the same structure for other groups -->
 
     <hr>
 
-    <div class="group-title">Group B</div>
-    <table id="group-b">
-        <tr>
-            <th>Date</th>
-            <th>Team 1</th>
-            <th>Score 1</th>
-            <th>Team 2</th>
-            <th>Score 2</th>
-        </tr>
-        <tr>
-            <td>June 15</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/es.png" class="flag">Spain</td>
-            <td><input type="number" id="b1-s1" min="0" onchange="updateRankings('b')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/hr.png" class="flag">Croatia</td>
-            <td><input type="number" id="b1-s2" min="0" onchange="updateRankings('b')"></td>
-        </tr>
-        <tr>
-            <td>June 15</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/it.png" class="flag">Italy</td>
-            <td><input type="number" id="b2-s1" min="0" onchange="updateRankings('b')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/al.png" class="flag">Albania</td>
-            <td><input type="number" id="b2-s2" min="0" onchange="updateRankings('b')"></td>
-        </tr>
-        <tr>
-            <td>June 19</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/hr.png" class="flag">Croatia</td>
-            <td><input type="number" id="b3-s1" min="0" onchange="updateRankings('b')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/al.png" class="flag">Albania</td>
-            <td><input type="number" id="b3-s2" min="0" onchange="updateRankings('b')"></td>
-        </tr>
-        <tr>
-            <td>June 20</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/es.png" class="flag">Spain</td>
-            <td><input type="number" id="b4-s1" min="0" onchange="updateRankings('b')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/it.png" class="flag">Italy</td>
-            <td><input type="number" id="b4-s2" min="0" onchange="updateRankings('b')"></td>
-        </tr>
-        <tr>
-            <td>June 24</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/al.png" class="flag">Albania</td>
-            <td><input type="number" id="b5-s1" min="0" onchange="updateRankings('b')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/es.png" class="flag">Spain</td>
-            <td><input type="number" id="b5-s2" min="0" onchange="updateRankings('b')"></td>
-        </tr>
-        <tr>
-            <td>June 24</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/hr.png" class="flag">Croatia</td>
-            <td><input type="number" id="b6-s1" min="0" onchange="updateRankings('b')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/it.png" class="flag">Italy</td>
-            <td><input type="number" id="b6-s2" min="0" onchange="updateRankings('b')"></td>
-        </tr>
-    </table>
-
-    <table id="ranking-group-b" class="group-ranking">
-        <tr>
-            <th>Team</th>
-            <th>Points</th>
-            <th>Played</th>
-            <th>Won</th>
-            <th>Drawn</th>
-            <th>Lost</th>
-            <th>GF</th>
-            <th>GA</th>
-            <th>GD</th>
-        </tr>
-        <tr data-team="Spain">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/es.png" class="flag">Spain</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-        <tr data-team="Croatia">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/hr.png" class="flag">Croatia</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-        <tr data-team="Italy">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/it.png" class="flag">Italy</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-        <tr data-team="Albania">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/al.png" class="flag">Albania</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-    </table>
-
-    <hr>
-
-    <div class="group-title">Group C</div>
-    <table id="group-c">
-        <tr>
-            <th>Date</th>
-            <th>Team 1</th>
-            <th>Score 1</th>
-            <th>Team 2</th>
-            <th>Score 2</th>
-        </tr>
-        <tr>
-            <td>June 16</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/rs.png" class="flag">Serbia</td>
-            <td><input type="number" id="c1-s1" min="0" onchange="updateRankings('c')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/gb-eng.png" class="flag">England</td>
-            <td><input type="number" id="c1-s2" min="0" onchange="updateRankings('c')"></td>
-        </tr>
-        <tr>
-            <td>June 16</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/si.png" class="flag">Slovenia</td>
-            <td><input type="number" id="c2-s1" min="0" onchange="updateRankings('c')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/dk.png" class="flag">Denmark</td>
-            <td><input type="number" id="c2-s2" min="0" onchange="updateRankings('c')"></td>
-        </tr>
-        <tr>
-            <td>June 20</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/dk.png" class="flag">Denmark</td>
-            <td><input type="number" id="c3-s1" min="0" onchange="updateRankings('c')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/gb-eng.png" class="flag">England</td>
-            <td><input type="number" id="c3-s2" min="0" onchange="updateRankings('c')"></td>
-        </tr>
-        <tr>
-            <td>June 20</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/si.png" class="flag">Slovenia</td>
-            <td><input type="number" id="c4-s1" min="0" onchange="updateRankings('c')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/rs.png" class="flag">Serbia</td>
-            <td><input type="number" id="c4-s2" min="0" onchange="updateRankings('c')"></td>
-        </tr>
-        <tr>
-            <td>June 25</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/gb-eng.png" class="flag">England</td>
-            <td><input type="number" id="c5-s1" min="0" onchange="updateRankings('c')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/si.png" class="flag">Slovenia</td>
-            <td><input type="number" id="c5-s2" min="0" onchange="updateRankings('c')"></td>
-        </tr>
-        <tr>
-            <td>June 25</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/dk.png" class="flag">Denmark</td>
-            <td><input type="number" id="c6-s1" min="0" onchange="updateRankings('c')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/rs.png" class="flag">Serbia</td>
-            <td><input type="number" id="c6-s2" min="0" onchange="updateRankings('c')"></td>
-        </tr>
-    </table>
-
-    <table id="ranking-group-c" class="group-ranking">
-        <tr>
-            <th>Team</th>
-            <th>Points</th>
-            <th>Played</th>
-            <th>Won</th>
-            <th>Drawn</th>
-            <th>Lost</th>
-            <th>GF</th>
-            <th>GA</th>
-            <th>GD</th>
-        </tr>
-        <tr data-team="Serbia">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/rs.png" class="flag">Serbia</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-        <tr data-team="England">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/gb-eng.png" class="flag">England</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-        <tr data-team="Slovenia">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/si.png" class="flag">Slovenia</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-        <tr data-team="Denmark">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/dk.png" class="flag">Denmark</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-    </table>
-
-    <hr>
-
-    <div class="group-title">Group D</div>
-    <table id="group-d">
-        <tr>
-            <th>Date</th>
-            <th>Team 1</th>
-            <th>Score 1</th>
-            <th>Team 2</th>
-            <th>Score 2</th>
-        </tr>
-        <tr>
-            <td>June 16</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/pl.png" class="flag">Poland</td>
-            <td><input type="number" id="d1-s1" min="0" onchange="updateRankings('d')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/nl.png" class="flag">Netherlands</td>
-            <td><input type="number" id="d1-s2" min="0" onchange="updateRankings('d')"></td>
-        </tr>
-        <tr>
-            <td>June 17</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/at.png" class="flag">Austria</td>
-            <td><input type="number" id="d2-s1" min="0" onchange="updateRankings('d')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/fr.png" class="flag">France</td>
-            <td><input type="number" id="d2-s2" min="0" onchange="updateRankings('d')"></td>
-        </tr>
-        <tr>
-            <td>June 21</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/pl.png" class="flag">Poland</td>
-            <td><input type="number" id="d3-s1" min="0" onchange="updateRankings('d')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/at.png" class="flag">Austria</td>
-            <td><input type="number" id="d3-s2" min="0" onchange="updateRankings('d')"></td>
-        </tr>
-        <tr>
-            <td>June 21</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/nl.png" class="flag">Netherlands</td>
-            <td><input type="number" id="d4-s1" min="0" onchange="updateRankings('d')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/fr.png" class="flag">France</td>
-            <td><input type="number" id="d4-s2" min="0" onchange="updateRankings('d')"></td>
-        </tr>
-        <tr>
-            <td>June 25</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/fr.png" class="flag">France</td>
-            <td><input type="number" id="d5-s1" min="0" onchange="updateRankings('d')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/pl.png" class="flag">Poland</td>
-            <td><input type="number" id="d5-s2" min="0" onchange="updateRankings('d')"></td>
-        </tr>
-        <tr>
-            <td>June 25</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/nl.png" class="flag">Netherlands</td>
-            <td><input type="number" id="d6-s1" min="0" onchange="updateRankings('d')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/at.png" class="flag">Austria</td>
-            <td><input type="number" id="d6-s2" min="0" onchange="updateRankings('d')"></td>
-        </tr>
-    </table>
-
-    <table id="ranking-group-d" class="group-ranking">
-        <tr>
-            <th>Team</th>
-            <th>Points</th>
-            <th>Played</th>
-            <th>Won</th>
-            <th>Drawn</th>
-            <th>Lost</th>
-            <th>GF</th>
-            <th>GA</th>
-            <th>GD</th>
-        </tr>
-        <tr data-team="Poland">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/pl.png" class="flag">Poland</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-        <tr data-team="Netherlands">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/nl.png" class="flag">Netherlands</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-        <tr data-team="Austria">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/at.png" class="flag">Austria</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-        <tr data-team="France">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/fr.png" class="flag">France</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-    </table>
-
-    <hr>
-
-    <div class="group-title">Group E</div>
-    <table id="group-e">
-        <tr>
-            <th>Date</th>
-            <th>Team 1</th>
-            <th>Score 1</th>
-            <th>Team 2</th>
-            <th>Score 2</th>
-        </tr>
-        <tr>
-            <td>June 17</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/ro.png" class="flag">Romania</td>
-            <td><input type="number" id="e1-s1" min="0" onchange="updateRankings('e')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/ua.png" class="flag">Ukraine</td>
-            <td><input type="number" id="e1-s2" min="0" onchange="updateRankings('e')"></td>
-        </tr>
-        <tr>
-            <td>June 17</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/be.png" class="flag">Belgium</td>
-            <td><input type="number" id="e2-s1" min="0" onchange="updateRankings('e')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/sk.png" class="flag">Slovakia</td>
-            <td><input type="number" id="e2-s2" min="0" onchange="updateRankings('e')"></td>
-        </tr>
-        <tr>
-            <td>June 21</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/sk.png" class="flag">Slovakia</td>
-            <td><input type="number" id="e3-s1" min="0" onchange="updateRankings('e')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/ua.png" class="flag">Ukraine</td>
-            <td><input type="number" id="e3-s2" min="0" onchange="updateRankings('e')"></td>
-        </tr>
-        <tr>
-            <td>June 22</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/be.png" class="flag">Belgium</td>
-            <td><input type="number" id="e4-s1" min="0" onchange="updateRankings('e')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/ro.png" class="flag">Romania</td>
-            <td><input type="number" id="e4-s2" min="0" onchange="updateRankings('e')"></td>
-        </tr>
-        <tr>
-            <td>June 26</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/sk.png" class="flag">Slovakia</td>
-            <td><input type="number" id="e5-s1" min="0" onchange="updateRankings('e')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/ro.png" class="flag">Romania</td>
-            <td><input type="number" id="e5-s2" min="0" onchange="updateRankings('e')"></td>
-        </tr>
-        <tr>
-            <td>June 26</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/ua.png" class="flag">Ukraine</td>
-            <td><input type="number" id="e6-s1" min="0" onchange="updateRankings('e')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/be.png" class="flag">Belgium</td>
-            <td><input type="number" id="e6-s2" min="0" onchange="updateRankings('e')"></td>
-        </tr>
-    </table>
-
-    <table id="ranking-group-e" class="group-ranking">
-        <tr>
-            <th>Team</th>
-            <th>Points</th>
-            <th>Played</th>
-            <th>Won</th>
-            <th>Drawn</th>
-            <th>Lost</th>
-            <th>GF</th>
-            <th>GA</th>
-            <th>GD</th>
-        </tr>
-        <tr data-team="Romania">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/ro.png" class="flag">Romania</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-        <tr data-team="Ukraine">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/ua.png" class="flag">Ukraine</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-        <tr data-team="Belgium">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/be.png" class="flag">Belgium</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-        <tr data-team="Slovakia">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/sk.png" class="flag">Slovakia</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-    </table>
-
-    <hr>
-
-    <div class="group-title">Group F</div>
-    <table id="group-f">
-        <tr>
-            <th>Date</th>
-            <th>Team 1</th>
-            <th>Score 1</th>
-            <th>Team 2</th>
-            <th>Score 2</th>
-        </tr>
-        <tr>
-            <td>June 18</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/tr.png" class="flag">Turkey</td>
-            <td><input type="number" id="f1-s1" min="0" onchange="updateRankings('f')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/ge.png" class="flag">Georgia</td>
-            <td><input type="number" id="f1-s2" min="0" onchange="updateRankings('f')"></td>
-        </tr>
-        <tr>
-            <td>June 18</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/pt.png" class="flag">Portugal</td>
-            <td><input type="number" id="f2-s1" min="0" onchange="updateRankings('f')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/cz.png" class="flag">Czechia</td>
-            <td><input type="number" id="f2-s2" min="0" onchange="updateRankings('f')"></td>
-        </tr>
-        <tr>
-            <td>June 22</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/ge.png" class="flag">Georgia</td>
-            <td><input type="number" id="f3-s1" min="0" onchange="updateRankings('f')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/cz.png" class="flag">Czechia</td>
-            <td><input type="number" id="f3-s2" min="0" onchange="updateRankings('f')"></td>
-        </tr>
-        <tr>
-            <td>June 22</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/pt.png" class="flag">Portugal</td>
-            <td><input type="number" id="f4-s1" min="0" onchange="updateRankings('f')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/tr.png" class="flag">Turkey</td>
-            <td><input type="number" id="f4-s2" min="0" onchange="updateRankings('f')"></td>
-        </tr>
-        <tr>
-            <td>June 26</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/cz.png" class="flag">Czechia</td>
-            <td><input type="number" id="f5-s1" min="0" onchange="updateRankings('f')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/tr.png" class="flag">Turkey</td>
-            <td><input type="number" id="f5-s2" min="0" onchange="updateRankings('f')"></td>
-        </tr>
-        <tr>
-            <td>June 26</td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/ge.png" class="flag">Georgia</td>
-            <td><input type="number" id="f6-s1" min="0" onchange="updateRankings('f')"></td>
-            <td class="team-cell"><img src="https://flagcdn.com/w20/pt.png" class="flag">Portugal</td>
-            <td><input type="number" id="f6-s2" min="0" onchange="updateRankings('f')"></td>
-        </tr>
-    </table>
-
-    <table id="ranking-group-f" class="group-ranking">
-        <tr>
-            <th>Team</th>
-            <th>Points</th>
-            <th>Played</th>
-            <th>Won</th>
-            <th>Drawn</th>
-            <th>Lost</th>
-            <th>GF</th>
-            <th>GA</th>
-            <th>GD</th>
-        </tr>
-        <tr data-team="Turkey">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/tr.png" class="flag">Turkey</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-        <tr data-team="Georgia">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/ge.png" class="flag">Georgia</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-        <tr data-team="Portugal">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/pt.png" class="flag">Portugal</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-        <tr data-team="Czechia">
-            <td class="team-cell"><img src="https://flagcdn.com/w20/cz.png" class="flag">Czechia</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-    </table>
-
-    <hr>
-
-    <h2>Qualifications from Group Stage</h2>
-    <table id="top-teams">
-        <tr>
-            <th>Group</th>
-            <th>First Place</th>
-            <th>Second Place</th>
-        </tr>
-        <tr>
-            <td>Group A</td>
-            <td id="top-a1"></td>
-            <td id="top-a2"></td>
-        </tr>
-        <tr>
-            <td>Group B</td>
-            <td id="top-b1"></td>
-            <td id="top-b2"></td>
-        </tr>
-        <tr>
-            <td>Group C</td>
-            <td id="top-c1"></td>
-            <td id="top-c2"></td>
-        </tr>
-        <tr>
-            <td>Group D</td>
-            <td id="top-d1"></td>
-            <td id="top-d2"></td>
-        </tr>
-        <tr>
-            <td>Group E</td>
-            <td id="top-e1"></td>
-            <td id="top-e2"></td>
-        </tr>
-        <tr>
-            <td>Group F</td>
-            <td id="top-f1"></td>
-            <td id="top-f2"></td>
-        </tr>
-    </table>
-
-    <h2>Third Placed Teams</h2>
-    <table id="third-teams" class="group-ranking">
-        <tr>
-            <th>Group</th>
-            <th>Team</th>
-            <th>Points</th>
-            <th>Played</th>
-            <th>Won</th>
-            <th>Drawn</th>
-            <th>Lost</th>
-            <th>GF</th>
-            <th>GA</th>
-            <th>GD</th>
-        </tr>
-    </table>
-    <hr>
-    <h2>Round of 16</h2>
+    <div class="group-title">Round of 16</div>
     <table id="round-16" class="knockout-stage">
         <tr>
             <th>Date</th>
@@ -942,56 +231,11 @@
             <th>Team 2</th>
             <th>Winner</th>
         </tr>
-        <tr>
-            <td>June 30</td>
-            <td id="match1"></td>
-            <td id="match1-2"></td>
-            <td id="winner1"></td>
-        </tr>
-        <tr>
-            <td>June 29</td>
-            <td id="match2"></td>
-            <td id="match2-2"></td>
-            <td id="winner2"></td>
-        </tr>
-        <tr>
-            <td>July 1</td>
-            <td id="match3"></td>
-            <td id="match3-2"></td>
-            <td id="winner3"></td>
-        </tr>
-        <tr>
-            <td>July 1</td>
-            <td id="match4"></td>
-            <td id="match4-2"></td>
-            <td id="winner4"></td>
-        </tr>
-        <tr>
-            <td>July 2</td>
-            <td id="match5"></td>
-            <td id="match5-2"></td>
-            <td id="winner5"></td>
-        </tr>
-        <tr>
-            <td>July 2</td>
-            <td id="match6"></td>
-            <td id="match6-2"></td>
-            <td id="winner6"></td>
-        </tr>
-        <tr>
-            <td>June 30</td>
-            <td id="match7"></td>
-            <td id="match7-2"></td>
-            <td id="winner7"></td>
-        </tr>
-        <tr>
-            <td>June 29</td>
-            <td id="match8"></td>
-            <td id="match8-2"></td>
-            <td id="winner8"></td>
-        </tr>
+        <!-- Add your round of 16 matches here -->
     </table>
+
     <hr>
+
     <h2>Quarterfinal</h2>
     <table id="quarter-finals" class="knockout-stage">
         <tr>
@@ -1004,36 +248,13 @@
             <td>July 5</td>
             <td id="qf1"></td>
             <td id="qf1-2"></td>
-            <td><select id="winnerQF1" onchange="updateSemiFinals()">
-                    <option value=""></option>
-            </td>
+            <td><select id="winnerQF1"></select></td>
         </tr>
-        <tr>
-            <td>July 5</td>
-            <td id="qf2"></td>
-            <td id="qf2-2"></td>
-            <td><select id="winnerQF2" onchange="updateSemiFinals()">
-                    <option value=""></option>
-            </td>
-        </tr>
-        <tr>
-            <td>July 6</td>
-            <td id="qf3"></td>
-            <td id="qf3-2"></td>
-            <td><select id="winnerQF3" onchange="updateSemiFinals()">
-                    <option value=""></option>
-            </td>
-        </tr>
-        <tr>
-            <td>July 6</td>
-            <td id="qf4"></td>
-            <td id="qf4-2"></td>
-            <td><select id="winnerQF4" onchange="updateSemiFinals()">
-                    <option value=""></option>
-            </td>
-        </tr>
+        <!-- Add other quarterfinal matches -->
     </table>
+
     <hr>
+
     <h2>Semifinal</h2>
     <table id="semi-finals" class="knockout-stage">
         <tr>
@@ -1046,20 +267,13 @@
             <td>July 9</td>
             <td id="sf1"></td>
             <td id="sf1-2"></td>
-            <td><select id="winnerSF1" onchange="updateFinal()">
-                    <option value=""></option>
-                </select></td>
+            <td><select id="winnerSF1"></select></td>
         </tr>
-        <tr>
-            <td>July 10</td>
-            <td id="sf2"></td>
-            <td id="sf2-2"></td>
-            <td><select id="winnerSF2" onchange="updateFinal()">
-                    <option value=""></option>
-                </select></td>
-        </tr>
+        <!-- Add other semifinal matches -->
     </table>
+
     <hr>
+
     <h2>Final Pairing</h2>
     <table id="final" class="knockout-stage">
         <tr>
@@ -1072,9 +286,7 @@
             <td>July 14</td>
             <td id="final1"></td>
             <td id="final2"></td>
-            <td><select id="champion">
-                    <option value=""></option>
-                </select></td>
+            <td><select id="champion"></select></td>
         </tr>
     </table>
 
@@ -1091,7 +303,7 @@
             <input type="text" id="topGoalscorer">
         </div>
         <div>
-            <label for="bestGoalkeeper">(LEAVE BLANK):</label>
+            <label for="bestGoalkeeper">Best Goalkeeper:</label>
             <input type="text" id="bestGoalkeeper">
         </div>
     </div>
@@ -1112,13 +324,6 @@
     <div class="button-container">
         <button onclick="saveCSV()">Complete Predictions and Save as CSV to Send</button>
     </div>
-
-    <body>
-        <p style="font-size: 20px;">
-            After entering and finalizing all of your predictions, click on the above button to save the CSV file. Once
-            saved, email the file to <span style="color: red;">nima.najmaei@gmail.com</span>.
-        </p>
-    </body>
 
     <script>
         const flags = {
@@ -1148,360 +353,63 @@
             'Czechia': 'https://flagcdn.com/w20/cz.png'
         };
 
-        const participants = [
-            { "name": "Ali B", "file": "./predictions_csv/Ali_B.csv", "scores": "./results_csv/Ali_B_scores.csv" },
-            { "name": "Nima N", "file": "./predictions_csv/Nima_N.csv", "scores": "./results_csv/Nima_N_scores.csv" },
-            { "name": "Ramin R", "file": "./predictions_csv/Ramin_R.csv", "scores": "./results_csv/Ramin_R_scores.csv" },
-            { "name": "Siamak J", "file": "./predictions_csv/Siamak_J.csv", "scores": "./results_csv/Siamak_J_scores.csv" },
-            { "name": "Amir D", "file": "./predictions_csv/Amir_D.csv", "scores": "./results_csv/Amir_D_scores.csv" },
-            { "name": "Babak J", "file": "./predictions_csv/Babak_J.csv", "scores": "./results_csv/Babak_J_scores.csv" },
-            { "name": "Mod J", "file": "./predictions_csv/Mod_J.csv", "scores": "./results_csv/Mod_J_scores.csv" },
-            { "name": "Shahriar N", "file": "./predictions_csv/Shahriar_N.csv", "scores": "./results_csv/Shahriar_N_scores.csv" },
-            { "name": "Ehsan T", "file": "./predictions_csv/Ehsan_T.csv", "scores": "./results_csv/Ehsan_T_scores.csv" },
-            { "name": "Hootan M", "file": "./predictions_csv/Hootan_M.csv", "scores": "./results_csv/Hootan_M_scores.csv" }
-        ];
-
-        // Create dropdown menu for participants
-        const participantDropdown = document.createElement('select');
-        participantDropdown.id = 'participantDropdown';
-        participants.forEach(participant => {
-            const option = document.createElement('option');
-            option.value = participant.file;
-            option.textContent = participant.name;
-            participantDropdown.appendChild(option);
-        });
-
-        const menuContainer = document.querySelector('.menu-container');
-        const label = document.createElement('label');
-        label.for = 'participantDropdown';
-        label.textContent = 'Choose a participant: ';
-        menuContainer.appendChild(label);
-        menuContainer.appendChild(participantDropdown);
-
-        participantDropdown.addEventListener('change', loadParticipantPredictions);
+        document.getElementById('participantDropdown').addEventListener('change', loadParticipantPredictions);
 
         function loadParticipantPredictions() {
-            const selectedFile = participantDropdown.value;
-            if (!selectedFile) return;
+            const participant = document.getElementById('participantDropdown').value;
+            if (!participant) return;
 
-            fetch(selectedFile)
+            fetch(`./predictions_csv/${participant}.csv`)
                 .then(response => response.text())
                 .then(csv => {
-                    const lines = csv.split('\n').map(line => line.split(','));
-                    const groupStageLines = lines.slice(1, lines.findIndex(line => line[0] === 'KO Stage'));
-                    const knockoutStageLines = lines.slice(lines.findIndex(line => line[0] === 'KO Stage') + 1);
+                    const rows = csv.split('\n');
+                    let roundOf16Started = false;
 
-                    groupStageLines.forEach(line => {
-                        const [date, team1, score1, team2, score2] = line;
-                        if (!date) return;
-                        const input1 = document.querySelector(`td:contains(${team1})`).nextElementSibling.firstElementChild;
-                        const input2 = document.querySelector(`td:contains(${team2})`).nextElementSibling.firstElementChild;
-                        input1.value = score1;
-                        input2.value = score2;
+                    rows.forEach(row => {
+                        const cols = row.split(',');
+                        if (cols.length < 5) return;
+
+                        const date = cols[0].trim();
+                        const team1 = cols[1].trim();
+                        const score1 = cols[2].trim();
+                        const team2 = cols[3].trim();
+                        const score2 = cols[4].trim();
+
+                        if (!roundOf16Started && date === 'June 29') {
+                            roundOf16Started = true;
+                        }
+
+                        if (roundOf16Started) {
+                            // Fill round of 16 predictions
+                            const matchRow = document.querySelector(`#round-16 tr[data-date='${date}']`);
+                            if (matchRow) {
+                                matchRow.querySelector('.team1').textContent = team1;
+                                matchRow.querySelector('.score1').value = score1;
+                                matchRow.querySelector('.team2').textContent = team2;
+                                matchRow.querySelector('.score2').value = score2;
+                            }
+                        } else {
+                            // Fill group stage predictions
+                            const groupTable = document.querySelector(`table[data-group='${team1.split(' ')[1][0].toLowerCase()}']`);
+                            const matchRow = groupTable.querySelector(`tr[data-date='${date}']`);
+                            if (matchRow) {
+                                matchRow.querySelector('.score1').value = score1;
+                                matchRow.querySelector('.score2').value = score2;
+                            }
+                        }
                     });
 
-                    updateRankings('a');
-                    updateRankings('b');
-                    updateRankings('c');
-                    updateRankings('d');
-                    updateRankings('e');
-                    updateRankings('f');
-
-                    knockoutStageLines.forEach(line => {
-                        const [date, team1, team2, winner] = line;
-                        if (!date) return;
-                        const matchId = `match${knockoutStageLines.indexOf(line) + 1}`;
-                        document.getElementById(matchId).innerHTML = `<img src="${flags[team1]}" class="flag">${team1}`;
-                        document.getElementById(`${matchId}-2`).innerHTML = `<img src="${flags[team2]}" class="flag">${team2}`;
-                        document.getElementById(`winner${knockoutStageLines.indexOf(line) + 1}`).innerHTML = winner;
-                    });
-
-                    // Allow predictions for Quarterfinals, Semifinals, and Final
+                    updateRankings();
                     populateWinnersDropdown();
                 });
         }
 
-        function updateRankings(group) {
-            let teams = {};
-            let table = document.getElementById('group-' + group);
-            let rows = table.rows;
-            let allGamesPredicted = true;
-
-            for (let i = 1; i < rows.length; i++) {
-                let cells = rows[i].cells;
-                let team1 = cells[1].innerText.trim();
-                let team2 = cells[3].innerText.trim();
-                let score1 = cells[2].children[0].value;
-                let score2 = cells[4].children[0].value;
-
-                if (score1 === "" || score2 === "") {
-                    allGamesPredicted = false;
-                    continue;
-                }
-
-                score1 = parseInt(score1) || 0;
-                score2 = parseInt(score2) || 0;
-
-                if (!teams[team1]) teams[team1] = { played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, points: 0 };
-                if (!teams[team2]) teams[team2] = { played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, points: 0 };
-
-                teams[team1].played++;
-                teams[team2].played++;
-                teams[team1].gf += score1;
-                teams[team2].gf += score2;
-                teams[team1].ga += score2;
-                teams[team2].ga += score1;
-
-                if (score1 > score2) {
-                    teams[team1].won++;
-                    teams[team1].points += 3;
-                    teams[team2].lost++;
-                } else if (score1 < score2) {
-                    teams[team2].won++;
-                    teams[team2].points += 3;
-                    teams[team1].lost++;
-                } else {
-                    teams[team1].drawn++;
-                    teams[team2].drawn++;
-                    teams[team1].points += 1;
-                    teams[team2].points += 1;
-                }
-            }
-
-            let rankingTable = document.getElementById('ranking-group-' + group);
-            let sortedTeams = Object.keys(teams).sort((a, b) => {
-                if (teams[b].points !== teams[a].points) return teams[b].points - teams[a].points;
-                if ((teams[b].gf - teams[b].ga) !== (teams[a].gf - teams[a].ga)) return (teams[b].gf - teams[b].ga) - (teams[a].gf - teams[a].ga);
-                if (teams[b].gf !== teams[a].gf) return teams[b].gf - teams[a].gf;
-                return teams[b].won - teams[a].won;
-            });
-
-            for (let i = 1; i < rankingTable.rows.length; i++) {
-                let teamName = sortedTeams[i - 1];
-                if (teamName) {
-                    let teamData = teams[teamName];
-                    let row = rankingTable.rows[i];
-                    row.cells[0].innerHTML = `<img src="${flags[teamName]}" class="flag">${teamName}`;
-                    row.cells[1].innerText = teamData.points;
-                    row.cells[2].innerText = teamData.played;
-                    row.cells[3].innerText = teamData.won;
-                    row.cells[4].innerText = teamData.drawn;
-                    row.cells[5].innerText = teamData.lost;
-                    row.cells[6].innerText = teamData.gf;
-                    row.cells[7].innerText = teamData.ga;
-                    row.cells[8].innerText = teamData.gf - teamData.ga;
-                }
-            }
-
-            if (allGamesPredicted) {
-                document.getElementById(`top-${group}1`).innerHTML = `<img src="${flags[sortedTeams[0]]}" class="flag">${sortedTeams[0]}`;
-                document.getElementById(`top-${group}2`).innerHTML = `<img src="${flags[sortedTeams[1]]}" class="flag">${sortedTeams[1]}`;
-
-                // Add third place team to third teams ranking table
-                let thirdTeamTable = document.getElementById('third-teams');
-                let thirdTeam = sortedTeams[2];
-                let thirdTeamData = teams[thirdTeam];
-
-                // Remove previous third place team from the same group if exists
-                for (let i = 1; i < thirdTeamTable.rows.length; i++) {
-                    let row = thirdTeamTable.rows[i];
-                    if (row.getAttribute('data-group') === group) {
-                        thirdTeamTable.deleteRow(i);
-                        break;
-                    }
-                }
-
-                // Add new third place team to the third teams table
-                let newRow = thirdTeamTable.insertRow();
-                newRow.setAttribute('data-group', group);
-                newRow.insertCell(0).innerText = group.toUpperCase();
-                newRow.insertCell(1).innerHTML = `<img src="${flags[thirdTeam]}" class="flag">${thirdTeam}`;
-                newRow.insertCell(2).innerText = thirdTeamData.points;
-                newRow.insertCell(3).innerText = thirdTeamData.played;
-                newRow.insertCell(4).innerText = thirdTeamData.won;
-                newRow.insertCell(5).innerText = thirdTeamData.drawn;
-                newRow.insertCell(6).innerText = thirdTeamData.lost;
-                newRow.insertCell(7).innerText = thirdTeamData.gf;
-                newRow.insertCell(8).innerText = thirdTeamData.ga;
-                newRow.insertCell(9).innerText = thirdTeamData.gf - thirdTeamData.ga;
-
-                // Sort the third teams ranking table
-                let thirdTeamRows = Array.from(thirdTeamTable.rows).slice(1);
-                thirdTeamRows.sort((a, b) => {
-                    let aPoints = parseInt(a.cells[2].innerText);
-                    let bPoints = parseInt(b.cells[2].innerText);
-                    if (aPoints !== bPoints) return bPoints - aPoints;
-                    let aGD = parseInt(a.cells[9].innerText);
-                    let bGD = parseInt(b.cells[9].innerText);
-                    if (aGD !== bGD) return bGD - aGD;
-                    let aGF = parseInt(a.cells[7].innerText);
-                    let bGF = parseInt(b.cells[7].innerText);
-                    if (aGF !== bGF) return bGF - aGF;
-                    let aWins = parseInt(a.cells[4].innerText);
-                    let bWins = parseInt(b.cells[4].innerText);
-                    return bWins - aWins;
-                });
-                thirdTeamRows.forEach(row => thirdTeamTable.appendChild(row));
-
-                // Highlight the top 4 teams in the third teams ranking table
-                for (let i = 0; i < thirdTeamRows.length; i++) {
-                    thirdTeamRows[i].classList.remove('highlight');
-                    if (i < 4) {
-                        thirdTeamRows[i].classList.add('highlight');
-                    }
-                }
-
-                // Determine round of 16
-                determineRoundOf16();
-            }
-        }
-
-        function determineRoundOf16() {
-            const firstPlaceTeams = {
-                'A': document.getElementById('top-a1').innerText,
-                'B': document.getElementById('top-b1').innerText,
-                'C': document.getElementById('top-c1').innerText,
-                'D': document.getElementById('top-d1').innerText,
-                'E': document.getElementById('top-e1').innerText,
-                'F': document.getElementById('top-f1').innerText
-            };
-
-            const secondPlaceTeams = {
-                'A': document.getElementById('top-a2').innerText,
-                'B': document.getElementById('top-b2').innerText,
-                'C': document.getElementById('top-c2').innerText,
-                'D': document.getElementById('top-d2').innerText,
-                'E': document.getElementById('top-e2').innerText,
-                'F': document.getElementById('top-f2').innerText
-            };
-
-            const thirdPlaceTeams = Array.from(document.querySelectorAll('#third-teams tr.highlight')).map(row => ({
-                group: row.cells[0].innerText,
-                team: row.cells[1].innerText
-            }));
-
-            // Assign predefined matchups
-            document.getElementById('match1').innerHTML = `<img src="${flags[firstPlaceTeams['B']]}" class="flag">${firstPlaceTeams['B']}`;
-            document.getElementById('match1-2').innerHTML = ''; // This will be determined below
-            document.getElementById('match2').innerHTML = `<img src="${flags[firstPlaceTeams['A']]}" class="flag">${firstPlaceTeams['A']}`;
-            document.getElementById('match2-2').innerHTML = `<img src="${flags[secondPlaceTeams['C']]}" class="flag">${secondPlaceTeams['C']}`;
-            document.getElementById('match3').innerHTML = `<img src="${flags[firstPlaceTeams['C']]}" class="flag">${firstPlaceTeams['C']}`;
-            document.getElementById('match3-2').innerHTML = ''; // This will be determined below
-            document.getElementById('match4').innerHTML = `<img src="${flags[secondPlaceTeams['D']]}" class="flag">${secondPlaceTeams['D']}`;
-            document.getElementById('match4-2').innerHTML = `<img src="${flags[secondPlaceTeams['E']]}" class="flag">${secondPlaceTeams['E']}`;
-            document.getElementById('match5').innerHTML = `<img src="${flags[firstPlaceTeams['E']]}" class="flag">${firstPlaceTeams['E']}`;
-            document.getElementById('match5-2').innerHTML = ''; // This will be determined below
-            document.getElementById('match6').innerHTML = `<img src="${flags[firstPlaceTeams['D']]}" class="flag">${firstPlaceTeams['D']}`;
-            document.getElementById('match6-2').innerHTML = `<img src="${flags[secondPlaceTeams['F']]}" class="flag">${secondPlaceTeams['F']}`;
-            document.getElementById('match7').innerHTML = `<img src="${flags[firstPlaceTeams['F']]}" class="flag">${firstPlaceTeams['F']}`;
-            document.getElementById('match7-2').innerHTML = ''; // This will be determined below
-            document.getElementById('match8').innerHTML = `<img src="${flags[secondPlaceTeams['A']]}" class="flag">${secondPlaceTeams['A']}`;
-            document.getElementById('match8-2').innerHTML = `<img src="${flags[secondPlaceTeams['B']]}" class="flag">${secondPlaceTeams['B']}`;
-
-            const thirdPlaceMatchups = {
-                'ABCD': { '1B': '3A', '1C': '3D', '1E': '3B', '1F': '3C' },
-                'ABCE': { '1B': '3A', '1C': '3E', '1E': '3B', '1F': '3C' },
-                'ABCF': { '1B': '3A', '1C': '3F', '1E': '3B', '1F': '3C' },
-                'ABDE': { '1B': '3D', '1C': '3E', '1E': '3A', '1F': '3B' },
-                'ABDF': { '1B': '3D', '1C': '3F', '1E': '3A', '1F': '3B' },
-                'ABEF': { '1B': '3E', '1C': '3F', '1E': '3B', '1F': '3A' },
-                'ACDE': { '1B': '3E', '1C': '3D', '1E': '3C', '1F': '3A' },
-                'ACDF': { '1B': '3F', '1C': '3D', '1E': '3C', '1F': '3A' },
-                'ACEF': { '1B': '3E', '1C': '3F', '1E': '3C', '1F': '3A' },
-                'ADEF': { '1B': '3E', '1C': '3F', '1E': '3D', '1F': '3A' },
-                'BCDE': { '1B': '3E', '1C': '3D', '1E': '3B', '1F': '3C' },
-                'BCDF': { '1B': '3F', '1C': '3D', '1E': '3C', '1F': '3B' },
-                'BCEF': { '1B': '3F', '1C': '3E', '1E': '3C', '1F': '3B' },
-                'BDEF': { '1B': '3F', '1C': '3E', '1E': '3D', '1F': '3B' },
-                'CDEF': { '1B': '3F', '1C': '3E', '1E': '3D', '1F': '3C' }
-            };
-
-            const thirdPlaceGroups = thirdPlaceTeams.map(team => team.group).sort().join('');
-            const matchups = thirdPlaceMatchups[thirdPlaceGroups];
-
-            if (matchups) {
-                document.getElementById('match1-2').innerHTML = `<img src="${flags[thirdPlaceTeams.find(team => team.group === matchups['1B'][1]).team]}" class="flag">${thirdPlaceTeams.find(team => team.group === matchups['1B'][1]).team}`;
-                document.getElementById('match3-2').innerHTML = `<img src="${flags[thirdPlaceTeams.find(team => team.group === matchups['1C'][1]).team]}" class="flag">${thirdPlaceTeams.find(team => team.group === matchups['1C'][1]).team}`;
-                document.getElementById('match5-2').innerHTML = `<img src="${flags[thirdPlaceTeams.find(team => team.group === matchups['1E'][1]).team]}" class="flag">${thirdPlaceTeams.find(team => team.group === matchups['1E'][1]).team}`;
-                document.getElementById('match7-2').innerHTML = `<img src="${flags[thirdPlaceTeams.find(team => team.group === matchups['1F'][1]).team]}" class="flag">${thirdPlaceTeams.find(team => team.group === matchups['1F'][1]).team}`;
-
-                // Populate the dropdowns with teams
-                populateWinnersDropdown();
-            }
+        function updateRankings() {
+            // Update the rankings based on the group stage scores
         }
 
         function populateWinnersDropdown() {
-            for (let i = 1; i <= 8; i++) {
-                let team1 = document.getElementById(`match${i}`).innerText;
-                let team2 = document.getElementById(`match${i}-2`).innerText;
-                let dropdown = document.getElementById(`winner${i}`);
-                dropdown.innerHTML = `<option value=""></option><option value="${team1}">${team1}</option><option value="${team2}">${team2}</option>`;
-            }
-        }
-
-        function updateQuarterFinals() {
-            const quarterFinals = {
-                'qf1': document.getElementById('winner1').value,
-                'qf2': document.getElementById('winner2').value,
-                'qf3': document.getElementById('winner3').value,
-                'qf4': document.getElementById('winner4').value,
-                'qf5': document.getElementById('winner5').value,
-                'qf6': document.getElementById('winner6').value,
-                'qf7': document.getElementById('winner7').value,
-                'qf8': document.getElementById('winner8').value
-            };
-
-            document.getElementById('qf1').innerHTML = `<img src="${flags[quarterFinals.qf1]}" class="flag">${quarterFinals.qf1}`;
-            document.getElementById('qf1-2').innerHTML = `<img src="${flags[quarterFinals.qf2]}" class="flag">${quarterFinals.qf2}`;
-            document.getElementById('qf2').innerHTML = `<img src="${flags[quarterFinals.qf3]}" class="flag">${quarterFinals.qf3}`;
-            document.getElementById('qf2-2').innerHTML = `<img src="${flags[quarterFinals.qf8]}" class="flag">${quarterFinals.qf8}`;
-            document.getElementById('qf3').innerHTML = `<img src="${flags[quarterFinals.qf5]}" class="flag">${quarterFinals.qf5}`;
-            document.getElementById('qf3-2').innerHTML = `<img src="${flags[quarterFinals.qf6]}" class="flag">${quarterFinals.qf6}`;
-            document.getElementById('qf4').innerHTML = `<img src="${flags[quarterFinals.qf7]}" class="flag">${quarterFinals.qf7}`;
-            document.getElementById('qf4-2').innerHTML = `<img src="${flags[quarterFinals.qf4]}" class="flag">${quarterFinals.qf4}`;
-
-            for (let i = 1; i <= 4; i++) {
-                let team1 = document.getElementById(`qf${i}`).innerText;
-                let team2 = document.getElementById(`qf${i}-2`).innerText;
-                let dropdown = document.getElementById(`winnerQF${i}`);
-                dropdown.innerHTML = `<option value=""></option><option value="${team1}">${team1}</option><option value="${team2}">${team2}</option>`;
-            }
-        }
-
-        function updateSemiFinals() {
-            const semiFinals = {
-                'sf1': document.getElementById('winnerQF1').value,
-                'sf2': document.getElementById('winnerQF2').value,
-                'sf3': document.getElementById('winnerQF3').value,
-                'sf4': document.getElementById('winnerQF4').value
-            };
-
-            document.getElementById('sf1').innerHTML = `<img src="${flags[semiFinals.sf1]}" class="flag">${semiFinals.sf1}`;
-            document.getElementById('sf1-2').innerHTML = `<img src="${flags[semiFinals.sf4]}" class="flag">${semiFinals.sf4}`;
-            document.getElementById('sf2').innerHTML = `<img src="${flags[semiFinals.sf2]}" class="flag">${semiFinals.sf2}`;
-            document.getElementById('sf2-2').innerHTML = `<img src="${flags[semiFinals.sf3]}" class="flag">${semiFinals.sf3}`;
-
-            for (let i = 1; i <= 2; i++) {
-                let team1 = document.getElementById(`sf${i}`).innerText;
-                let team2 = document.getElementById(`sf${i}-2`).innerText;
-                let dropdown = document.getElementById(`winnerSF${i}`);
-                dropdown.innerHTML = `<option value=""></option><option value="${team1}">${team1}</option><option value="${team2}">${team2}</option>`;
-            }
-        }
-
-        function updateFinal() {
-            const finals = {
-                'final1': document.getElementById('winnerSF1').value,
-                'final2': document.getElementById('winnerSF2').value
-            };
-
-            document.getElementById('final1').innerHTML = `<img src="${flags[finals.final1]}" class="flag">${finals.final1}`;
-            document.getElementById('final2').innerHTML = `<img src="${flags[finals.final2]}" class="flag">${finals.final2}`;
-
-            let team1 = document.getElementById('final1').innerText;
-            let team2 = document.getElementById('final2').innerText;
-            let dropdown = document.getElementById('champion');
-            dropdown.innerHTML = `<option value=""></option><option value="${team1}">${team1}</option><option value="${team2}">${team2}</option>`;
+            // Populate the dropdowns for the knockout stages with the teams that progressed
         }
 
         function savePredictions() {
@@ -1709,8 +617,8 @@
 
             link.click();
         }
-
     </script>
+
     <div class="footnote">
         &copy; 2024. Website created by Nima N.
     </div>
