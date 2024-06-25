@@ -258,7 +258,7 @@
             const participantSelect = document.getElementById('participant');
             participants.forEach(participant => {
                 const option = document.createElement('option');
-                option.value = participant.scores;
+                option.value = participant.file;
                 option.text = participant.name;
                 participantSelect.add(option);
             });
