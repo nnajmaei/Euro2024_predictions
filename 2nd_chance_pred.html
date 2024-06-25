@@ -146,7 +146,7 @@
                 <tr>
                     <td>Quarter Final 2:</td>
                     <td>
-                        <select id="quarterFinal2" onchange="updateSemiFinal2()">
+                        <select id="quarterFinal2" onchange="updateSemiFinal1()">
                             <option value="">Select...</option>
                         </select>
                     </td>
@@ -154,7 +154,7 @@
                 <tr>
                     <td>Quarter Final 3:</td>
                     <td>
-                        <select id="quarterFinal3" onchange="updateSemiFinal3()">
+                        <select id="quarterFinal3" onchange="updateSemiFinal2()">
                             <option value="">Select...</option>
                         </select>
                     </td>
@@ -162,7 +162,7 @@
                 <tr>
                     <td>Quarter Final 4:</td>
                     <td>
-                        <select id="quarterFinal4" onchange="updateSemiFinal4()">
+                        <select id="quarterFinal4" onchange="updateSemiFinal2()">
                             <option value="">Select...</option>
                         </select>
                     </td>
@@ -170,7 +170,7 @@
                 <tr>
                     <td>Semi Final 1:</td>
                     <td>
-                        <select id="semiFinal1" onchange="updateFinal1()">
+                        <select id="semiFinal1" onchange="updateFinal()">
                             <option value="">Select...</option>
                         </select>
                     </td>
@@ -178,7 +178,7 @@
                 <tr>
                     <td>Semi Final 2:</td>
                     <td>
-                        <select id="semiFinal2" onchange="updateFinal2()">
+                        <select id="semiFinal2" onchange="updateFinal()">
                             <option value="">Select...</option>
                         </select>
                     </td>
@@ -258,7 +258,7 @@
             const participantSelect = document.getElementById('participant');
             participants.forEach(participant => {
                 const option = document.createElement('option');
-                option.value = participant.file;
+                option.value = participant.scores;
                 option.text = participant.name;
                 participantSelect.add(option);
             });
@@ -309,6 +309,12 @@
                         knockoutStageHTML += '</table>';
                         groupStageResultsDiv.innerHTML = groupStageHTML;
                         knockoutStageResultsDiv.innerHTML = knockoutStageHTML;
+
+                        // Populate Quarter Finals
+                        document.getElementById('quarterFinal1').innerHTML = createOptionList(rows[4][0], rows[4][1]);
+                        document.getElementById('quarterFinal2').innerHTML = createOptionList(rows[4][2], rows[4][3]);
+                        document.getElementById('quarterFinal3').innerHTML = createOptionList(rows[4][4], rows[4][5]);
+                        document.getElementById('quarterFinal4').innerHTML = createOptionList(rows[4][6], rows[4][7]);
                     })
                     .catch(error => {
                         groupStageResultsDiv.innerHTML = `Error loading predictions: ${error.message}`;
@@ -319,6 +325,13 @@
                 groupStageResultsDiv.innerHTML = '';
                 knockoutStageResultsDiv.innerHTML = '';
             }
+        }
+
+        function createOptionList(team1, team2) {
+            const optionList = `<option value="">Select...</option>
+                                <option value="${team1}">${team1}</option>
+                                <option value="${team2}">${team2}</option>`;
+            return optionList;
         }
 
         function updateSemiFinal1() {
@@ -359,7 +372,7 @@
             }
         }
 
-        function updateFinal1() {
+        function updateFinal() {
             const final = document.getElementById('final');
             final.innerHTML = '';
             const semiFinal1 = document.getElementById('semiFinal1').value;
