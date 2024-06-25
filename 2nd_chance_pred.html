@@ -208,7 +208,7 @@
     <hr>
 
     <div class="group-title">Group A</div>
-    <table id="group-a">
+    <table id="group-a" data-group="a">
         <tr>
             <th>Date</th>
             <th>Team 1</th>
@@ -216,10 +216,15 @@
             <th>Team 2</th>
             <th>Score 2</th>
         </tr>
-        <!-- Add your group matches here -->
+        <tr data-date="June 14">
+            <td>June 14</td>
+            <td class="team1"><img src="https://flagcdn.com/w20/de.png" class="flag">Germany</td>
+            <td><input type="number" class="score1" min="0" onchange="updateRankings('a')"></td>
+            <td class="team2"><img src="https://flagcdn.com/w20/gb-sct.png" class="flag">Scotland</td>
+            <td><input type="number" class="score2" min="0" onchange="updateRankings('a')"></td>
+        </tr>
+        <!-- Add other group matches -->
     </table>
-
-    <!-- Add the same structure for other groups -->
 
     <hr>
 
@@ -228,10 +233,18 @@
         <tr>
             <th>Date</th>
             <th>Team 1</th>
+            <th>Score 1</th>
             <th>Team 2</th>
-            <th>Winner</th>
+            <th>Score 2</th>
         </tr>
-        <!-- Add your round of 16 matches here -->
+        <tr data-date="June 29">
+            <td>June 29</td>
+            <td class="team1"></td>
+            <td><input type="number" class="score1" min="0"></td>
+            <td class="team2"></td>
+            <td><input type="number" class="score2" min="0"></td>
+        </tr>
+        <!-- Add other round of 16 matches -->
     </table>
 
     <hr>
@@ -390,8 +403,7 @@
                             }
                         } else {
                             // Fill group stage predictions
-                            const groupTable = document.querySelector(`table[data-group='${team1.split(' ')[1][0].toLowerCase()}']`);
-                            const matchRow = groupTable.querySelector(`tr[data-date='${date}']`);
+                            const matchRow = document.querySelector(`#group-a tr[data-date='${date}']`);
                             if (matchRow) {
                                 matchRow.querySelector('.score1').value = score1;
                                 matchRow.querySelector('.score2').value = score2;
@@ -613,7 +625,7 @@
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);
             link.setAttribute("download", fileName);
-            document.body.appendChild(link); // Required for FF
+            document.body.appendChild(link);
 
             link.click();
         }
