@@ -311,10 +311,10 @@
                         knockoutStageResultsDiv.innerHTML = knockoutStageHTML;
 
                         // Populate Quarter Finals
-                        document.getElementById('quarterFinal1').innerHTML = createOptionList(rows[4][0], rows[4][1]);
-                        document.getElementById('quarterFinal2').innerHTML = createOptionList(rows[4][2], rows[4][3]);
-                        document.getElementById('quarterFinal3').innerHTML = createOptionList(rows[4][4], rows[4][5]);
-                        document.getElementById('quarterFinal4').innerHTML = createOptionList(rows[4][6], rows[4][7]);
+                        document.getElementById('quarterFinal1').innerHTML = createOptionList(rows[4][1], rows[4][2]);
+                        document.getElementById('quarterFinal2').innerHTML = createOptionList(rows[4][3], rows[4][4]);
+                        document.getElementById('quarterFinal3').innerHTML = createOptionList(rows[4][5], rows[4][6]);
+                        document.getElementById('quarterFinal4').innerHTML = createOptionList(rows[4][7], rows[4][8]);
                     })
                     .catch(error => {
                         groupStageResultsDiv.innerHTML = `Error loading predictions: ${error.message}`;
