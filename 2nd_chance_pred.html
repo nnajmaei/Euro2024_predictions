@@ -80,6 +80,22 @@
             border-radius: 3px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
         }
+
+        .match {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .match img {
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        .prediction-section table {
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -112,24 +128,70 @@
                 <!-- Knockout Stage Predictions will be populated here -->
             </div>
         </div>
-        <div>
+        <div class="prediction-section">
             <h2>Quarter-Final to Final Predictions</h2>
-            <div>
-                <label for="quarterFinal">Quarter Final:</label>
-                <input type="text" id="quarterFinal" placeholder="Quarter Final Prediction">
-            </div>
-            <div>
-                <label for="semiFinal">Semi Final:</label>
-                <input type="text" id="semiFinal" placeholder="Semi Final Prediction">
-            </div>
-            <div>
-                <label for="final">Final:</label>
-                <input type="text" id="final" placeholder="Final Prediction">
-            </div>
-            <div>
-                <label for="champion">Champion:</label>
-                <input type="text" id="champion" placeholder="Champion Prediction">
-            </div>
+            <table>
+                <tr>
+                    <th>Match</th>
+                    <th>Prediction</th>
+                </tr>
+                <tr>
+                    <td>Quarter Final 1:</td>
+                    <td>
+                        <select id="quarterFinal1" onchange="updateSemiFinal1()">
+                            <option value="">Select...</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Quarter Final 2:</td>
+                    <td>
+                        <select id="quarterFinal2" onchange="updateSemiFinal2()">
+                            <option value="">Select...</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Quarter Final 3:</td>
+                    <td>
+                        <select id="quarterFinal3" onchange="updateSemiFinal3()">
+                            <option value="">Select...</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Quarter Final 4:</td>
+                    <td>
+                        <select id="quarterFinal4" onchange="updateSemiFinal4()">
+                            <option value="">Select...</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Semi Final 1:</td>
+                    <td>
+                        <select id="semiFinal1" onchange="updateFinal1()">
+                            <option value="">Select...</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Semi Final 2:</td>
+                    <td>
+                        <select id="semiFinal2" onchange="updateFinal2()">
+                            <option value="">Select...</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Final:</td>
+                    <td>
+                        <select id="final">
+                            <option value="">Select...</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
             <button onclick="savePredictions()">Save Predictions</button>
         </div>
     </div>
@@ -207,8 +269,8 @@
             const selectedscores = participantSelect.value;
             const groupStageResultsDiv = document.getElementById('groupStageResults');
             const knockoutStageResultsDiv = document.getElementById('knockoutStageResults');
-            groupStageResultsDiv.innerHTML = 'Loading...';
-            knockoutStageResultsDiv.innerHTML = 'Loading...';
+            groupStageResultsDiv.innerHTML = 'Loading...'; // Show a loading message
+            knockoutStageResultsDiv.innerHTML = 'Loading...'; // Show a loading message
             if (selectedscores) {
                 fetch(selectedscores)
                     .then(response => {
@@ -219,12 +281,12 @@
                     })
                     .then(data => {
                         const rows = data.split('\n').map(row => row.split(','));
-                        let groupStageHTML = '<h3>Group Stage Results</h3><table>';
-                        let knockoutStageHTML = '<h3>Knockout Stage Predictions</h3><table>';
-                        rows.forEach(row => {
+                        let groupStageHTML = '<table>';
+                        let knockoutStageHTML = '<table>';
+                        rows.forEach((row, index) => {
                             groupStageHTML += '<tr>';
                             knockoutStageHTML += '<tr>';
-                            row.forEach((cell, index) => {
+                            row.forEach(cell => {
                                 const cellContent = cell.trim();
                                 const flagImg = flags[cellContent] ? `<img src="${flags[cellContent]}" class="flag"> ` : '';
                                 const abbreviation = abbreviations[cellContent] ? abbreviations[cellContent] : cellContent;
@@ -259,16 +321,77 @@
             }
         }
 
+        function updateSemiFinal1() {
+            const semiFinal1 = document.getElementById('semiFinal1');
+            semiFinal1.innerHTML = '';
+            const quarterFinal1 = document.getElementById('quarterFinal1').value;
+            const quarterFinal2 = document.getElementById('quarterFinal2').value;
+            if (quarterFinal1) {
+                const option1 = document.createElement('option');
+                option1.value = quarterFinal1;
+                option1.text = quarterFinal1;
+                semiFinal1.add(option1);
+            }
+            if (quarterFinal2) {
+                const option2 = document.createElement('option');
+                option2.value = quarterFinal2;
+                option2.text = quarterFinal2;
+                semiFinal1.add(option2);
+            }
+        }
+
+        function updateSemiFinal2() {
+            const semiFinal2 = document.getElementById('semiFinal2');
+            semiFinal2.innerHTML = '';
+            const quarterFinal3 = document.getElementById('quarterFinal3').value;
+            const quarterFinal4 = document.getElementById('quarterFinal4').value;
+            if (quarterFinal3) {
+                const option1 = document.createElement('option');
+                option1.value = quarterFinal3;
+                option1.text = quarterFinal3;
+                semiFinal2.add(option1);
+            }
+            if (quarterFinal4) {
+                const option2 = document.createElement('option');
+                option2.value = quarterFinal4;
+                option2.text = quarterFinal4;
+                semiFinal2.add(option2);
+            }
+        }
+
+        function updateFinal1() {
+            const final = document.getElementById('final');
+            final.innerHTML = '';
+            const semiFinal1 = document.getElementById('semiFinal1').value;
+            const semiFinal2 = document.getElementById('semiFinal2').value;
+            if (semiFinal1) {
+                const option1 = document.createElement('option');
+                option1.value = semiFinal1;
+                option1.text = semiFinal1;
+                final.add(option1);
+            }
+            if (semiFinal2) {
+                const option2 = document.createElement('option');
+                option2.value = semiFinal2;
+                option2.text = semiFinal2;
+                final.add(option2);
+            }
+        }
+
         function savePredictions() {
             const participantSelect = document.getElementById('participant');
             const participantName = participantSelect.options[participantSelect.selectedIndex].text;
-            const quarterFinal = document.getElementById('quarterFinal').value;
-            const semiFinal = document.getElementById('semiFinal').value;
+            const quarterFinal1 = document.getElementById('quarterFinal1').value;
+            const quarterFinal2 = document.getElementById('quarterFinal2').value;
+            const quarterFinal3 = document.getElementById('quarterFinal3').value;
+            const quarterFinal4 = document.getElementById('quarterFinal4').value;
+            const semiFinal1 = document.getElementById('semiFinal1').value;
+            const semiFinal2 = document.getElementById('semiFinal2').value;
             const final = document.getElementById('final').value;
-            const champion = document.getElementById('champion').value;
+            const champion = document.getElementById('final').value;
             const data = [
-                ['Participant', 'Quarter Final', 'Semi Final', 'Final', 'Champion'],
-                [participantName, quarterFinal, semiFinal, final, champion]
+                ['Participant', 'Quarter Final 1', 'Quarter Final 2', 'Quarter Final 3', 'Quarter Final 4', 'Semi Final 1', 'Semi Final 2', 'Final', 'Champion'],
+                [participantName, quarterFinal1, quarterFinal2, quarterFinal3, quarterFinal4, semiFinal1, semiFinal2, final, champion]
             ];
             const csvContent = 'data:text/csv;charset=utf-8,' + data.map(e => e.join(',')).join('\n');
             const encodedUri = encodeURI(csvContent);
