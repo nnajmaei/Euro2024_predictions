@@ -1,87 +1,51 @@
 Group Stage
 Group A,Team 1,,Team 2,,Point
-June 14,Germany,2,Scotland,1
-,5
-June 15,Hungary,0,Switzerland,2
-,8
-June 19,Scotland,0,Switzerland,1
-,0
-June 19,Germany,2,Hungary,0
-,10
-June 23,Switzerland,1,Germany,1
-,10
-June 23,Scotland,1,Hungary,0
-,0
+June 14,Germany,2,Scotland,1,5
+June 15,Hungary,0,Switzerland,2,8
+June 19,Scotland,0,Switzerland,1,0
+June 19,Germany,2,Hungary,0,10
+June 23,Switzerland,1,Germany,1,10
+June 23,Scotland,1,Hungary,0,0
 
 Group B
-June 15,Spain,1,Croatia,1
-,0
-June 15,Italy,3,Albania,0
-,5
-June 19,Croatia,2,Albania,0
-,0
-June 20,Spain,1,Italy,0
-,10
-June 24,Albania,0,Spain,2
-,5
-June 24,Croatia,1,Italy,0
-,0
+June 15,Spain,1,Croatia,1,0
+June 15,Italy,3,Albania,0,5
+June 19,Croatia,2,Albania,0,0
+June 20,Spain,1,Italy,0,10
+June 24,Albania,0,Spain,2,5
+June 24,Croatia,1,Italy,0,0
 
 Group C
-June 16,Serbia,1,England,2
-,8
-June 16,Slovenia,0,Denmark,1
-,0
-June 20,Denmark,1,England,2
-,0
-June 20,Slovenia,1,Serbia,0
-,0
-June 25,England,1,Slovenia,0
-,0
-June 25,Denmark,2,Serbia,1
-,0
+June 16,Serbia,1,England,2,8
+June 16,Slovenia,0,Denmark,1,0
+June 20,Denmark,1,England,2,0
+June 20,Slovenia,1,Serbia,0,0
+June 25,England,1,Slovenia,0,0
+June 25,Denmark,2,Serbia,1,0
 
 Group D
-June 16,Poland,1,Netherlands,2
-,10
-June 17,Austria,1,France,2
-,8
-June 21,Poland,1,Austria,1
-,0
-June 21,Netherlands,1,France,2
-,0
-June 25,France,3,Poland,1
-,0
-June 25,Netherlands,2,Austria,0
-,0
+June 16,Poland,1,Netherlands,2,10
+June 17,Austria,1,France,2,8
+June 21,Poland,1,Austria,1,0
+June 21,Netherlands,1,France,2,0
+June 25,France,3,Poland,1,0
+June 25,Netherlands,2,Austria,0,0
 
 Group E
-June 17,Romania,0,Ukraine,1
-,0
-June 17,Belgium,2,Slovakia,0
-,0
-June 21,Slovakia,1,Ukraine,0
-,0
-June 22,Belgium,3,Romania,0
-,5
-June 26,Slovakia,1,Romania,0
-,0
-June 26,Ukraine,0,Belgium,2
-,0
+June 17,Romania,0,Ukraine,1,0
+June 17,Belgium,2,Slovakia,0,0
+June 21,Slovakia,1,Ukraine,0,0
+June 22,Belgium,3,Romania,0,5
+June 26,Slovakia,1,Romania,0,0
+June 26,Ukraine,0,Belgium,2,0
 
 Group F
-June 18,Turkey,2,Georgia,1
-,5
-June 18,Portugal,2,Czechia,1
-,10
-June 22,Georgia,0,Czechia,1
-,0
-June 22,Portugal,2,Turkey,0
-,5
-June 26,Czechia,2,Turkey,1
-,0
-June 26,Georgia,0,Portugal,3
-,0
+June 18,Turkey,2,Georgia,1,5
+June 18,Portugal,2,Czechia,1,10
+June 22,Georgia,0,Czechia,1,0
+June 22,Portugal,2,Turkey,0,5
+June 26,Czechia,2,Turkey,1,0
+June 26,Georgia,0,Portugal,3,0
 
 KO Stage
 Round of 16,Team 1,Team 2,Winner,,Point
