@@ -351,14 +351,14 @@
         }
 
         function updateQuarterFinals(rows) {
-            document.getElementById('qf1').innerText = rows[51][3];
-            document.getElementById('qf1-2').innerText = rows[52][3];
-            document.getElementById('qf2').innerText = rows[53][3];
-            document.getElementById('qf2-2').innerText = rows[58][3];
-            document.getElementById('qf3').innerText = rows[55][3];
-            document.getElementById('qf3-2').innerText = rows[56][3];
-            document.getElementById('qf4').innerText = rows[57][3];
-            document.getElementById('qf4-2').innerText = rows[54][3];
+            document.getElementById('qf1').innerHTML = `<img src="${flags[rows[51][3]]}" class="flag">${rows[51][3]}`;
+            document.getElementById('qf1-2').innerHTML = `<img src="${flags[rows[52][3]]}" class="flag">${rows[52][3]}`;
+            document.getElementById('qf2').innerHTML = `<img src="${flags[rows[53][3]]}" class="flag">${rows[53][3]}`;
+            document.getElementById('qf2-2').innerHTML = `<img src="${flags[rows[58][3]]}" class="flag">${rows[58][3]}`;
+            document.getElementById('qf3').innerHTML = `<img src="${flags[rows[55][3]]}" class="flag">${rows[55][3]}`;
+            document.getElementById('qf3-2').innerHTML = `<img src="${flags[rows[56][3]]}" class="flag">${rows[56][3]}`;
+            document.getElementById('qf4').innerHTML = `<img src="${flags[rows[57][3]]}" class="flag">${rows[57][3]}`;
+            document.getElementById('qf4-2').innerHTML = `<img src="${flags[rows[54][3]]}" class="flag">${rows[54][3]}`;
 
             for (let i = 1; i <= 4; i++) {
                 let team1 = document.getElementById(`qf${i}`).innerText;
@@ -417,7 +417,7 @@
         function clearSemiFinals() {
             for (let i = 1; i <= 2; i++) {
                 document.getElementById(`sf${i}`).innerText = '';
-                document.getElementById(`sf${i}-2`).innerText = '';
+                document.getElementById(`sf${i}-2}`).innerText = '';
                 let dropdown = document.getElementById(`winnerSF${i}`);
                 dropdown.innerHTML = `<option value=""></option>`;
             }
