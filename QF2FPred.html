@@ -182,6 +182,15 @@
         <img src="./logos/logo.png" alt="Euro 2024 Logo" style="width:300px;">
     </div>
 
+    <div class="form-container">
+        <div>
+            <label for="participantSelect">Select Participant:</label>
+            <select id="participantSelect" onchange="loadParticipantPredictions()">
+                <option value="">Select Participant</option>
+            </select>
+        </div>
+    </div>
+
     <hr>
 
     <h2>Quarterfinal</h2>
@@ -198,7 +207,7 @@
             <td id="qf1-2"></td>
             <td><select id="winnerQF1" onchange="updateSemiFinals()">
                     <option value=""></option>
-            </td>
+                </select></td>
         </tr>
         <tr>
             <td>July 5</td>
@@ -206,7 +215,7 @@
             <td id="qf2-2"></td>
             <td><select id="winnerQF2" onchange="updateSemiFinals()">
                     <option value=""></option>
-            </td>
+                </select></td>
         </tr>
         <tr>
             <td>July 6</td>
@@ -214,7 +223,7 @@
             <td id="qf3-2"></td>
             <td><select id="winnerQF3" onchange="updateSemiFinals()">
                     <option value=""></option>
-            </td>
+                </select></td>
         </tr>
         <tr>
             <td>July 6</td>
@@ -222,7 +231,7 @@
             <td id="qf4-2"></td>
             <td><select id="winnerQF4" onchange="updateSemiFinals()">
                     <option value=""></option>
-            </td>
+                </select></td>
         </tr>
     </table>
     <hr>
@@ -283,9 +292,6 @@
         </p>
     </body>
 
-
-
-
     <script>
         const flags = {
             'Germany': 'https://flagcdn.com/w20/de.png',
@@ -314,36 +320,45 @@
             'Czechia': 'https://flagcdn.com/w20/cz.png'
         };
 
+        function populateDropdowns(participants) {
+            const participantSelect = document.getElementById('participantSelect');
+            participants.forEach(participant => {
+                const option = document.createElement('option');
+                option.value = participant.file;
+                option.text = participant.name;
+                participantSelect.add(option);
+            });
+        }
 
-        function populateWinnersDropdown() {
-            for (let i = 1; i <= 8; i++) {
-                let team1 = document.getElementById(`match${i}`).innerText;
-                let team2 = document.getElementById(`match${i}-2`).innerText;
-                let dropdown = document.getElementById(`winner${i}`);
-                dropdown.innerHTML = `<option value=""></option><option value="${team1}">${team1}</option><option value="${team2}">${team2}</option>`;
+        function loadParticipantPredictions() {
+            const participantSelect = document.getElementById('participantSelect');
+            const selectedfile = participantSelect.value;
+            if (selectedfile) {
+                loadCSV(selectedfile, rows => updateQuarterFinals(rows));
+            } else {
+                clearQuarterFinals();
             }
         }
 
-        function updateQuarterFinals() {
-            const quarterFinals = {
-                'qf1': document.getElementById('winner1').value,
-                'qf2': document.getElementById('winner2').value,
-                'qf3': document.getElementById('winner3').value,
-                'qf4': document.getElementById('winner4').value,
-                'qf5': document.getElementById('winner5').value,
-                'qf6': document.getElementById('winner6').value,
-                'qf7': document.getElementById('winner7').value,
-                'qf8': document.getElementById('winner8').value
-            };
+        function loadCSV(file, callback) {
+            fetch(file)
+                .then(response => response.text())
+                .then(data => {
+                    const rows = data.split('\n').map(row => row.split(','));
+                    callback(rows);
+                })
+                .catch(error => console.error('Error loading CSV:', error));
+        }
 
-            document.getElementById('qf1').innerHTML = `<img src="${flags[quarterFinals.qf1]}" class="flag">${quarterFinals.qf1}`;
-            document.getElementById('qf1-2').innerHTML = `<img src="${flags[quarterFinals.qf2]}" class="flag">${quarterFinals.qf2}`;
-            document.getElementById('qf2').innerHTML = `<img src="${flags[quarterFinals.qf3]}" class="flag">${quarterFinals.qf3}`;
-            document.getElementById('qf2-2').innerHTML = `<img src="${flags[quarterFinals.qf8]}" class="flag">${quarterFinals.qf8}`;
-            document.getElementById('qf3').innerHTML = `<img src="${flags[quarterFinals.qf5]}" class="flag">${quarterFinals.qf5}`;
-            document.getElementById('qf3-2').innerHTML = `<img src="${flags[quarterFinals.qf6]}" class="flag">${quarterFinals.qf6}`;
-            document.getElementById('qf4').innerHTML = `<img src="${flags[quarterFinals.qf7]}" class="flag">${quarterFinals.qf7}`;
-            document.getElementById('qf4-2').innerHTML = `<img src="${flags[quarterFinals.qf4]}" class="flag">${quarterFinals.qf4}`;
+        function updateQuarterFinals(rows) {
+            document.getElementById('qf1').innerText = rows[51][3];
+            document.getElementById('qf1-2').innerText = rows[52][3];
+            document.getElementById('qf2').innerText = rows[53][3];
+            document.getElementById('qf2-2').innerText = rows[58][3];
+            document.getElementById('qf3').innerText = rows[55][3];
+            document.getElementById('qf3-2').innerText = rows[56][3];
+            document.getElementById('qf4').innerText = rows[57][3];
+            document.getElementById('qf4-2').innerText = rows[54][3];
 
             for (let i = 1; i <= 4; i++) {
                 let team1 = document.getElementById(`qf${i}`).innerText;
@@ -389,152 +404,37 @@
             dropdown.innerHTML = `<option value=""></option><option value="${team1}">${team1}</option><option value="${team2}">${team2}</option>`;
         }
 
-        function savePredictions() {
-            const predictions = {
-                groups: {},
-                knockout: {},
-                additional: {}
-            };
-
-            for (let group of ['a', 'b', 'c', 'd', 'e', 'f']) {
-                predictions.groups[group] = [];
-                let table = document.getElementById('group-' + group);
-                let rows = table.rows;
-                for (let i = 1; i < rows.length; i++) {
-                    let cells = rows[i].cells;
-                    let match = {
-                        date: cells[0].innerText,
-                        team1: cells[1].innerText.trim(),
-                        score1: cells[2].children[0].value,
-                        team2: cells[3].innerText.trim(),
-                        score2: cells[4].children[0].value
-                    };
-                    predictions.groups[group].push(match);
-                }
-            }
-
-            for (let i = 1; i <= 8; i++) {
-                predictions.knockout['match' + i] = document.getElementById('winner' + i).value;
-            }
-
+        function clearQuarterFinals() {
             for (let i = 1; i <= 4; i++) {
-                predictions.knockout['qf' + i] = document.getElementById('winnerQF' + i).value;
+                document.getElementById(`qf${i}`).innerText = '';
+                document.getElementById(`qf${i}-2`).innerText = '';
+                let dropdown = document.getElementById(`winnerQF${i}`);
+                dropdown.innerHTML = `<option value=""></option>`;
             }
-
-            for (let i = 1; i <= 2; i++) {
-                predictions.knockout['sf' + i] = document.getElementById('winnerSF' + i).value;
-            }
-
-            predictions.knockout['final'] = document.getElementById('champion').value;
-            predictions.additional.topGoalscorer = document.getElementById('topGoalscorer').value;
-            predictions.additional.bestGoalkeeper = document.getElementById('bestGoalkeeper').value;
-            predictions.additional.MVP = document.getElementById('MVP').value;
-            predictions.additional.participantName = document.getElementById('participantName').value;
-
-            localStorage.setItem('euro2024Predictions', JSON.stringify(predictions));
-            alert('Predictions saved!');
+            clearSemiFinals();
         }
 
-        function loadPredictions() {
-            const savedPredictions = localStorage.getItem('euro2024Predictions');
-            if (!savedPredictions) {
-                alert('No saved predictions found.');
-                return;
-            }
-
-            const predictions = JSON.parse(savedPredictions);
-
-            for (let group of ['a', 'b', 'c', 'd', 'e', 'f']) {
-                let table = document.getElementById('group-' + group);
-                let rows = table.rows;
-                let matches = predictions.groups[group];
-                for (let i = 1; i < rows.length; i++) {
-                    let cells = rows[i].cells;
-                    let match = matches[i - 1];
-                    cells[2].children[0].value = match.score1;
-                    cells[4].children[0].value = match.score2;
-                }
-                updateRankings(group);
-            }
-
-            for (let i = 1; i <= 8; i++) {
-                document.getElementById('winner' + i).value = predictions.knockout['match' + i];
-            }
-
-            for (let i = 1; i <= 4; i++) {
-                document.getElementById('winnerQF' + i).value = predictions.knockout['qf' + i];
-            }
-
+        function clearSemiFinals() {
             for (let i = 1; i <= 2; i++) {
-                document.getElementById('winnerSF' + i).value = predictions.knockout['sf' + i];
+                document.getElementById(`sf${i}`).innerText = '';
+                document.getElementById(`sf${i}-2`).innerText = '';
+                let dropdown = document.getElementById(`winnerSF${i}`);
+                dropdown.innerHTML = `<option value=""></option>`;
             }
-
-            document.getElementById('champion').value = predictions.knockout['final'];
-            document.getElementById('topGoalscorer').value = predictions.additional.topGoalscorer;
-            document.getElementById('bestGoalkeeper').value = predictions.additional.bestGoalkeeper;
-            document.getElementById('MVP').value = predictions.additional.MVP;
-            document.getElementById('participantName').value = predictions.additional.participantName;
+            clearFinal();
         }
 
-
-
-        function saveCSV() {
-
-            for (let i = 1; i <= 4; i++) {
-                predictions.knockout['qf' + i] = {
-                    date: document.getElementById('quarter-finals').rows[i].cells[0].innerText.trim(),
-                    team1: document.getElementById('qf' + i).innerText.trim(),
-                    team2: document.getElementById('qf' + i + '-2').innerText.trim(),
-                    winner: document.getElementById('winnerQF' + i).value
-                };
-            }
-
-            for (let i = 1; i <= 2; i++) {
-                predictions.knockout['sf' + i] = {
-                    date: document.getElementById('semi-finals').rows[i].cells[0].innerText.trim(),
-                    team1: document.getElementById('sf' + i).innerText.trim(),
-                    team2: document.getElementById('sf' + i + '-2').innerText.trim(),
-                    winner: document.getElementById('winnerSF' + i).value
-                };
-            }
-
-            predictions.knockout['final'] = {
-                date: document.getElementById('final').rows[1].cells[0].innerText.trim(),
-                team1: document.getElementById('final1').innerText.trim(),
-                team2: document.getElementById('final2').innerText.trim(),
-                winner: document.getElementById('champion').value
-            };
-
-            let csvContent = "data:text/csv;charset=utf-8,";
-
-            csvContent += "Quarterfinals\n";
-            for (let i = 1; i <= 4; i++) {
-                csvContent += `${predictions.knockout['qf' + i].date},${predictions.knockout['qf' + i].team1},${predictions.knockout['qf' + i].team2},${predictions.knockout['qf' + i].winner}\n`;
-            }
-            csvContent += "\n";
-
-            csvContent += "Semifinals\n";
-            for (let i = 1; i <= 2; i++) {
-                csvContent += `${predictions.knockout['sf' + i].date},${predictions.knockout['sf' + i].team1},${predictions.knockout['sf' + i].team2},${predictions.knockout['sf' + i].winner}\n`;
-            }
-            csvContent += "\n";
-
-            csvContent += "Final\n";
-            csvContent += `${predictions.knockout['final'].date},${predictions.knockout['final'].team1},${predictions.knockout['final'].team2},${predictions.knockout['final'].winner}\n`;
-            csvContent += "\n";
-
-            const participantName = predictions.additional.participantName.replace(/\s+/g, '_');
-            const fileName = `${participantName}.csv`;
-
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", fileName);
-            document.body.appendChild(link); // Required for FF
-
-            link.click();
+        function clearFinal() {
+            document.getElementById('final1').innerText = '';
+            document.getElementById('final2').innerText = '';
+            let dropdown = document.getElementById('champion');
+            dropdown.innerHTML = `<option value=""></option>`;
         }
 
+        fetch('./jsons/participants.json')
+            .then(response => response.json())
+            .then(data => populateDropdowns(data.participants))
+            .catch(error => console.error('Error loading participants list:', error));
     </script>
     <div class="footnote">
         &copy; 2024. Website created by Nima N.
