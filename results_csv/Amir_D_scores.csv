@@ -20,16 +20,16 @@ June 16,Serbia,0,England,2,5
 June 16,Slovenia,0,Denmark,1,0
 June 20,Denmark,1,England,2,0
 June 20,Slovenia,0,Serbia,3,0
-June 25,England,4,Slovenia,0,
-June 25,Denmark,0,Serbia,1,
+June 25,England,4,Slovenia,0,0
+June 25,Denmark,0,Serbia,1,0
 
 Group D
 June 16,Poland,1,Netherlands,2,10
 June 17,Austria,0,France,2,5
 June 21,Poland,1,Austria,0,0
 June 21,Netherlands,1,France,0,0
-June 25,France,3,Poland,1,
-June 25,Netherlands,3,Austria,1,
+June 25,France,3,Poland,1,0
+June 25,Netherlands,3,Austria,1,0
 
 Group E
 June 17,Romania,0,Ukraine,2,0
