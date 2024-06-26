@@ -383,7 +383,7 @@
 
             for (let i = 1; i <= 2; i++) {
                 let team1 = document.getElementById(`sf${i}`).innerText;
-                let team2 = document.getElementById(`sf${i}-2`).innerText;
+                let team2 = document.getElementById(`sf${i}-2}`).innerText;
                 let dropdown = document.getElementById(`winnerSF${i}`);
                 dropdown.innerHTML = `<option value=""></option><option value="${team1}">${team1}</option><option value="${team2}">${team2}</option>`;
             }
@@ -417,7 +417,7 @@
         function clearSemiFinals() {
             for (let i = 1; i <= 2; i++) {
                 document.getElementById(`sf${i}`).innerText = '';
-                document.getElementById(`sf${i}-2`).innerText = '';
+                document.getElementById(`sf${i}-2}`).innerText = '';
                 let dropdown = document.getElementById(`winnerSF${i}`);
                 dropdown.innerHTML = `<option value=""></option>`;
             }
@@ -429,6 +429,57 @@
             document.getElementById('final2').innerText = '';
             let dropdown = document.getElementById('champion');
             dropdown.innerHTML = `<option value=""></option>`;
+        }
+
+        function saveCSV() {
+            const participantName = document.getElementById('participantSelect').selectedOptions[0].text;
+            const qf1 = document.getElementById('qf1').innerText;
+            const qf1_2 = document.getElementById('qf1-2').innerText;
+            const qf2 = document.getElementById('qf2').innerText;
+            const qf2_2 = document.getElementById('qf2-2').innerText;
+            const qf3 = document.getElementById('qf3').innerText;
+            const qf3_2 = document.getElementById('qf3-2').innerText;
+            const qf4 = document.getElementById('qf4').innerText;
+            const qf4_2 = document.getElementById('qf4-2').innerText;
+            const winnerQF1 = document.getElementById('winnerQF1').value;
+            const winnerQF2 = document.getElementById('winnerQF2').value;
+            const winnerQF3 = document.getElementById('winnerQF3').value;
+            const winnerQF4 = document.getElementById('winnerQF4').value;
+            const sf1 = document.getElementById('sf1').innerText;
+            const sf1_2 = document.getElementById('sf1-2').innerText;
+            const sf2 = document.getElementById('sf2').innerText;
+            const sf2_2 = document.getElementById('sf2-2').innerText;
+            const winnerSF1 = document.getElementById('winnerSF1').value;
+            const winnerSF2 = document.getElementById('winnerSF2').value;
+            const final1 = document.getElementById('final1').innerText;
+            const final2 = document.getElementById('final2').innerText;
+            const champion = document.getElementById('champion').value;
+
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Quarterfinals\n";
+            csvContent += `Date,Team 1,Team 2,Winner\n`;
+            csvContent += `July 5,${qf1},${qf1_2},${winnerQF1}\n`;
+            csvContent += `July 5,${qf2},${qf2_2},${winnerQF2}\n`;
+            csvContent += `July 6,${qf3},${qf3_2},${winnerQF3}\n`;
+            csvContent += `July 6,${qf4},${qf4_2},${winnerQF4}\n`;
+
+            csvContent += "\nSemifinals\n";
+            csvContent += `Date,Team 1,Team 2,Winner\n`;
+            csvContent += `July 9,${sf1},${sf1_2},${winnerSF1}\n`;
+            csvContent += `July 10,${sf2},${sf2_2},${winnerSF2}\n`;
+
+            csvContent += "\nFinal\n";
+            csvContent += `Date,Team 1,Team 2,Champion\n`;
+            csvContent += `July 14,${final1},${final2},${champion}\n`;
+
+            const fileName = `${participantName.replace(/\s+/g, '_')}.csv`;
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", fileName);
+            document.body.appendChild(link); // Required for FF
+
+            link.click();
         }
 
         fetch('./jsons/participants.json')
