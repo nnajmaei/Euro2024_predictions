@@ -383,7 +383,7 @@
 
             for (let i = 1; i <= 2; i++) {
                 let team1 = document.getElementById(`sf${i}`).innerText;
-                let team2 = document.getElementById(`sf${i}-2}`).innerText;
+                let team2 = document.getElementById(`sf${i}-2`).innerText;
                 let dropdown = document.getElementById(`winnerSF${i}`);
                 dropdown.innerHTML = `<option value=""></option><option value="${team1}">${team1}</option><option value="${team2}">${team2}</option>`;
             }
@@ -417,7 +417,7 @@
         function clearSemiFinals() {
             for (let i = 1; i <= 2; i++) {
                 document.getElementById(`sf${i}`).innerText = '';
-                document.getElementById(`sf${i}-2}`).innerText = '';
+                document.getElementById(`sf${i}-2`).innerText = '';
                 let dropdown = document.getElementById(`winnerSF${i}`);
                 dropdown.innerHTML = `<option value=""></option>`;
             }
