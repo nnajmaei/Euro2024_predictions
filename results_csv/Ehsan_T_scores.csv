@@ -1,77 +1,77 @@
 Group Stage
 Group A,Team 1,,Team 2,,Point
-June 14,Germany,3,Scotland,1,5
-June 15,Hungary,2,Switzerland,4,8
-June 19,Scotland,1,Switzerland,1,10
-June 19,Germany,2,Hungary,1,5
-June 23,Switzerland,1,Germany,3,0
-June 23,Scotland,1,Hungary,0,0
+June 14,Germany,3,Scotland,1,5
+June 15,Hungary,2,Switzerland,4,8
+June 19,Scotland,1,Switzerland,1,10
+June 19,Germany,2,Hungary,1,5
+June 23,Switzerland,1,Germany,3,0
+June 23,Scotland,1,Hungary,0,0
 
 Group B
-June 15,Spain,3,Croatia,1,5
-June 15,Italy,3,Albania,1,5
-June 19,Croatia,3,Albania,1,0
-June 20,Spain,2,Italy,1,8
-June 24,Albania,0,Spain,3,5
-June 24,Croatia,2,Italy,3,0
+June 15,Spain,3,Croatia,1,5
+June 15,Italy,3,Albania,1,5
+June 19,Croatia,3,Albania,1,0
+June 20,Spain,2,Italy,1,8
+June 24,Albania,0,Spain,3,5
+June 24,Croatia,2,Italy,3,0
 
 Group C
-June 16,Serbia,0,England,3,5
-June 16,Slovenia,1,Denmark,2,0
-June 20,Denmark,1,England,3,0
-June 20,Slovenia,1,Serbia,1,10
-June 25,England,2,Slovenia,0,0
-June 25,Denmark,2,Serbia,0,0
+June 16,Serbia,0,England,3,5
+June 16,Slovenia,1,Denmark,2,0
+June 20,Denmark,1,England,3,0
+June 20,Slovenia,1,Serbia,1,10
+June 25,England,2,Slovenia,0,0
+June 25,Denmark,2,Serbia,0,0
 
 Group D
-June 16,Poland,0,Netherlands,2,5
-June 17,Austria,0,France,2,5
-June 21,Poland,1,Austria,1,0
-June 21,Netherlands,1,France,2,0
-June 25,France,3,Poland,0,0
-June 25,Netherlands,2,Austria,0,0
+June 16,Poland,0,Netherlands,2,5
+June 17,Austria,0,France,2,5
+June 21,Poland,1,Austria,1,0
+June 21,Netherlands,1,France,2,0
+June 25,France,3,Poland,0,0
+June 25,Netherlands,2,Austria,0,0
 
 Group E
-June 17,Romania,3,Ukraine,2,5
-June 17,Belgium,2,Slovakia,0,0
-June 21,Slovakia,3,Ukraine,1,0
-June 22,Belgium,1,Romania,0,5
-June 26,Slovakia,1,Romania,1,10
-June 26,Ukraine,0,Belgium,3,0
+June 17,Romania,3,Ukraine,2,5
+June 17,Belgium,2,Slovakia,0,0
+June 21,Slovakia,3,Ukraine,1,0
+June 22,Belgium,1,Romania,0,5
+June 26,Slovakia,1,Romania,1,10
+June 26,Ukraine,0,Belgium,3,0
 
 Group F
-June 18,Turkey,2,Georgia,0,8
-June 18,Portugal,3,Czechia,0,5
-June 22,Georgia,1,Czechia,3,0
-June 22,Portugal,4,Turkey,1,8
-June 26,Czechia,0,Turkey,1,8
-June 26,Georgia,0,Portugal,3,0
+June 18,Turkey,2,Georgia,0,8
+June 18,Portugal,3,Czechia,0,5
+June 22,Georgia,1,Czechia,3,0
+June 22,Portugal,4,Turkey,1,8
+June 26,Czechia,0,Turkey,1,8
+June 26,Georgia,0,Portugal,3,0
 
 KO Stage
 Round of 16,Team 1,Team 2,Winner,,Point
-June 30,Spain,Slovakia,Spain,,
-June 29,Germany,Denmark,Germany,,
-July 1,England,Czechia,England,,
-July 1,Netherlands,Romania,Netherlands,,
-July 2,Belgium,Croatia,Belgium,,
-July 2,France,Turkey,France,,
-June 30,Portugal,Scotland,Portugal,,
-June 29,Switzerland,Italy,Italy,,
+June 30,Spain,Slovakia,Spain,,0
+June 29,Germany,Denmark,Germany,,0
+July 1,England,Czechia,England,,0
+July 1,Netherlands,Romania,Netherlands,,0
+July 2,Belgium,Croatia,Belgium,,0
+July 2,France,Turkey,France,,0
+June 30,Portugal,Scotland,Portugal,,0
+June 29,Switzerland,Italy,Italy,,0
 
-Quarterfinals,,,,
-July 5,Spain,Germany,Spain,,
-July 5,England,Italy,England,,
-July 6,Belgium,France,France,,
-July 6,Portugal,Netherlands,Portugal,,
+Quarterfinals
+July 5,Spain,Germany,Spain,,0
+July 5,England,Italy,England,,0
+July 6,Belgium,France,France,,0
+July 6,Portugal,Netherlands,Portugal,,0
 
-Semifinals,,,,
-July 9,Spain,Portugal,Spain,,
-July 10,England,France,England,,
+Semifinals
+July 9,Spain,Portugal,Spain,,0
+July 10,England,France,England,,0
 
-Final,,,,
-July 14,Spain,England,Spain,,
+Final
+July 14,Spain,England,Spain,,0
 
 Top Players
-Top Goalscorer,Mbappe,,,,
-Player of Tournament,Bellingham,,,,
-Participant Name,Ehsan T,,,,
+Top Goalscorer,Mbappe,,,,0
+Player of Tournament,Bellingham,,,,0
+Participant Name,Ehsan T,,,,0
