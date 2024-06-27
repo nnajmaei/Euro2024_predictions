@@ -40,6 +40,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 10px;
+            table-layout: fixed;
         }
 
         th,
@@ -55,6 +56,7 @@
 
         td.stage-cell {
             border-bottom: 2px solid #444444;
+            width: 100%;
         }
 
         select {
@@ -117,9 +119,7 @@
         <tbody>
             <!-- QF Rows -->
             <tr>
-                <td class="stage-cell" colspan="100%">QF</td>
-            </tr>
-            <tr>
+                <td rowspan="8" class="stage-cell">QF</td>
                 <td>QT 1</td>
             </tr>
             <tr>
@@ -145,9 +145,7 @@
             </tr>
             <!-- SF Rows -->
             <tr>
-                <td class="stage-cell" colspan="100%">SF</td>
-            </tr>
-            <tr>
+                <td rowspan="4" class="stage-cell">SF</td>
                 <td>QT 1</td>
             </tr>
             <tr>
@@ -161,9 +159,7 @@
             </tr>
             <!-- F Rows -->
             <tr>
-                <td class="stage-cell" colspan="100%">F</td>
-            </tr>
-            <tr>
+                <td rowspan="2" class="stage-cell">F</td>
                 <td>QT 1</td>
             </tr>
             <tr>
@@ -287,35 +283,35 @@
                 // Populate QF
                 for (let i = 0; i < 8; i++) {
                     const data = getCellData(qfStartRow + i, 3, 5);
-                    const row = tbody.querySelectorAll('tr')[i + 1];
+                    const row = tbody.querySelectorAll('tr')[i];
                     appendCells(row, data, index);
                 }
 
                 // Populate SF
                 for (let i = 0; i < 4; i++) {
                     const data = getCellData(sfStartRow + i, 3, 5);
-                    const row = tbody.querySelectorAll('tr')[9 + i];
+                    const row = tbody.querySelectorAll('tr')[8 + i];
                     appendCells(row, data, index);
                 }
 
                 // Populate F
                 for (let i = 0; i < 2; i++) {
                     const data = getCellData(fStartRow + i, 3, 5);
-                    const row = tbody.querySelectorAll('tr')[14 + i];
+                    const row = tbody.querySelectorAll('tr')[12 + i];
                     appendCells(row, data, index);
                 }
 
                 // Populate Champion
                 const championData = getCellData(championRow, 3, 5);
-                appendCells(tbody.querySelectorAll('tr')[16], championData, index);
+                appendCells(tbody.querySelectorAll('tr')[14], championData, index);
 
                 // Populate Golden Boot
                 const goldenBootData = getCellData(goldenBootRow, 1, 5);
-                appendCells(tbody.querySelectorAll('tr')[17], goldenBootData, index);
+                appendCells(tbody.querySelectorAll('tr')[15], goldenBootData, index);
 
                 // Populate Top Player
                 const topPlayerData = getCellData(topPlayerRow, 1, 5);
-                appendCells(tbody.querySelectorAll('tr')[18], topPlayerData, index);
+                appendCells(tbody.querySelectorAll('tr')[16], topPlayerData, index);
             }
 
             function appendCells(row, data, index) {
