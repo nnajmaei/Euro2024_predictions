@@ -110,7 +110,8 @@
             const subThead = document.querySelector('#predictionsTable thead tr:last-child');
             const tbody = document.querySelector('#predictionsTable tbody');
 
-            participants.forEach(async (participant, index) => {
+            for (let i = 0; i < participants.length; i++) {
+                const participant = participants[i];
                 const th = document.createElement('th');
                 th.colSpan = 2;
                 th.textContent = participant.name;
@@ -131,44 +132,63 @@
 
                 const rows = csvData.split('\n').map(row => row.split(','));
 
-                populateRows(rows, index, tbody);
-            });
+                populateRows(rows, i, tbody);
+            }
 
             function populateRows(rows, index, tbody) {
                 const getCellData = (row, teamCol, scoreCol) => {
                     return { team: rows[row][teamCol], score: rows[row][scoreCol] };
                 };
 
-                const stageMap = [
-                    { stage: 'QF', startRow: 52, endRow: 59, matchCount: 8 },
-                    { stage: 'SF', startRow: 62, endRow: 65, matchCount: 4 },
-                    { stage: 'F', startRow: 68, endRow: 69, matchCount: 2 }
-                ];
+                const qfStartRow = 52;
+                const sfStartRow = 62;
+                const fStartRow = 68;
+                const championRow = 72;
+                const goldenBootRow = 75;
+                const topPlayerRow = 76;
 
-                let rowIndex = 0;
+                // Populate QF
+                for (let i = 0; i < 8; i++) {
+                    const data = getCellData(qfStartRow + i, 3, 5);
+                    const row = tbody.querySelectorAll('tr')[i];
+                    appendCells(row, data, index);
+                }
 
-                stageMap.forEach(stage => {
-                    for (let i = 0; i < stage.matchCount; i++) {
-                        const data = getCellData(stage.startRow + i, 3, 5);
-                        const row = tbody.querySelectorAll('tr')[rowIndex + i];
-                        row.cells[index * 2 + 2].textContent = data.team;
-                        row.cells[index * 2 + 3].textContent = data.score;
-                    }
-                    rowIndex += stage.matchCount;
-                });
+                // Populate SF
+                for (let i = 0; i < 4; i++) {
+                    const data = getCellData(sfStartRow + i, 3, 5);
+                    const row = tbody.querySelectorAll('tr')[8 + i];
+                    appendCells(row, data, index);
+                }
 
-                const championData = getCellData(72, 3, 5);
-                const goldenBootData = getCellData(75, 1, 5);
-                const topPlayerData = getCellData(76, 1, 5);
+                // Populate F
+                for (let i = 0; i < 2; i++) {
+                    const data = getCellData(fStartRow + i, 3, 5);
+                    const row = tbody.querySelectorAll('tr')[12 + i];
+                    appendCells(row, data, index);
+                }
 
-                tbody.querySelectorAll('tr')[14].cells[index * 2 + 2].textContent = championData.team;
-                tbody.querySelectorAll('tr')[14].cells[index * 2 + 3].textContent = championData.score;
+                // Populate Champion
+                const championData = getCellData(championRow, 3, 5);
+                appendCells(tbody.querySelectorAll('tr')[14], championData, index);
 
-                tbody.querySelectorAll('tr')[15].cells[index * 2 + 2].textContent = goldenBootData.team;
-                tbody.querySelectorAll('tr')[15].cells[index * 2 + 3].textContent = goldenBootData.score;
+                // Populate Golden Boot
+                const goldenBootData = getCellData(goldenBootRow, 1, 5);
+                appendCells(tbody.querySelectorAll('tr')[15], goldenBootData, index);
 
-                tbody.querySelectorAll('tr')[16].cells[index * 2 + 2].textContent = topPlayerData.team;
-                tbody.querySelectorAll('tr')[16].cells[index * 2 + 3].textContent = topPlayerData.score;
+                // Populate Top Player
+                const topPlayerData = getCellData(topPlayerRow, 1, 5);
+                appendCells(tbody.querySelectorAll('tr')[16], topPlayerData, index);
+            }
+
+            function appendCells(row, data, index) {
+                const teamCell = document.createElement('td');
+                teamCell.textContent = data.team;
+                const scoreCell = document.createElement('td');
+                scoreCell.textContent = data.score;
+
+                row.appendChild(teamCell);
+                row.appendChild(scoreCell);
             }
         });
     </script>
