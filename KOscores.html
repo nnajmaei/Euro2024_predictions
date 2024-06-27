@@ -94,7 +94,7 @@
                     rowElement.appendChild(teamsCell);
 
                     for (const participant of participants) {
-                        const predictions = await fetchCSV(participant.file);
+                        const predictions = await fetchCSV(participant.scores);
                         const scores = await fetchCSV(participant.scores);
 
                         const predictionCell = document.createElement('td');
