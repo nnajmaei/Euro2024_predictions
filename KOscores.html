@@ -39,7 +39,6 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            border: none;
             margin-bottom: 10px;
         }
 
@@ -47,7 +46,7 @@
         td {
             border: none;
             padding: 5px;
-            text-align: left;
+            text-align: center;
         }
 
         th {
@@ -61,16 +60,6 @@
             border: 1px solid #444444;
         }
 
-        .comparison-container {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .table-container {
-            border: none;
-            width: 45%;
-        }
-
         .logo-container {
             display: flex;
             justify-content: center;
@@ -79,24 +68,6 @@
 
         .bold-text {
             font-weight: bold;
-        }
-
-        .participant-select-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .aligned-tables {
-            display: flex;
-        }
-
-        .aligned-tables table {
-            table-layout: fixed;
-        }
-
-        .aligned-tables th,
-        .aligned-tables td {
-            width: calc(100% / 4);
         }
 
         .footnote {
@@ -130,95 +101,113 @@
         <img src="./logos/logo.png" alt="Euro 2024 Logo" style="width:300px;">
     </div>
     <h1>Euro2024 Results vs. Predictions</h1>
-    <div class="comparison-container">
-        <div class="table-container">
-            <h2>Euro2024 Results</h2>
-            <div id="actualResults" class="aligned-tables"></div>
-        </div>
-        <div class="table-container">
-            <div class="participant-select-container">
-                <h2>Participant Predictions</h2>
-                <label for="participantSelect" style="margin-left: 10px;">Select Participant:</label>
-                <select id="participantSelect" onchange="loadParticipantPredictions()">
-                    <option value="">Select...</option>
-                </select>
-            </div>
-            <div id="participantPredictions" class="aligned-tables"></div>
-        </div>
-    </div>
+    <table id="predictionsTable">
+        <thead>
+            <tr>
+                <th rowspan="2">Stage</th>
+                <th rowspan="2">Match</th>
+            </tr>
+            <tr></tr>
+        </thead>
+        <tbody>
+            <!-- QF Rows -->
+            <tr>
+                <td rowspan="8">QF</td>
+                <td>Match 1</td>
+            </tr>
+            <tr>
+                <td>Match 2</td>
+            </tr>
+            <tr>
+                <td>Match 3</td>
+            </tr>
+            <tr>
+                <td>Match 4</td>
+            </tr>
+            <tr>
+                <td>Match 5</td>
+            </tr>
+            <tr>
+                <td>Match 6</td>
+            </tr>
+            <tr>
+                <td>Match 7</td>
+            </tr>
+            <tr>
+                <td>Match 8</td>
+            </tr>
+            <!-- SF Rows -->
+            <tr>
+                <td rowspan="4">SF</td>
+                <td>Match 1</td>
+            </tr>
+            <tr>
+                <td>Match 2</td>
+            </tr>
+            <tr>
+                <td>Match 3</td>
+            </tr>
+            <tr>
+                <td>Match 4</td>
+            </tr>
+            <!-- F Rows -->
+            <tr>
+                <td rowspan="2">F</td>
+                <td>Match 1</td>
+            </tr>
+            <tr>
+                <td>Match 2</td>
+            </tr>
+            <!-- Champion Row -->
+            <tr>
+                <td colspan="2">Champion</td>
+            </tr>
+            <!-- Golden Boot Row -->
+            <tr>
+                <td colspan="2">Golden Boot</td>
+            </tr>
+            <!-- Top Player Row -->
+            <tr>
+                <td colspan="2">Top Player</td>
+            </tr>
+        </tbody>
+    </table>
 
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
             const response = await fetch('./jsons/participants.json');
             const data = await response.json();
             const participants = data.participants;
-            const participantSelect = document.getElementById('participantSelect');
-
-            participants.forEach(participant => {
-                const option = document.createElement('option');
-                option.value = participant.scores;
-                option.text = participant.name;
-                participantSelect.add(option);
-            });
-
-            const tableHTML = `
-                <table id="predictionsTable">
-                    <thead>
-                        <tr>
-                            <th rowspan="2">Stage</th>
-                            <th rowspan="2">Match</th>
-                        </tr>
-                        <tr></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td rowspan="8">QF</td>
-                            <td>Match 1</td>
-                        </tr>
-                        <tr><td>Match 2</td></tr>
-                        <tr><td>Match 3</td></tr>
-                        <tr><td>Match 4</td></tr>
-                        <tr><td>Match 5</td></tr>
-                        <tr><td>Match 6</td></tr>
-                        <tr><td>Match 7</td></tr>
-                        <tr><td>Match 8</td></tr>
-                        <tr>
-                            <td rowspan="4">SF</td>
-                            <td>Match 1</td>
-                        </tr>
-                        <tr><td>Match 2</td></tr>
-                        <tr><td>Match 3</td></tr>
-                        <tr><td>Match 4</td></tr>
-                        <tr>
-                            <td rowspan="2">F</td>
-                            <td>Match 1</td>
-                        </tr>
-                        <tr><td>Match 2</td></tr>
-                        <tr>
-                            <td colspan="2">Champion</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">Golden Boot</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">Top Player</td>
-                        </tr>
-                    </tbody>
-                </table>
-            `;
-            document.getElementById('participantPredictions').innerHTML = tableHTML;
+            const thead = document.querySelector('#predictionsTable thead tr:first-child');
+            const subThead = document.querySelector('#predictionsTable thead tr:last-child');
+            const tbody = document.querySelector('#predictionsTable tbody');
 
             for (let i = 0; i < participants.length; i++) {
                 const participant = participants[i];
+                const th = document.createElement('th');
+                th.colSpan = 2;
+                th.textContent = participant.name;
+                thead.appendChild(th);
+
+                const subThTeam = document.createElement('th');
+                subThTeam.className = 'sub-column';
+                subThTeam.textContent = 'Team';
+                subThead.appendChild(subThTeam);
+
+                const subThScore = document.createElement('th');
+                subThScore.className = 'sub-column';
+                subThScore.textContent = 'Score';
+                subThead.appendChild(subThScore);
+
                 const csvResponse = await fetch(participant.scores);
                 const csvData = await csvResponse.text();
 
                 const rows = csvData.split('\n').map(row => row.split(','));
 
-                populateRows(rows, i);
+                populateRows(rows, i, tbody);
             }
 
-            function populateRows(rows, index) {
+            function populateRows(rows, index, tbody) {
                 const getCellData = (row, teamCol, scoreCol) => {
                     return { team: rows[row][teamCol], score: rows[row][scoreCol] };
                 };
@@ -230,40 +219,38 @@
                 const goldenBootRow = 75;
                 const topPlayerRow = 76;
 
-                const table = document.getElementById('predictionsTable');
-
                 // Populate QF
                 for (let i = 0; i < 8; i++) {
                     const data = getCellData(qfStartRow + i, 3, 5);
-                    const row = table.querySelectorAll('tbody tr')[i];
+                    const row = tbody.querySelectorAll('tr')[i];
                     appendCells(row, data, index);
                 }
 
                 // Populate SF
                 for (let i = 0; i < 4; i++) {
                     const data = getCellData(sfStartRow + i, 3, 5);
-                    const row = table.querySelectorAll('tbody tr')[8 + i];
+                    const row = tbody.querySelectorAll('tr')[8 + i];
                     appendCells(row, data, index);
                 }
 
                 // Populate F
                 for (let i = 0; i < 2; i++) {
                     const data = getCellData(fStartRow + i, 3, 5);
-                    const row = table.querySelectorAll('tbody tr')[12 + i];
+                    const row = tbody.querySelectorAll('tr')[12 + i];
                     appendCells(row, data, index);
                 }
 
                 // Populate Champion
                 const championData = getCellData(championRow, 3, 5);
-                appendCells(table.querySelectorAll('tbody tr')[14], championData, index);
+                appendCells(tbody.querySelectorAll('tr')[14], championData, index);
 
                 // Populate Golden Boot
                 const goldenBootData = getCellData(goldenBootRow, 1, 5);
-                appendCells(table.querySelectorAll('tbody tr')[15], goldenBootData, index);
+                appendCells(tbody.querySelectorAll('tr')[15], goldenBootData, index);
 
                 // Populate Top Player
                 const topPlayerData = getCellData(topPlayerRow, 1, 5);
-                appendCells(table.querySelectorAll('tbody tr')[16], topPlayerData, index);
+                appendCells(tbody.querySelectorAll('tr')[16], topPlayerData, index);
             }
 
             function appendCells(row, data, index) {
@@ -276,81 +263,6 @@
                 row.appendChild(scoreCell);
             }
         });
-
-        function loadParticipantPredictions() {
-            const participantSelect = document.getElementById('participantSelect');
-            const selectedscores = participantSelect.value;
-            if (selectedscores) {
-                fetch(selectedscores)
-                    .then(response => response.text())
-                    .then(data => {
-                        const rows = data.split('\n').map(row => row.split(','));
-                        const table = document.getElementById('predictionsTable');
-                        populateRows(rows, 0); // Assuming the selected participant is always at index 0 for this example
-                    })
-                    .catch(error => console.error('Error loading scores:', error));
-            } else {
-                document.getElementById('participantPredictions').innerHTML = '';
-            }
-        }
-
-        function populateRows(rows, index) {
-            const getCellData = (row, teamCol, scoreCol) => {
-                return { team: rows[row][teamCol], score: rows[row][scoreCol] };
-            };
-
-            const qfStartRow = 52;
-            const sfStartRow = 62;
-            const fStartRow = 68;
-            const championRow = 72;
-            const goldenBootRow = 75;
-            const topPlayerRow = 76;
-
-            const table = document.getElementById('predictionsTable');
-
-            // Populate QF
-            for (let i = 0; i < 8; i++) {
-                const data = getCellData(qfStartRow + i, 3, 5);
-                const row = table.querySelectorAll('tbody tr')[i];
-                appendCells(row, data, index);
-            }
-
-            // Populate SF
-            for (let i = 0; i < 4; i++) {
-                const data = getCellData(sfStartRow + i, 3, 5);
-                const row = table.querySelectorAll('tbody tr')[8 + i];
-                appendCells(row, data, index);
-            }
-
-            // Populate F
-            for (let i = 0; i < 2; i++) {
-                const data = getCellData(fStartRow + i, 3, 5);
-                const row = table.querySelectorAll('tbody tr')[12 + i];
-                appendCells(row, data, index);
-            }
-
-            // Populate Champion
-            const championData = getCellData(championRow, 3, 5);
-            appendCells(table.querySelectorAll('tbody tr')[14], championData, index);
-
-            // Populate Golden Boot
-            const goldenBootData = getCellData(goldenBootRow, 1, 5);
-            appendCells(table.querySelectorAll('tbody tr')[15], goldenBootData, index);
-
-            // Populate Top Player
-            const topPlayerData = getCellData(topPlayerRow, 1, 5);
-            appendCells(table.querySelectorAll('tbody tr')[16], topPlayerData, index);
-        }
-
-        function appendCells(row, data, index) {
-            const teamCell = document.createElement('td');
-            teamCell.textContent = data.team;
-            const scoreCell = document.createElement('td');
-            scoreCell.textContent = data.score;
-
-            row.appendChild(teamCell);
-            row.appendChild(scoreCell);
-        }
     </script>
     <div class="footnote">
         &copy; 2024. Website created by Nima N.
