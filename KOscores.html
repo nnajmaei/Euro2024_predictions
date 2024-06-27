@@ -175,6 +175,60 @@
     </table>
 
     <script>
+        const countries = {
+            'Germany': 'https://flagcdn.com/w20/de.png',
+            'Scotland': 'https://flagcdn.com/w20/gb-sct.png',
+            'Hungary': 'https://flagcdn.com/w20/hu.png',
+            'Switzerland': 'https://flagcdn.com/w20/ch.png',
+            'Spain': 'https://flagcdn.com/w20/es.png',
+            'Croatia': 'https://flagcdn.com/w20/hr.png',
+            'Italy': 'https://flagcdn.com/w20/it.png',
+            'Albania': 'https://flagcdn.com/w20/al.png',
+            'Serbia': 'https://flagcdn.com/w20/rs.png',
+            'England': 'https://flagcdn.com/w20/gb-eng.png',
+            'Slovenia': 'https://flagcdn.com/w20/si.png',
+            'Denmark': 'https://flagcdn.com/w20/dk.png',
+            'Poland': 'https://flagcdn.com/w20/pl.png',
+            'Netherlands': 'https://flagcdn.com/w20/nl.png',
+            'Austria': 'https://flagcdn.com/w20/at.png',
+            'France': 'https://flagcdn.com/w20/fr.png',
+            'Romania': 'https://flagcdn.com/w20/ro.png',
+            'Ukraine': 'https://flagcdn.com/w20/ua.png',
+            'Belgium': 'https://flagcdn.com/w20/be.png',
+            'Slovakia': 'https://flagcdn.com/w20/sk.png',
+            'Turkey': 'https://flagcdn.com/w20/tr.png',
+            'Georgia': 'https://flagcdn.com/w20/ge.png',
+            'Portugal': 'https://flagcdn.com/w20/pt.png',
+            'Czechia': 'https://flagcdn.com/w20/cz.png'
+        };
+
+        const abbreviations = {
+            'Germany': 'GER',
+            'Scotland': 'SCO',
+            'Hungary': 'HUN',
+            'Switzerland': 'SUI',
+            'Spain': 'ESP',
+            'Croatia': 'CRO',
+            'Italy': 'ITA',
+            'Albania': 'ALB',
+            'Serbia': 'SRB',
+            'England': 'ENG',
+            'Slovenia': 'SVN',
+            'Denmark': 'DEN',
+            'Poland': 'POL',
+            'Netherlands': 'NED',
+            'Austria': 'AUT',
+            'France': 'FRA',
+            'Romania': 'ROU',
+            'Ukraine': 'UKR',
+            'Belgium': 'BEL',
+            'Slovakia': 'SVK',
+            'Turkey': 'TUR',
+            'Georgia': 'GEO',
+            'Portugal': 'POR',
+            'Czechia': 'CZE'
+        };
+
         document.addEventListener('DOMContentLoaded', async function () {
             const response = await fetch('./jsons/participants.json');
             const data = await response.json();
@@ -256,7 +310,9 @@
 
             function appendCells(row, data, index) {
                 const teamCell = document.createElement('td');
-                teamCell.textContent = data.team;
+                const teamName = abbreviations[data.team] || data.team;
+                const flagImg = countries[data.team] ? `<img src="${countries[data.team]}" alt="${data.team}" style="width:20px; margin-right:5px;">` : '';
+                teamCell.innerHTML = `${flagImg}${teamName}`;
                 const scoreCell = document.createElement('td');
                 scoreCell.textContent = data.score;
 
