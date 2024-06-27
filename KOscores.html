@@ -41,50 +41,50 @@
             <!-- QF Rows -->
             <tr>
                 <td rowspan="8">QF</td>
-                <td>QT 1</td>
+                <td>Match 1</td>
             </tr>
             <tr>
-                <td>QT 2</td>
+                <td>Match 2</td>
             </tr>
             <tr>
-                <td>QT 3</td>
+                <td>Match 3</td>
             </tr>
             <tr>
-                <td>QT 4</td>
+                <td>Match 4</td>
             </tr>
             <tr>
-                <td>QT 5</td>
+                <td>Match 5</td>
             </tr>
             <tr>
-                <td>QT 6</td>
+                <td>Match 6</td>
             </tr>
             <tr>
-                <td>QT 7</td>
+                <td>Match 7</td>
             </tr>
             <tr>
-                <td>QT 8</td>
+                <td>Match 8</td>
             </tr>
             <!-- SF Rows -->
             <tr>
                 <td rowspan="4">SF</td>
-                <td>QT 1</td>
+                <td>Match 1</td>
             </tr>
             <tr>
-                <td>QT 2</td>
+                <td>Match 2</td>
             </tr>
             <tr>
-                <td>QT 3</td>
+                <td>Match 3</td>
             </tr>
             <tr>
-                <td>QT 4</td>
+                <td>Match 4</td>
             </tr>
             <!-- F Rows -->
             <tr>
                 <td rowspan="2">F</td>
-                <td>QT 1</td>
+                <td>Match 1</td>
             </tr>
             <tr>
-                <td>QT 2</td>
+                <td>Match 2</td>
             </tr>
             <!-- Champion Row -->
             <tr>
@@ -103,7 +103,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            fetch('./jsons/participants.json')
+            fetch('/jsons/participants.json')
                 .then(response => response.json())
                 .then(data => {
                     const participants = data.participants;
@@ -126,20 +126,62 @@
                         subThScore.className = 'sub-column';
                         subThScore.textContent = 'Score';
                         subThead.appendChild(subThScore);
-                    });
 
-                    const rows = tbody.querySelectorAll('tr');
-                    rows.forEach(row => {
-                        for (let i = 0; i < participants.length; i++) {
-                            const tdTeam = document.createElement('td');
-                            const tdScore = document.createElement('td');
-                            row.appendChild(tdTeam);
-                            row.appendChild(tdScore);
-                        }
+                        fetch(`/scores/${participant.scores}`)
+                            .then(response => response.json())
+                            .then(scores => {
+                                const rows = tbody.querySelectorAll('tr');
+                                populateRows(rows, scores, participant.name);
+                            })
+                            .catch(error => console.error('Error loading scores:', error));
                     });
                 })
                 .catch(error => console.error('Error loading participants:', error));
         });
+
+        function populateRows(rows, scores, participantName) {
+            // Helper function to get score data from the parsed CSV
+            function getScoreData(rowNumber, teamColumn, scoreColumn) {
+                const row = scores[rowNumber - 1]; // Adjusting rowNumber to 0-indexed array
+                return { team: row[teamColumn], score: row[scoreColumn] };
+            }
+
+            // Populate QF
+            for (let i = 0; i < 8; i++) {
+                const data = getScoreData(52 + i, 'Column4', 'Column6');
+                rows[i].querySelector(`td:nth-child(${3 + 2 * i})`).textContent = data.team;
+                rows[i].querySelector(`td:nth-child(${4 + 2 * i})`).textContent = data.score;
+            }
+
+            // Populate SF
+            for (let i = 0; i < 4; i++) {
+                const data = getScoreData(62 + i, 'Column4', 'Column6');
+                rows[8 + i].querySelector(`td:nth-child(${3 + 2 * i})`).textContent = data.team;
+                rows[8 + i].querySelector(`td:nth-child(${4 + 2 * i})`).textContent = data.score;
+            }
+
+            // Populate F
+            for (let i = 0; i < 2; i++) {
+                const data = getScoreData(68 + i, 'Column4', 'Column6');
+                rows[12 + i].querySelector(`td:nth-child(${3 + 2 * i})`).textContent = data.team;
+                rows[12 + i].querySelector(`td:nth-child(${4 + 2 * i})`).textContent = data.score;
+            }
+
+            // Populate Champion
+            const championData = getScoreData(72, 'Column4', 'Column6');
+            rows[14].querySelector(`td:nth-child(${3})`).textContent = championData.team;
+            rows[14].querySelector(`td:nth-child(${4})`).textContent = championData.score;
+
+            // Populate Golden Boot
+            const goldenBootData = getScoreData(75, 'Column2', 'Column6');
+            rows[15].querySelector(`td:nth-child(${3})`).textContent = goldenBootData.team;
+            rows[15].querySelector(`td:nth-child(${4})`).textContent = goldenBootData.score;
+
+            // Populate Top Player
+            const topPlayerData = getScoreData(76, 'Column2', 'Column6');
+            rows[16].querySelector(`td:nth-child(${3})`).textContent = topPlayerData.team;
+            rows[16].querySelector(`td:nth-child(${4})`).textContent = topPlayerData.score;
+        }
     </script>
 </body>
 
