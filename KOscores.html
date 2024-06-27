@@ -53,8 +53,9 @@
             background-color: #333333;
         }
 
-        td.stage-cell {
+        .stage-separator td {
             border-bottom: 2px solid #444444;
+            padding: 0;
         }
 
         select {
@@ -116,8 +117,11 @@
         </thead>
         <tbody>
             <!-- QF Rows -->
+            <tr class="stage-separator">
+                <td colspan="2"></td>
+            </tr>
             <tr>
-                <td rowspan="8" class="stage-cell">QF</td>
+                <td rowspan="8">QF</td>
                 <td>QT 1</td>
             </tr>
             <tr>
@@ -142,8 +146,11 @@
                 <td>QT 8</td>
             </tr>
             <!-- SF Rows -->
+            <tr class="stage-separator">
+                <td colspan="2"></td>
+            </tr>
             <tr>
-                <td rowspan="4" class="stage-cell">SF</td>
+                <td rowspan="4">SF</td>
                 <td>QT 1</td>
             </tr>
             <tr>
@@ -156,24 +163,36 @@
                 <td>QT 4</td>
             </tr>
             <!-- F Rows -->
+            <tr class="stage-separator">
+                <td colspan="2"></td>
+            </tr>
             <tr>
-                <td rowspan="2" class="stage-cell">F</td>
+                <td rowspan="2">F</td>
                 <td>QT 1</td>
             </tr>
             <tr>
                 <td>QT 2</td>
             </tr>
             <!-- Champion Row -->
+            <tr class="stage-separator">
+                <td colspan="2"></td>
+            </tr>
             <tr>
-                <td colspan="2" class="stage-cell">Champion</td>
+                <td colspan="2">Champion</td>
             </tr>
             <!-- Golden Boot Row -->
+            <tr class="stage-separator">
+                <td colspan="2"></td>
+            </tr>
             <tr>
-                <td colspan="2" class="stage-cell">Golden Boot</td>
+                <td colspan="2">Golden Boot</td>
             </tr>
             <!-- Top Player Row -->
+            <tr class="stage-separator">
+                <td colspan="2"></td>
+            </tr>
             <tr>
-                <td colspan="2" class="stage-cell">Top Player</td>
+                <td colspan="2">Top Player</td>
             </tr>
         </tbody>
     </table>
@@ -281,35 +300,35 @@
                 // Populate QF
                 for (let i = 0; i < 8; i++) {
                     const data = getCellData(qfStartRow + i, 3, 5);
-                    const row = tbody.querySelectorAll('tr')[i];
+                    const row = tbody.querySelectorAll('tr')[i + 1]; // Adjust index for separator row
                     appendCells(row, data, index);
                 }
 
                 // Populate SF
                 for (let i = 0; i < 4; i++) {
                     const data = getCellData(sfStartRow + i, 3, 5);
-                    const row = tbody.querySelectorAll('tr')[8 + i];
+                    const row = tbody.querySelectorAll('tr')[10 + i]; // Adjust index for separator rows
                     appendCells(row, data, index);
                 }
 
                 // Populate F
                 for (let i = 0; i < 2; i++) {
                     const data = getCellData(fStartRow + i, 3, 5);
-                    const row = tbody.querySelectorAll('tr')[12 + i];
+                    const row = tbody.querySelectorAll('tr')[15 + i]; // Adjust index for separator rows
                     appendCells(row, data, index);
                 }
 
                 // Populate Champion
                 const championData = getCellData(championRow, 3, 5);
-                appendCells(tbody.querySelectorAll('tr')[14], championData, index);
+                appendCells(tbody.querySelectorAll('tr')[19], championData, index); // Adjust index for separator rows
 
                 // Populate Golden Boot
                 const goldenBootData = getCellData(goldenBootRow, 1, 5);
-                appendCells(tbody.querySelectorAll('tr')[15], goldenBootData, index);
+                appendCells(tbody.querySelectorAll('tr')[21], goldenBootData, index); // Adjust index for separator rows
 
                 // Populate Top Player
                 const topPlayerData = getCellData(topPlayerRow, 1, 5);
-                appendCells(tbody.querySelectorAll('tr')[16], topPlayerData, index);
+                appendCells(tbody.querySelectorAll('tr')[23], topPlayerData, index); // Adjust index for separator rows
             }
 
             function appendCells(row, data, index) {
