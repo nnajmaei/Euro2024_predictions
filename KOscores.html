@@ -144,6 +144,10 @@
             <tr>
                 <td>QT 8</td>
             </tr>
+            <!-- Empty Row After QF -->
+            <tr>
+                <td colspan="2"></td>
+            </tr>
             <!-- SF Rows -->
             <tr>
                 <td rowspan="4" class="stage-cell">SF</td>
@@ -158,6 +162,10 @@
             <tr>
                 <td>QT 4</td>
             </tr>
+            <!-- Empty Row After SF -->
+            <tr>
+                <td colspan="2"></td>
+            </tr>
             <!-- F Rows -->
             <tr>
                 <td rowspan="2" class="stage-cell">F</td>
@@ -166,13 +174,25 @@
             <tr>
                 <td>QT 2</td>
             </tr>
+            <!-- Empty Row After F -->
+            <tr>
+                <td colspan="2"></td>
+            </tr>
             <!-- Champion Row -->
             <tr>
                 <td colspan="2" class="stage-cell">Champion</td>
             </tr>
+            <!-- Empty Row After Champion -->
+            <tr>
+                <td colspan="2"></td>
+            </tr>
             <!-- Golden Boot Row -->
             <tr>
                 <td colspan="2" class="stage-cell">Golden Boot</td>
+            </tr>
+            <!-- Empty Row After Golden Boot -->
+            <tr>
+                <td colspan="2"></td>
             </tr>
             <!-- Top Player Row -->
             <tr>
@@ -291,28 +311,28 @@
                 // Populate SF
                 for (let i = 0; i < 4; i++) {
                     const data = getCellData(sfStartRow + i, 3, 5);
-                    const row = tbody.querySelectorAll('tr')[8 + i];
+                    const row = tbody.querySelectorAll('tr')[9 + i];
                     appendCells(row, data, index);
                 }
 
                 // Populate F
                 for (let i = 0; i < 2; i++) {
                     const data = getCellData(fStartRow + i, 3, 5);
-                    const row = tbody.querySelectorAll('tr')[12 + i];
+                    const row = tbody.querySelectorAll('tr')[14 + i];
                     appendCells(row, data, index);
                 }
 
                 // Populate Champion
                 const championData = getCellData(championRow, 3, 5);
-                appendCells(tbody.querySelectorAll('tr')[14], championData, index);
+                appendCells(tbody.querySelectorAll('tr')[17], championData, index);
 
                 // Populate Golden Boot
                 const goldenBootData = getCellData(goldenBootRow, 1, 5);
-                appendCells(tbody.querySelectorAll('tr')[15], goldenBootData, index);
+                appendCells(tbody.querySelectorAll('tr')[19], goldenBootData, index);
 
                 // Populate Top Player
                 const topPlayerData = getCellData(topPlayerRow, 1, 5);
-                appendCells(tbody.querySelectorAll('tr')[16], topPlayerData, index);
+                appendCells(tbody.querySelectorAll('tr')[21], topPlayerData, index);
             }
 
             function appendCells(row, data, index) {
