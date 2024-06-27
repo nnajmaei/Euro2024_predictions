@@ -144,7 +144,10 @@
             <tr>
                 <td>QT 8</td>
             </tr>
-            <!-- Empty Row After QF -->
+            <!-- Double Empty Rows After QF -->
+            <tr>
+                <td colspan="2"></td>
+            </tr>
             <tr>
                 <td colspan="2"></td>
             </tr>
@@ -162,7 +165,10 @@
             <tr>
                 <td>QT 4</td>
             </tr>
-            <!-- Empty Row After SF -->
+            <!-- Double Empty Rows After SF -->
+            <tr>
+                <td colspan="2"></td>
+            </tr>
             <tr>
                 <td colspan="2"></td>
             </tr>
@@ -174,7 +180,10 @@
             <tr>
                 <td>QT 2</td>
             </tr>
-            <!-- Empty Row After F -->
+            <!-- Double Empty Rows After F -->
+            <tr>
+                <td colspan="2"></td>
+            </tr>
             <tr>
                 <td colspan="2"></td>
             </tr>
@@ -182,7 +191,10 @@
             <tr>
                 <td colspan="2" class="stage-cell">Champion</td>
             </tr>
-            <!-- Empty Row After Champion -->
+            <!-- Double Empty Rows After Champion -->
+            <tr>
+                <td colspan="2"></td>
+            </tr>
             <tr>
                 <td colspan="2"></td>
             </tr>
@@ -190,7 +202,10 @@
             <tr>
                 <td colspan="2" class="stage-cell">Golden Boot</td>
             </tr>
-            <!-- Empty Row After Golden Boot -->
+            <!-- Double Empty Rows After Golden Boot -->
+            <tr>
+                <td colspan="2"></td>
+            </tr>
             <tr>
                 <td colspan="2"></td>
             </tr>
@@ -311,28 +326,28 @@
                 // Populate SF
                 for (let i = 0; i < 4; i++) {
                     const data = getCellData(sfStartRow + i, 3, 5);
-                    const row = tbody.querySelectorAll('tr')[9 + i];
+                    const row = tbody.querySelectorAll('tr')[11 + i];
                     appendCells(row, data, index);
                 }
 
                 // Populate F
                 for (let i = 0; i < 2; i++) {
                     const data = getCellData(fStartRow + i, 3, 5);
-                    const row = tbody.querySelectorAll('tr')[14 + i];
+                    const row = tbody.querySelectorAll('tr')[17 + i];
                     appendCells(row, data, index);
                 }
 
                 // Populate Champion
                 const championData = getCellData(championRow, 3, 5);
-                appendCells(tbody.querySelectorAll('tr')[17], championData, index);
+                appendCells(tbody.querySelectorAll('tr')[21], championData, index);
 
                 // Populate Golden Boot
                 const goldenBootData = getCellData(goldenBootRow, 1, 5);
-                appendCells(tbody.querySelectorAll('tr')[19], goldenBootData, index);
+                appendCells(tbody.querySelectorAll('tr')[24], goldenBootData, index);
 
                 // Populate Top Player
                 const topPlayerData = getCellData(topPlayerRow, 1, 5);
-                appendCells(tbody.querySelectorAll('tr')[21], topPlayerData, index);
+                appendCells(tbody.querySelectorAll('tr')[27], topPlayerData, index);
             }
 
             function appendCells(row, data, index) {
