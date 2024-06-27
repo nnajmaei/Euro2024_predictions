@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Euro 2024 Predictions and Scores</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Euro 2024 Predictions and Scores</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Stage</th>
+                <th>Teams</th>
+                <th>Ali B</th>
+                <th>Amir D</th>
+                <th>Babak J</th>
+                <th>Ehsan T</th>
+                <th>Hootan M</th>
+                <th>Mod J</th>
+                <th>Nima N</th>
+                <th>Ramin R</th>
+                <th>Shahriar N</th>
+                <th>Siamak J</th>
+            </tr>
+        </thead>
+        <tbody id="predictionTable">
+            <!-- Rows will be added here by JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        const participants = [
+            { name: "Ali B", file: "./predictions_csv/Ali_B.csv", scores: "./results_csv/Ali_B_scores.csv" },
+            { name: "Amir D", file: "./predictions_csv/Amir_D.csv", scores: "./results_csv/Amir_D_scores.csv" },
+            { name: "Babak J", file: "./predictions_csv/Babak_J.csv", scores: "./results_csv/Babak_J_scores.csv" },
+            { name: "Ehsan T", file: "./predictions_csv/Ehsan_T.csv", scores: "./results_csv/Ehsan_T_scores.csv" },
+            { name: "Hootan M", file: "./predictions_csv/Hootan_M.csv", scores: "./results_csv/Hootan_M_scores.csv" },
+            { name: "Mod J", file: "./predictions_csv/Mod_J.csv", scores: "./results_csv/Mod_J_scores.csv" },
+            { name: "Nima N", file: "./predictions_csv/Nima_N.csv", scores: "./results_csv/Nima_N_scores.csv" },
+            { name: "Ramin R", file: "./predictions_csv/Ramin_R.csv", scores: "./results_csv/Ramin_R_scores.csv" },
+            { name: "Shahriar N", file: "./predictions_csv/Shahriar_N.csv", scores: "./results_csv/Shahriar_N_scores.csv" },
+            { name: "Siamak J", file: "./predictions_csv/Siamak_J.csv", scores: "./results_csv/Siamak_J_scores.csv" }
+        ];
+
+        const stages = [
+            { name: "Quarter-Finals", rows: [52, 53, 54, 55, 56, 57, 58, 59], column: 4, scoreColumn: 6 },
+            { name: "Semi-Finals", rows: [62, 63, 64, 65], column: 4, scoreColumn: 6 },
+            { name: "Final", rows: [68, 69], column: 4, scoreColumn: 6 },
+            { name: "Champion", rows: [72], column: 4, scoreColumn: 6 },
+            { name: "Golden Boot", rows: [75], column: 2, scoreColumn: 6 },
+            { name: "Best Player", rows: [76], column: 2, scoreColumn: 6 }
+        ];
+
+        async function fetchCSV(file) {
+            const response = await fetch(file);
+            const text = await response.text();
+            const rows = text.split("\n").map(row => row.split(","));
+            return rows;
+        }
+
+        async function populateTable() {
+            const tableBody = document.getElementById('predictionTable');
+
+            for (const stage of stages) {
+                for (const row of stage.rows) {
+                    const rowElement = document.createElement('tr');
+
+                    const stageCell = document.createElement('td');
+                    stageCell.textContent = stage.name;
+                    rowElement.appendChild(stageCell);
+
+                    const teamsCell = document.createElement('td');
+                    teamsCell.textContent = "";
+                    rowElement.appendChild(teamsCell);
+
+                    for (const participant of participants) {
+                        const predictions = await fetchCSV(participant.file);
+                        const scores = await fetchCSV(participant.scores);
+
+                        const predictionCell = document.createElement('td');
+                        predictionCell.textContent = predictions[row][stage.column];
+                        rowElement.appendChild(predictionCell);
+
+                        const scoreCell = document.createElement('td');
+                        scoreCell.textContent = scores[row][stage.scoreColumn];
+                        rowElement.appendChild(scoreCell);
+                    }
+
+                    tableBody.appendChild(rowElement);
+                }
+            }
+        }
+
+        populateTable();
+    </script>
+</body>
+
+</html>
