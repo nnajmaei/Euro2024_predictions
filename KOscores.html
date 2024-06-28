@@ -39,7 +39,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             table-layout: fixed;
         }
 
@@ -109,18 +109,17 @@
         <img src="./logos/logo.png" alt="Euro 2024 Logo" style="width:300px;">
     </div>
     <h1>Knockout Stages Results</h1>
-    <table id="predictionsTable">
+
+    <!-- QF Table -->
+    <table id="qfTable">
         <thead>
             <tr>
-                <th rowspan="2">Stage</th>
-                <th rowspan="2">Match</th>
+                <th>QF</th>
+                <th>Match</th>
             </tr>
-            <tr></tr>
         </thead>
         <tbody>
-            <!-- QF Rows -->
             <tr>
-                <td rowspan="8" class="stage-cell">QF</td>
                 <td>QT 1</td>
             </tr>
             <tr>
@@ -144,13 +143,19 @@
             <tr>
                 <td>QT 8</td>
             </tr>
-            <!-- Empty Row After QF -->
+        </tbody>
+    </table>
+
+    <!-- SF Table -->
+    <table id="sfTable">
+        <thead>
             <tr>
-                <td colspan="2"></td>
+                <th>SF</th>
+                <th>Match</th>
             </tr>
-            <!-- SF Rows -->
+        </thead>
+        <tbody>
             <tr>
-                <td rowspan="4" class="stage-cell">SF</td>
                 <td>QT 1</td>
             </tr>
             <tr>
@@ -162,41 +167,65 @@
             <tr>
                 <td>QT 4</td>
             </tr>
-            <!-- Empty Row After SF -->
+        </tbody>
+    </table>
+
+    <!-- F Table -->
+    <table id="fTable">
+        <thead>
             <tr>
-                <td colspan="2"></td>
+                <th>F</th>
+                <th>Match</th>
             </tr>
-            <!-- F Rows -->
+        </thead>
+        <tbody>
             <tr>
-                <td rowspan="2" class="stage-cell">F</td>
                 <td>QT 1</td>
             </tr>
             <tr>
                 <td>QT 2</td>
             </tr>
-            <!-- Empty Row After F -->
+        </tbody>
+    </table>
+
+    <!-- Champion Table -->
+    <table id="championTable">
+        <thead>
+            <tr>
+                <th colspan="2">Champion</th>
+            </tr>
+        </thead>
+        <tbody>
             <tr>
                 <td colspan="2"></td>
             </tr>
-            <!-- Champion Row -->
+        </tbody>
+    </table>
+
+    <!-- Golden Boot Table -->
+    <table id="goldenBootTable">
+        <thead>
             <tr>
-                <td colspan="2" class="stage-cell">Champion</td>
+                <th colspan="2">Golden Boot</th>
             </tr>
-            <!-- Empty Row After Champion -->
+        </thead>
+        <tbody>
             <tr>
                 <td colspan="2"></td>
             </tr>
-            <!-- Golden Boot Row -->
+        </tbody>
+    </table>
+
+    <!-- Top Player Table -->
+    <table id="topPlayerTable">
+        <thead>
             <tr>
-                <td colspan="2" class="stage-cell">Golden Boot</td>
+                <th colspan="2">Top Player</th>
             </tr>
-            <!-- Empty Row After Golden Boot -->
+        </thead>
+        <tbody>
             <tr>
                 <td colspan="2"></td>
-            </tr>
-            <!-- Top Player Row -->
-            <tr>
-                <td colspan="2" class="stage-cell">Top Player</td>
             </tr>
         </tbody>
     </table>
@@ -260,36 +289,46 @@
             const response = await fetch('./jsons/participants.json');
             const data = await response.json();
             const participants = data.participants;
-            const thead = document.querySelector('#predictionsTable thead tr:first-child');
-            const subThead = document.querySelector('#predictionsTable thead tr:last-child');
-            const tbody = document.querySelector('#predictionsTable tbody');
+            const tables = {
+                qfTable: document.querySelector('#qfTable tbody'),
+                sfTable: document.querySelector('#sfTable tbody'),
+                fTable: document.querySelector('#fTable tbody'),
+                championTable: document.querySelector('#championTable tbody'),
+                goldenBootTable: document.querySelector('#goldenBootTable tbody'),
+                topPlayerTable: document.querySelector('#topPlayerTable tbody')
+            };
 
             for (let i = 0; i < participants.length; i++) {
                 const participant = participants[i];
                 const th = document.createElement('th');
                 th.colSpan = 2;
                 th.textContent = participant.name;
-                thead.appendChild(th);
 
-                const subThTeam = document.createElement('th');
-                subThTeam.className = 'sub-column';
-                subThTeam.textContent = 'Team';
-                subThead.appendChild(subThTeam);
+                for (const table of Object.values(tables)) {
+                    const thead = table.closest('table').querySelector('thead tr:first-child');
+                    const subThead = table.closest('table').querySelector('thead tr:last-child');
+                    thead.appendChild(th.cloneNode(true));
 
-                const subThScore = document.createElement('th');
-                subThScore.className = 'sub-column';
-                subThScore.textContent = 'Score';
-                subThead.appendChild(subThScore);
+                    const subThTeam = document.createElement('th');
+                    subThTeam.className = 'sub-column';
+                    subThTeam.textContent = 'Team';
+                    subThead.appendChild(subThTeam);
+
+                    const subThScore = document.createElement('th');
+                    subThScore.className = 'sub-column';
+                    subThScore.textContent = 'Score';
+                    subThead.appendChild(subThScore);
+                }
 
                 const csvResponse = await fetch(participant.scores);
                 const csvData = await csvResponse.text();
 
                 const rows = csvData.split('\n').map(row => row.split(','));
 
-                populateRows(rows, i, tbody);
+                populateRows(rows, i, tables);
             }
 
-            function populateRows(rows, index, tbody) {
+            function populateRows(rows, index, tables) {
                 const getCellData = (row, teamCol, scoreCol) => {
                     return { team: rows[row][teamCol], score: rows[row][scoreCol] };
                 };
@@ -304,35 +343,35 @@
                 // Populate QF
                 for (let i = 0; i < 8; i++) {
                     const data = getCellData(qfStartRow + i, 3, 5);
-                    const row = tbody.querySelectorAll('tr')[i];
+                    const row = tables.qfTable.querySelectorAll('tr')[i];
                     appendCells(row, data, index);
                 }
 
                 // Populate SF
                 for (let i = 0; i < 4; i++) {
                     const data = getCellData(sfStartRow + i, 3, 5);
-                    const row = tbody.querySelectorAll('tr')[9 + i];
+                    const row = tables.sfTable.querySelectorAll('tr')[i];
                     appendCells(row, data, index);
                 }
 
                 // Populate F
                 for (let i = 0; i < 2; i++) {
                     const data = getCellData(fStartRow + i, 3, 5);
-                    const row = tbody.querySelectorAll('tr')[14 + i];
+                    const row = tables.fTable.querySelectorAll('tr')[i];
                     appendCells(row, data, index);
                 }
 
                 // Populate Champion
                 const championData = getCellData(championRow, 3, 5);
-                appendCells(tbody.querySelectorAll('tr')[17], championData, index);
+                appendCells(tables.championTable.querySelectorAll('tr')[0], championData, index);
 
                 // Populate Golden Boot
                 const goldenBootData = getCellData(goldenBootRow, 1, 5);
-                appendCells(tbody.querySelectorAll('tr')[19], goldenBootData, index);
+                appendCells(tables.goldenBootTable.querySelectorAll('tr')[0], goldenBootData, index);
 
                 // Populate Top Player
                 const topPlayerData = getCellData(topPlayerRow, 1, 5);
-                appendCells(tbody.querySelectorAll('tr')[21], topPlayerData, index);
+                appendCells(tables.topPlayerTable.querySelectorAll('tr')[0], topPlayerData, index);
             }
 
             function appendCells(row, data, index) {
