@@ -111,13 +111,13 @@
     <h1>Knockout Stages Results</h1>
 
     <!-- QF Table -->
-    <table id="qfTable">
+    <table class="resultsTable">
         <thead>
-            <tr id="participantNamesQF">
+            <tr>
                 <th>QF</th>
                 <!-- Participant names will be appended here -->
             </tr>
-            <tr id="subColumnsQF">
+            <tr>
                 <th></th>
                 <!-- Sub-columns (Team, Score) will be appended here -->
             </tr>
@@ -151,13 +151,13 @@
     </table>
 
     <!-- SF Table -->
-    <table id="sfTable">
+    <table class="resultsTable">
         <thead>
-            <tr id="participantNamesSF">
+            <tr>
                 <th>SF</th>
                 <!-- Participant names will be appended here -->
             </tr>
-            <tr id="subColumnsSF">
+            <tr>
                 <th></th>
                 <!-- Sub-columns (Team, Score) will be appended here -->
             </tr>
@@ -179,13 +179,13 @@
     </table>
 
     <!-- F Table -->
-    <table id="fTable">
+    <table class="resultsTable">
         <thead>
-            <tr id="participantNamesF">
+            <tr>
                 <th>F</th>
                 <!-- Participant names will be appended here -->
             </tr>
-            <tr id="subColumnsF">
+            <tr>
                 <th></th>
                 <!-- Sub-columns (Team, Score) will be appended here -->
             </tr>
@@ -201,13 +201,13 @@
     </table>
 
     <!-- Champion Table -->
-    <table id="championTable">
+    <table class="resultsTable">
         <thead>
-            <tr id="participantNamesChampion">
+            <tr>
                 <th colspan="2">Champion</th>
                 <!-- Participant names will be appended here -->
             </tr>
-            <tr id="subColumnsChampion">
+            <tr>
                 <th colspan="2"></th>
                 <!-- Sub-columns (Team, Score) will be appended here -->
             </tr>
@@ -219,40 +219,24 @@
         </tbody>
     </table>
 
-    <!-- Golden Boot Table -->
-    <table id="goldenBootTable">
+    <!-- Best Players Table -->
+    <table class="resultsTable">
         <thead>
-            <tr id="participantNamesGoldenBoot">
-                <th colspan="2">Golden Boot</th>
+            <tr>
+                <th colspan="2">Best Players</th>
                 <!-- Participant names will be appended here -->
             </tr>
-            <tr id="subColumnsGoldenBoot">
+            <tr>
                 <th colspan="2"></th>
                 <!-- Sub-columns (Team, Score) will be appended here -->
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td colspan="2"></td>
+                <td colspan="2">Golden Boot</td>
             </tr>
-        </tbody>
-    </table>
-
-    <!-- Top Player Table -->
-    <table id="topPlayerTable">
-        <thead>
-            <tr id="participantNamesTopPlayer">
-                <th colspan="2">Top Player</th>
-                <!-- Participant names will be appended here -->
-            </tr>
-            <tr id="subColumnsTopPlayer">
-                <th colspan="2"></th>
-                <!-- Sub-columns (Team, Score) will be appended here -->
-            </tr>
-        </thead>
-        <tbody>
             <tr>
-                <td colspan="2"></td>
+                <td colspan="2">Top Player</td>
             </tr>
         </tbody>
     </table>
@@ -316,24 +300,15 @@
             const response = await fetch('./jsons/participants.json');
             const data = await response.json();
             const participants = data.participants;
-            const tables = {
-                qfTable: document.querySelector('#qfTable tbody'),
-                sfTable: document.querySelector('#sfTable tbody'),
-                fTable: document.querySelector('#fTable tbody'),
-                championTable: document.querySelector('#championTable tbody'),
-                goldenBootTable: document.querySelector('#goldenBootTable tbody'),
-                topPlayerTable: document.querySelector('#topPlayerTable tbody')
-            };
+            const tables = document.querySelectorAll('.resultsTable tbody');
+            const theadRows = document.querySelectorAll('.resultsTable thead tr:first-child');
+            const subTheadRows = document.querySelectorAll('.resultsTable thead tr:last-child');
 
             for (let i = 0; i < participants.length; i++) {
                 const participant = participants[i];
 
-                appendParticipantHeaders(participant.name, i, '#participantNamesQF', '#subColumnsQF');
-                appendParticipantHeaders(participant.name, i, '#participantNamesSF', '#subColumnsSF');
-                appendParticipantHeaders(participant.name, i, '#participantNamesF', '#subColumnsF');
-                appendParticipantHeaders(participant.name, i, '#participantNamesChampion', '#subColumnsChampion');
-                appendParticipantHeaders(participant.name, i, '#participantNamesGoldenBoot', '#subColumnsGoldenBoot');
-                appendParticipantHeaders(participant.name, i, '#participantNamesTopPlayer', '#subColumnsTopPlayer');
+                theadRows.forEach(row => appendParticipantHeaders(row, participant.name));
+                subTheadRows.forEach(row => appendSubColumns(row));
 
                 const csvResponse = await fetch(participant.scores);
                 const csvData = await csvResponse.text();
@@ -343,21 +318,23 @@
                 populateRows(rows, i, tables);
             }
 
-            function appendParticipantHeaders(name, index, participantSelector, subColumnSelector) {
+            function appendParticipantHeaders(row, name) {
                 const th = document.createElement('th');
                 th.colSpan = 2;
                 th.textContent = name;
-                document.querySelector(participantSelector).appendChild(th);
+                row.appendChild(th);
+            }
 
+            function appendSubColumns(row) {
                 const subThTeam = document.createElement('th');
                 subThTeam.className = 'sub-column';
                 subThTeam.textContent = 'Team';
-                document.querySelector(subColumnSelector).appendChild(subThTeam);
+                row.appendChild(subThTeam);
 
                 const subThScore = document.createElement('th');
                 subThScore.className = 'sub-column';
                 subThScore.textContent = 'Score';
-                document.querySelector(subColumnSelector).appendChild(subThScore);
+                row.appendChild(subThScore);
             }
 
             function populateRows(rows, index, tables) {
@@ -375,35 +352,34 @@
                 // Populate QF
                 for (let i = 0; i < 8; i++) {
                     const data = getCellData(qfStartRow + i, 3, 5);
-                    const row = tables.qfTable.querySelectorAll('tr')[i];
+                    const row = tables[0].querySelectorAll('tr')[i];
                     appendCells(row, data, index);
                 }
 
                 // Populate SF
                 for (let i = 0; i < 4; i++) {
                     const data = getCellData(sfStartRow + i, 3, 5);
-                    const row = tables.sfTable.querySelectorAll('tr')[i];
+                    const row = tables[1].querySelectorAll('tr')[i];
                     appendCells(row, data, index);
                 }
 
                 // Populate F
                 for (let i = 0; i < 2; i++) {
                     const data = getCellData(fStartRow + i, 3, 5);
-                    const row = tables.fTable.querySelectorAll('tr')[i];
+                    const row = tables[2].querySelectorAll('tr')[i];
                     appendCells(row, data, index);
                 }
 
                 // Populate Champion
                 const championData = getCellData(championRow, 3, 5);
-                appendCells(tables.championTable.querySelectorAll('tr')[0], championData, index);
+                appendCells(tables[3].querySelectorAll('tr')[0], championData, index);
 
-                // Populate Golden Boot
+                // Populate Best Players
                 const goldenBootData = getCellData(goldenBootRow, 1, 5);
-                appendCells(tables.goldenBootTable.querySelectorAll('tr')[0], goldenBootData, index);
+                appendCells(tables[4].querySelectorAll('tr')[0], goldenBootData, index);
 
-                // Populate Top Player
                 const topPlayerData = getCellData(topPlayerRow, 1, 5);
-                appendCells(tables.topPlayerTable.querySelectorAll('tr')[0], topPlayerData, index);
+                appendCells(tables[4].querySelectorAll('tr')[1], topPlayerData, index);
             }
 
             function appendCells(row, data, index) {
