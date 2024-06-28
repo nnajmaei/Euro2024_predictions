@@ -111,13 +111,13 @@
     <h1>Knockout Stages Results</h1>
 
     <!-- QF Table -->
-    <table class="resultsTable">
+    <table class="resultsTable" id="qfTable">
         <thead>
-            <tr>
+            <tr id="participantNamesQF">
                 <th>QF</th>
                 <!-- Participant names will be appended here -->
             </tr>
-            <tr>
+            <tr id="subColumnsQF">
                 <th></th>
                 <!-- Sub-columns (Team, Score) will be appended here -->
             </tr>
@@ -151,13 +151,13 @@
     </table>
 
     <!-- SF Table -->
-    <table class="resultsTable">
+    <table class="resultsTable" id="sfTable">
         <thead>
-            <tr>
+            <tr id="participantNamesSF">
                 <th>SF</th>
                 <!-- Participant names will be appended here -->
             </tr>
-            <tr>
+            <tr id="subColumnsSF">
                 <th></th>
                 <!-- Sub-columns (Team, Score) will be appended here -->
             </tr>
@@ -179,13 +179,13 @@
     </table>
 
     <!-- F Table -->
-    <table class="resultsTable">
+    <table class="resultsTable" id="fTable">
         <thead>
-            <tr>
+            <tr id="participantNamesF">
                 <th>F</th>
                 <!-- Participant names will be appended here -->
             </tr>
-            <tr>
+            <tr id="subColumnsF">
                 <th></th>
                 <!-- Sub-columns (Team, Score) will be appended here -->
             </tr>
@@ -201,42 +201,42 @@
     </table>
 
     <!-- Champion Table -->
-    <table class="resultsTable">
+    <table class="resultsTable" id="championTable">
         <thead>
-            <tr>
-                <th colspan="2">C</th>
+            <tr id="participantNamesChampion">
+                <th>Champion</th>
                 <!-- Participant names will be appended here -->
             </tr>
-            <tr>
-                <th colspan="2"></th>
+            <tr id="subColumnsChampion">
+                <th></th>
                 <!-- Sub-columns (Team, Score) will be appended here -->
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td colspan="2"></td>
+                <td></td>
             </tr>
         </tbody>
     </table>
 
     <!-- Best Players Table -->
-    <table class="resultsTable">
+    <table class="resultsTable" id="bestPlayersTable">
         <thead>
-            <tr>
-                <th colspan="2">BP</th>
+            <tr id="participantNamesBestPlayers">
+                <th>Best Players</th>
                 <!-- Participant names will be appended here -->
             </tr>
-            <tr>
-                <th colspan="2"></th>
+            <tr id="subColumnsBestPlayers">
+                <th></th>
                 <!-- Sub-columns (Team, Score) will be appended here -->
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td colspan="2">Golden Boot</td>
+                <td>Golden Boot</td>
             </tr>
             <tr>
-                <td colspan="2">Top Player</td>
+                <td>Top Player</td>
             </tr>
         </tbody>
     </table>
@@ -300,41 +300,46 @@
             const response = await fetch('./jsons/participants.json');
             const data = await response.json();
             const participants = data.participants;
+
+            const tableHeaders = document.querySelectorAll('.resultsTable thead tr:first-child');
+            const subHeaders = document.querySelectorAll('.resultsTable thead tr:last-child');
             const tables = document.querySelectorAll('.resultsTable tbody');
-            const theadRows = document.querySelectorAll('.resultsTable thead tr:first-child');
-            const subTheadRows = document.querySelectorAll('.resultsTable thead tr:last-child');
+
+            participants.forEach(participant => {
+                appendParticipantHeaders(tableHeaders, participant.name);
+                appendSubHeaders(subHeaders);
+            });
 
             for (let i = 0; i < participants.length; i++) {
                 const participant = participants[i];
-
-                theadRows.forEach(row => appendParticipantHeaders(row, participant.name));
-                subTheadRows.forEach(row => appendSubColumns(row));
-
                 const csvResponse = await fetch(participant.scores);
                 const csvData = await csvResponse.text();
-
                 const rows = csvData.split('\n').map(row => row.split(','));
 
                 populateRows(rows, i, tables);
             }
 
-            function appendParticipantHeaders(row, name) {
-                const th = document.createElement('th');
-                th.colSpan = 2;
-                th.textContent = name;
-                row.appendChild(th);
+            function appendParticipantHeaders(headers, name) {
+                headers.forEach(header => {
+                    const th = document.createElement('th');
+                    th.colSpan = 2;
+                    th.textContent = name;
+                    header.appendChild(th);
+                });
             }
 
-            function appendSubColumns(row) {
-                const subThTeam = document.createElement('th');
-                subThTeam.className = 'sub-column';
-                subThTeam.textContent = 'Team';
-                row.appendChild(subThTeam);
+            function appendSubHeaders(headers) {
+                headers.forEach(header => {
+                    const subThTeam = document.createElement('th');
+                    subThTeam.className = 'sub-column';
+                    subThTeam.textContent = 'Team';
+                    header.appendChild(subThTeam);
 
-                const subThScore = document.createElement('th');
-                subThScore.className = 'sub-column';
-                subThScore.textContent = 'Score';
-                row.appendChild(subThScore);
+                    const subThScore = document.createElement('th');
+                    subThScore.className = 'sub-column';
+                    subThScore.textContent = 'Score';
+                    header.appendChild(subThScore);
+                });
             }
 
             function populateRows(rows, index, tables) {
@@ -353,36 +358,36 @@
                 for (let i = 0; i < 8; i++) {
                     const data = getCellData(qfStartRow + i, 3, 5);
                     const row = tables[0].querySelectorAll('tr')[i];
-                    appendCells(row, data, index);
+                    appendCells(row, data);
                 }
 
                 // Populate SF
                 for (let i = 0; i < 4; i++) {
                     const data = getCellData(sfStartRow + i, 3, 5);
                     const row = tables[1].querySelectorAll('tr')[i];
-                    appendCells(row, data, index);
+                    appendCells(row, data);
                 }
 
                 // Populate F
                 for (let i = 0; i < 2; i++) {
                     const data = getCellData(fStartRow + i, 3, 5);
                     const row = tables[2].querySelectorAll('tr')[i];
-                    appendCells(row, data, index);
+                    appendCells(row, data);
                 }
 
                 // Populate Champion
                 const championData = getCellData(championRow, 3, 5);
-                appendCells(tables[3].querySelectorAll('tr')[0], championData, index);
+                appendCells(tables[3].querySelectorAll('tr')[0], championData);
 
                 // Populate Best Players
                 const goldenBootData = getCellData(goldenBootRow, 1, 5);
-                appendCells(tables[4].querySelectorAll('tr')[0], goldenBootData, index);
+                appendCells(tables[4].querySelectorAll('tr')[0], goldenBootData);
 
                 const topPlayerData = getCellData(topPlayerRow, 1, 5);
-                appendCells(tables[4].querySelectorAll('tr')[1], topPlayerData, index);
+                appendCells(tables[4].querySelectorAll('tr')[1], topPlayerData);
             }
 
-            function appendCells(row, data, index) {
+            function appendCells(row, data) {
                 const teamCell = document.createElement('td');
                 const teamName = abbreviations[data.team] || data.team;
                 const flagImg = countries[data.team] ? `<img src="${countries[data.team]}" alt="${data.team}" style="width:20px; margin-right:5px;">` : '';
