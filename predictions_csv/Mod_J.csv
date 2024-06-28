@@ -1,77 +1,77 @@
-Group Stage
-Group A
-June 14,Germany,4,Scotland,0
-June 15,Hungary,2,Switzerland,3
-June 19,Scotland,1,Switzerland,2
-June 19,Germany,2,Hungary,0
-June 23,Switzerland,2,Germany,2
-June 23,Scotland,2,Hungary,4
-
-Group B
-June 15,Spain,2,Croatia,2
-June 15,Italy,3,Albania,1
-June 19,Croatia,2,Albania,0
-June 20,Spain,2,Italy,1
-June 24,Albania,1,Spain,5
-June 24,Croatia,2,Italy,1
-
-Group C
-June 16,Serbia,1,England,3
-June 16,Slovenia,1,Denmark,1
-June 20,Denmark,0,England,2
-June 20,Slovenia,2,Serbia,3
-June 25,England,2,Slovenia,1
-June 25,Denmark,2,Serbia,1
-
-Group D
-June 16,Poland,1,Netherlands,3
-June 17,Austria,0,France,3
-June 21,Poland,0,Austria,2
-June 21,Netherlands,1,France,3
-June 25,France,2,Poland,0
-June 25,Netherlands,3,Austria,1
-
-Group E
-June 17,Romania,1,Ukraine,3
-June 17,Belgium,2,Slovakia,0
-June 21,Slovakia,2,Ukraine,1
-June 22,Belgium,4,Romania,0
-June 26,Slovakia,2,Romania,1
-June 26,Ukraine,1,Belgium,2
-
-Group F
-June 18,Turkey,2,Georgia,1
-June 18,Portugal,2,Czechia,0
-June 22,Georgia,0,Czechia,1
-June 22,Portugal,2,Turkey,2
-June 26,Czechia,1,Turkey,3
-June 26,Georgia,1,Portugal,4
-
-KO Stage
-Round of 16
-June 30,Spain,Hungary,Spain
-June 29,Germany,Denmark,Germany
-July 1,England,Ukraine,England
-July 1,Netherlands,Slovakia,Netherlands
-July 2,Belgium,Italy,Italy
-July 2,France,Turkey,France
-June 30,Portugal,Serbia,Portugal
-June 29,Switzerland,Croatia,Croatia
-
-Quarterfinals
-July 5,Spain,Germany,Germany
-July 5,England,Netherlands,England
-July 6,Italy,France,France
-July 6,Portugal,Croatia,Croatia
-
-Semifinals
-July 9,Germany,England,England
-July 10,France,Croatia,France
-
-Final
-July 14,England,France,England
-
-Top Players
-Top Goalscorer,Kane
-Player of Tournament,Kane 
-Participant Name,Mod J
+Group Stage,,,,
+Group A,,,,
+14-Jun,Germany,4,Scotland,0
+15-Jun,Hungary,2,Switzerland,3
+19-Jun,Scotland,1,Switzerland,2
+19-Jun,Germany,2,Hungary,0
+23-Jun,Switzerland,2,Germany,2
+23-Jun,Scotland,2,Hungary,4
+,,,,
+Group B,,,,
+15-Jun,Spain,2,Croatia,2
+15-Jun,Italy,3,Albania,1
+19-Jun,Croatia,2,Albania,0
+20-Jun,Spain,2,Italy,1
+24-Jun,Albania,1,Spain,5
+24-Jun,Croatia,2,Italy,1
+,,,,
+Group C,,,,
+16-Jun,Serbia,1,England,3
+16-Jun,Slovenia,1,Denmark,1
+20-Jun,Denmark,0,England,2
+20-Jun,Slovenia,2,Serbia,3
+25-Jun,England,2,Slovenia,1
+25-Jun,Denmark,2,Serbia,1
+,,,,
+Group D,,,,
+16-Jun,Poland,1,Netherlands,3
+17-Jun,Austria,0,France,3
+21-Jun,Poland,0,Austria,2
+21-Jun,Netherlands,1,France,3
+25-Jun,France,2,Poland,0
+25-Jun,Netherlands,3,Austria,1
+,,,,
+Group E,,,,
+17-Jun,Romania,1,Ukraine,3
+17-Jun,Belgium,2,Slovakia,0
+21-Jun,Slovakia,2,Ukraine,1
+22-Jun,Belgium,4,Romania,0
+26-Jun,Slovakia,2,Romania,1
+26-Jun,Ukraine,1,Belgium,2
+,,,,
+Group F,,,,
+18-Jun,Turkey,2,Georgia,1
+18-Jun,Portugal,2,Czechia,0
+22-Jun,Georgia,0,Czechia,1
+22-Jun,Portugal,2,Turkey,2
+26-Jun,Czechia,1,Turkey,3
+26-Jun,Georgia,1,Portugal,4
+,,,,
+KO Stage,,,,
+Round of 16,,,,
+30-Jun,Spain,Hungary,Spain,
+29-Jun,Germany,Denmark,Germany,
+01-Jul,England,Ukraine,England,
+01-Jul,Netherlands,Slovakia,Netherlands,
+02-Jul,Belgium,Italy,Italy,
+02-Jul,France,Turkey,France,
+30-Jun,Portugal,Serbia,Portugal,
+29-Jun,Switzerland,Croatia,Croatia,
+,,,,
+Quarterfinals,,,,
+05-Jul,Spain,Germany,Germany,
+05-Jul,England,Croatia,England,
+06-Jul,Italy,France,France,
+06-Jul,Portugal,Netherlands,Netherlands,
+,,,,
+Semifinals,,,,
+09-Jul,Germany,Netherlands,Germany,
+10-Jul,England,France,England,
+,,,,
+Final,,,,
+14-Jul,Germany,England,England,
+,,,,
+Top Players,,,,
+Top Goalscorer,Kane,,,
+Player of Tournament,Kane ,,,
+Participant Name,Mod J,,,
