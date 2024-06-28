@@ -113,9 +113,13 @@
     <!-- QF Table -->
     <table id="qfTable">
         <thead>
-            <tr>
+            <tr id="participantNamesQF">
                 <th>QF</th>
-                <th>Match</th>
+                <!-- Participant names will be appended here -->
+            </tr>
+            <tr id="subColumnsQF">
+                <th></th>
+                <!-- Sub-columns (Team, Score) will be appended here -->
             </tr>
         </thead>
         <tbody>
@@ -149,9 +153,13 @@
     <!-- SF Table -->
     <table id="sfTable">
         <thead>
-            <tr>
+            <tr id="participantNamesSF">
                 <th>SF</th>
-                <th>Match</th>
+                <!-- Participant names will be appended here -->
+            </tr>
+            <tr id="subColumnsSF">
+                <th></th>
+                <!-- Sub-columns (Team, Score) will be appended here -->
             </tr>
         </thead>
         <tbody>
@@ -173,9 +181,13 @@
     <!-- F Table -->
     <table id="fTable">
         <thead>
-            <tr>
+            <tr id="participantNamesF">
                 <th>F</th>
-                <th>Match</th>
+                <!-- Participant names will be appended here -->
+            </tr>
+            <tr id="subColumnsF">
+                <th></th>
+                <!-- Sub-columns (Team, Score) will be appended here -->
             </tr>
         </thead>
         <tbody>
@@ -191,8 +203,13 @@
     <!-- Champion Table -->
     <table id="championTable">
         <thead>
-            <tr>
+            <tr id="participantNamesChampion">
                 <th colspan="2">Champion</th>
+                <!-- Participant names will be appended here -->
+            </tr>
+            <tr id="subColumnsChampion">
+                <th colspan="2"></th>
+                <!-- Sub-columns (Team, Score) will be appended here -->
             </tr>
         </thead>
         <tbody>
@@ -205,8 +222,13 @@
     <!-- Golden Boot Table -->
     <table id="goldenBootTable">
         <thead>
-            <tr>
+            <tr id="participantNamesGoldenBoot">
                 <th colspan="2">Golden Boot</th>
+                <!-- Participant names will be appended here -->
+            </tr>
+            <tr id="subColumnsGoldenBoot">
+                <th colspan="2"></th>
+                <!-- Sub-columns (Team, Score) will be appended here -->
             </tr>
         </thead>
         <tbody>
@@ -219,8 +241,13 @@
     <!-- Top Player Table -->
     <table id="topPlayerTable">
         <thead>
-            <tr>
+            <tr id="participantNamesTopPlayer">
                 <th colspan="2">Top Player</th>
+                <!-- Participant names will be appended here -->
+            </tr>
+            <tr id="subColumnsTopPlayer">
+                <th colspan="2"></th>
+                <!-- Sub-columns (Team, Score) will be appended here -->
             </tr>
         </thead>
         <tbody>
@@ -300,25 +327,13 @@
 
             for (let i = 0; i < participants.length; i++) {
                 const participant = participants[i];
-                const th = document.createElement('th');
-                th.colSpan = 2;
-                th.textContent = participant.name;
 
-                for (const table of Object.values(tables)) {
-                    const thead = table.closest('table').querySelector('thead tr:first-child');
-                    const subThead = table.closest('table').querySelector('thead tr:last-child');
-                    thead.appendChild(th.cloneNode(true));
-
-                    const subThTeam = document.createElement('th');
-                    subThTeam.className = 'sub-column';
-                    subThTeam.textContent = 'Team';
-                    subThead.appendChild(subThTeam);
-
-                    const subThScore = document.createElement('th');
-                    subThScore.className = 'sub-column';
-                    subThScore.textContent = 'Score';
-                    subThead.appendChild(subThScore);
-                }
+                appendParticipantHeaders(participant.name, i, '#participantNamesQF', '#subColumnsQF');
+                appendParticipantHeaders(participant.name, i, '#participantNamesSF', '#subColumnsSF');
+                appendParticipantHeaders(participant.name, i, '#participantNamesF', '#subColumnsF');
+                appendParticipantHeaders(participant.name, i, '#participantNamesChampion', '#subColumnsChampion');
+                appendParticipantHeaders(participant.name, i, '#participantNamesGoldenBoot', '#subColumnsGoldenBoot');
+                appendParticipantHeaders(participant.name, i, '#participantNamesTopPlayer', '#subColumnsTopPlayer');
 
                 const csvResponse = await fetch(participant.scores);
                 const csvData = await csvResponse.text();
@@ -326,6 +341,23 @@
                 const rows = csvData.split('\n').map(row => row.split(','));
 
                 populateRows(rows, i, tables);
+            }
+
+            function appendParticipantHeaders(name, index, participantSelector, subColumnSelector) {
+                const th = document.createElement('th');
+                th.colSpan = 2;
+                th.textContent = name;
+                document.querySelector(participantSelector).appendChild(th);
+
+                const subThTeam = document.createElement('th');
+                subThTeam.className = 'sub-column';
+                subThTeam.textContent = 'Team';
+                document.querySelector(subColumnSelector).appendChild(subThTeam);
+
+                const subThScore = document.createElement('th');
+                subThScore.className = 'sub-column';
+                subThScore.textContent = 'Score';
+                document.querySelector(subColumnSelector).appendChild(subThScore);
             }
 
             function populateRows(rows, index, tables) {
